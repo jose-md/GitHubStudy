@@ -1,0 +1,62 @@
+package com.pepe.githubstudy.ui.activity;
+
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+
+
+import com.pepe.githubstudy.mvp.presenter.SplashPresenter;
+import com.pepe.githubstudy.ui.activity.base.BaseActivity;
+
+/**
+ * @author 1one
+ * @date 2019/8/7.
+ */
+public class SplashActivity extends BaseActivity {
+
+    public static final String USER_NAME = "494778200pepe";
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    public void showMainPage() {
+        delayFinish();
+        Uri dataUri = getIntent().getData();
+        if (dataUri == null) {
+            startActivity(new Intent(getActivity(), MainActivity.class));
+        }
+    }
+
+    public void showLoginPage() {
+        delayFinish();
+        startActivity(new Intent(getActivity(), LoginActivity.class));
+    }
+
+    /**
+     * 获取ContentView id
+     * @return
+     */
+    @Override
+    protected int getContentView() {
+        return 0;
+    }
+
+    @Override
+    protected void setPresenter() {
+        SplashPresenter presenter = new SplashPresenter();
+        presenter.setView(this);
+        mPresenter = presenter;
+    }
+
+    /**
+     * 初始化activity
+     */
+    @Override
+    protected void initActivity() {
+        ((SplashPresenter) mPresenter).getUserInfo( USER_NAME);
+    }
+}
