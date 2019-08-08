@@ -8,16 +8,15 @@
             android:id="@+id/nav_logout"
             android:checkable="false"
             android:icon="@drawable/ic_logout"
-            android:title="@string/logout"/>
+            android:title="@string/logout" />
     </group>
 
-    <group
-        android:id="@+id/manage_accounts">
+    <group android:id="@+id/manage_accounts">
         <item
             android:id="@+id/nav_add_account"
             android:icon="@drawable/ic_add_account"
-            android:title="@string/add_account"
-            android:orderInCategory="1000"/>
+            android:orderInCategory="1000"
+            android:title="@string/add_account" />
     </group>
 
     <group
@@ -27,22 +26,22 @@
             android:id="@+id/nav_profile"
             android:checkable="false"
             android:icon="@drawable/ic_menu_person"
-            android:title="@string/profile"/>
+            android:title="@string/profile" />
         <item
             android:id="@+id/nav_notifications"
             android:checkable="false"
             android:icon="@drawable/ic_menu_notifications"
-            android:title="@string/notifications"/>
+            android:title="@string/notifications" />
         <item
             android:id="@+id/nav_news"
             android:icon="@drawable/ic_menu_news"
-            android:title="@string/news"/>
+            android:title="@string/news" />
         <item
             android:id="@+id/nav_issues"
             android:checkable="false"
             android:icon="@drawable/ic_issues"
             android:title="@string/issues"
-            android:visible="true"/>
+            android:visible="true" />
 
     </group>
 
@@ -52,15 +51,15 @@
         <item
             android:id="@+id/nav_owned"
             android:icon="@drawable/ic_menu_repo"
-            android:title="@string/my_repos"/>
+            android:title="@string/my_repos" />
         <item
             android:id="@+id/nav_starred"
             android:icon="@drawable/ic_menu_star"
-            android:title="@string/starred_repos"/>
+            android:title="@string/starred_repos" />
         <item
             android:id="@+id/nav_bookmarks"
             android:icon="@drawable/ic_bookmark"
-            android:title="@string/bookmarks"/>
+            android:title="@string/bookmarks" />
 
     </group>
 
@@ -71,28 +70,28 @@
             android:id="@+id/nav_search"
             android:checkable="false"
             android:icon="@drawable/ic_search_title"
-            android:title="@string/search"/>
+            android:title="@string/search" />
         <item
             android:id="@+id/nav_trace"
             android:icon="@drawable/ic_menu_trace"
-            android:title="@string/trace"/>
+            android:title="@string/trace" />
         <item
             android:id="@+id/nav_trending"
             android:checkable="false"
             android:icon="@drawable/ic_menu_trending"
-            android:title="@string/trending_repos"/>
+            android:title="@string/trending_repos" />
         <item
             android:id="@+id/nav_collections"
             android:icon="@drawable/ic_collections"
-            android:title="@string/repo_collections"/>
+            android:title="@string/repo_collections" />
         <item
             android:id="@+id/nav_topics"
             android:icon="@drawable/ic_topic"
-            android:title="@string/topics"/>
+            android:title="@string/topics" />
         <item
             android:id="@+id/nav_public_news"
             android:icon="@drawable/ic_global"
-            android:title="@string/public_news"/>
+            android:title="@string/public_news" />
     </group>
 
     <group
@@ -101,11 +100,11 @@
         <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_menu_settings"
-            android:title="@string/settings"/>
+            android:title="@string/settings" />
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_menu_about"
-            android:title="@string/about"/>
+            android:title="@string/about" />
     </group>
 
 </menu>
