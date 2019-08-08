@@ -126,7 +126,6 @@ public class MainActivity extends BaseActivity {
             public void onClick(View v) {
                 toggleAccountLay();
             }
-
         });
         ((MainPresenter) mPresenter).getUserInfo(USER_NAME, new HttpCallBack<UserInfo>() {
             @Override

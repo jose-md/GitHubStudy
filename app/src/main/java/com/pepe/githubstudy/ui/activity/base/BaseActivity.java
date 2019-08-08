@@ -26,6 +26,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected BasePresenter mPresenter;
     @Override
     protected void onCreate( Bundle savedInstanceState) {
+        setTheme(R.style.ThemeLightTeal_Green);
         super.onCreate(savedInstanceState);
         if(getContentView() != 0){
             setContentView(getContentView());
