@@ -24,4 +24,13 @@
         app:itemTextColor="@color/main_drawer_content_color"
         app:menu="@menu/activity_main_drawer" />
 
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view_end"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        android:fitsSystemWindows="true"
+        app:itemTextColor="@color/right_drawer_content_color"
+        app:itemIconTint="@color/right_drawer_content_color"/>
+
 </android.support.v4.widget.DrawerLayout>
