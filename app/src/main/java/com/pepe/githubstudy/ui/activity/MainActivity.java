@@ -125,7 +125,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
     protected void initActivity() {
         navViewStart.setItemIconTintList(null);
         selectedPage = R.id.nav_news;
-
         navViewStart.setCheckedItem(selectedPage);
 
         avatar = navViewStart.getHeaderView(0).findViewById(R.id.avatar);
@@ -139,31 +138,25 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
                 toggleAccountLay();
             }
         });
-        mPresenter.getUserInfo(USER_NAME, new HttpCallBack<UserInfo>() {
-            @Override
-            public void onFailure(Exception e) {
-                LogUtil.d("error : " + e.getMessage());
-            }
-
-            @Override
-            protected void onSuccess(UserInfo userInfo) {
-                String avatar_url = userInfo.getAvatar_url();
-
-                LogUtil.d("avatar_url = " + avatar_url);
-                LogUtil.d("thread name = " + Thread.currentThread().getName());
-                //设置图片圆角角度
-                RoundedCorners roundedCorners = new RoundedCorners(6);
-                //通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
-                RequestOptions options = RequestOptions.bitmapTransform(roundedCorners).override(300, 300);
-                Glide.with(mContext).load(avatar_url).into(avatar);
-                name.setText(USER_NAME);
-                String joinTime = getString(R.string.joined_at).concat(" ")
-                        .concat(userInfo.getCreated_at());
-                LogUtil.d("joinTime = " + joinTime);
-                mail.setText(joinTime);
-            }
-        });
+        mPresenter.getUserInfo(USER_NAME);
         initStartDrawerView();
+    }
+
+    @Override
+    public void getUserInfo(UserInfo userInfo){
+        String avatar_url = userInfo.getAvatar_url();
+        LogUtil.d("avatar_url = " + avatar_url);
+        LogUtil.d("thread name = " + Thread.currentThread().getName());
+        //设置图片圆角角度
+        RoundedCorners roundedCorners = new RoundedCorners(6);
+        //通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
+        RequestOptions options = RequestOptions.bitmapTransform(roundedCorners).override(300, 300);
+        Glide.with(mContext).load(avatar_url).into(avatar);
+        name.setText(USER_NAME);
+        String joinTime = getString(R.string.joined_at).concat(" ")
+                .concat(userInfo.getCreated_at());
+        LogUtil.d("joinTime = " + joinTime);
+        mail.setText(joinTime);
     }
 
     private boolean isManageAccount = false;

@@ -1,15 +1,13 @@
 package com.pepe.githubstudy.mvp.presenter;
 
-import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.pepe.githubstudy.bean.UserInfo;
 import com.pepe.githubstudy.http.HttpCallBack;
 import com.pepe.githubstudy.http.HttpUtils;
 import com.pepe.githubstudy.mvp.contract.IMainContract;
 import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
+import com.pepe.githubstudy.utils.LogUtil;
 
 /**
  * @author 1one
@@ -21,9 +19,19 @@ public class MainPresenter extends BasePresenter<IMainContract.View>
     public MainPresenter() {
     }
 
-    public void getUserInfo(String username,HttpCallBack<UserInfo> callBack) {
+    public void getUserInfo(String username) {
         String url = "https://api.github.com/users/" + username;
-        HttpUtils.with().get().url(url).request(callBack);
+        HttpUtils.with().get().url(url).request(new HttpCallBack<UserInfo>() {
+            @Override
+            public void onFailure(Exception e) {
+                LogUtil.d("error : " + e.getMessage());
+            }
+
+            @Override
+            protected void onSuccess(UserInfo userInfo) {
+                mView.getUserInfo(userInfo);
+            }
+        });
     }
 
     @Override

@@ -5,6 +5,7 @@ package com.pepe.githubstudy.mvp.contract;
 import android.support.annotation.NonNull;
 
 
+import com.pepe.githubstudy.bean.UserInfo;
 import com.pepe.githubstudy.mvp.contract.base.IBaseContract;
 
 import java.util.List;
@@ -19,6 +20,8 @@ public interface IMainContract {
 
     interface View extends IBaseContract.View{
         void restartApp();
+
+        void getUserInfo(UserInfo userInfo);
     }
 
     interface Presenter extends IBaseContract.Presenter<IMainContract.View>{
