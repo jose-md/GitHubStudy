@@ -30,7 +30,6 @@ import com.pepe.githubstudy.bean.UserInfo;
 import com.pepe.githubstudy.http.HttpCallBack;
 import com.pepe.githubstudy.mvp.contract.IMainContract;
 import com.pepe.githubstudy.mvp.presenter.MainPresenter;
-import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
 import com.pepe.githubstudy.ui.activity.base.BaseActivity;
 import com.pepe.githubstudy.ui.fragment.ActivityFragment;
 import com.pepe.githubstudy.ui.fragment.BookmarksFragment;
@@ -109,7 +108,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
 
     @Override
     protected void setPresenter() {
-        mPresenter =  new MainPresenter();
+        mPresenter = new MainPresenter();
     }
 
     @Override
@@ -123,6 +122,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
 
     @Override
     protected void initActivity() {
+        super.initActivity();
         navViewStart.setItemIconTintList(null);
         selectedPage = R.id.nav_news;
         navViewStart.setCheckedItem(selectedPage);
@@ -143,7 +143,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
     }
 
     @Override
-    public void getUserInfo(UserInfo userInfo){
+    public void getUserInfo(UserInfo userInfo) {
         String avatar_url = userInfo.getAvatar_url();
         LogUtil.d("avatar_url = " + avatar_url);
         LogUtil.d("thread name = " + Thread.currentThread().getName());
@@ -197,6 +197,21 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
         });
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        LogUtil.d("onOptionsItemSelected  item.getItemId() = " + item.getItemId());
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        if (drawerLayout != null && item.getItemId() == getEndDrawerToggleMenuItemId()) {
+            openDrawer(false);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
     private boolean onNavigationItemSelected(@NonNull final MenuItem item, final boolean isStartDrawer) {
         NavigationView navView = navViewStart;
         boolean isMultiSelect = false;
@@ -221,6 +236,13 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
         updateFragmentByNavId(id);
     }
 
+    protected final void openDrawer(boolean isStartDrawer) {
+        if (drawerLayout != null) {
+            drawerLayout.openDrawer(isStartDrawer ? GravityCompat.START : GravityCompat.END);
+        }
+    }
+
+
     protected final void closeDrawer() {
         if (drawerLayout != null) {
             if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -233,6 +255,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
     }
 
     private final int SETTINGS_REQUEST_CODE = 100;
+
     private void updateFragmentByNavId(int id) {
         if (FRAGMENT_NAV_ID_LIST.contains(id)) {
             updateTitle(id);
@@ -409,5 +432,28 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
         getActivity().finishAffinity();
         Intent intent = new Intent(getActivity(), SplashActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_sort, menu);
+        MenuItem menuItem = menu.findItem(R.id.nav_sort);
+        menuItem.setVisible(selectedPage == R.id.nav_owned || selectedPage == R.id.nav_starred);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        invalidateMainMenu();
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+
+    protected boolean isEndDrawerMultiSelect() {
+        return false;
+    }
+
+    protected int getEndDrawerToggleMenuItemId() {
+        return -1;
     }
 }

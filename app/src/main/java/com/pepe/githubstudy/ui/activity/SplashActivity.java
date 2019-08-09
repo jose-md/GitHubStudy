@@ -53,6 +53,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements ISp
 
     @Override
     protected void initActivity() {
+        super.initActivity();
         showMainPage();
     }
 

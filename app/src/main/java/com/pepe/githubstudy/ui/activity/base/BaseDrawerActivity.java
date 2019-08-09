@@ -132,7 +132,6 @@ public abstract class BaseDrawerActivity<P extends IBaseContract.Presenter> exte
                 drawerLayout.closeDrawer(GravityCompat.END);
             }
         }
-
     }
 
     private NavigationView getNavigationView(boolean isStartDrawer) {

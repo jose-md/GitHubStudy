@@ -1,6 +1,5 @@
 package com.pepe.githubstudy.ui.activity;
 
-import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
 import com.pepe.githubstudy.ui.activity.base.BaseActivity;
 
 /**
@@ -10,7 +9,6 @@ import com.pepe.githubstudy.ui.activity.base.BaseActivity;
 public class LoginActivity extends BaseActivity {
     @Override
     protected void setPresenter() {
-
     }
 
     @Override
@@ -20,6 +18,6 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected void initActivity() {
-
+        super.initActivity();
     }
 }

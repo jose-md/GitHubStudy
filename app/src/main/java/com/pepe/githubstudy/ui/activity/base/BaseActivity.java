@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.CallSuper;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -14,15 +15,18 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 
 
 import com.bumptech.glide.Glide;
+import com.pepe.githubstudy.AppApplication;
 import com.pepe.githubstudy.R;
 import com.pepe.githubstudy.mvp.contract.base.IBaseContract;
 import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
 import com.pepe.githubstudy.ui.activity.LoginActivity;
 import com.pepe.githubstudy.ui.widget.DoubleClickHandler;
+import com.pepe.githubstudy.utils.LogUtil;
 import com.pepe.githubstudy.utils.PrefUtils;
 
 import java.util.List;
@@ -40,7 +44,7 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
     @BindView(R.id.toolbar)
     @Nullable
     protected Toolbar toolbar;
-//    @BindView(R.id.toolbar_layout)
+    //    @BindView(R.id.toolbar_layout)
     @Nullable
     protected CollapsingToolbarLayout toolbarLayout;
     protected P mPresenter;
@@ -59,10 +63,45 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         setPresenter();
         initActivity();
         initView(savedInstanceState);
-        if(mPresenter != null) {
+        if (mPresenter != null) {
             mPresenter.attachView(this);
             mPresenter.onViewInitialized();
         }
+    }
+
+    /**
+     * 获取ContentView id
+     * @return
+     */
+    @LayoutRes
+    protected abstract int getContentView();
+
+    /**
+     * 初始化activity
+     */
+    @CallSuper
+    protected void initActivity() {
+
+    }
+
+    /**
+     * 初始化view
+     */
+    @CallSuper
+    protected void initView(Bundle savedInstanceState) {
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            DoubleClickHandler.setDoubleClickListener(toolbar, new DoubleClickHandler.DoubleClickListener() {
+                @Override
+                public void onDoubleClick(View view) {
+                    onToolbarDoubleClick();
+                }
+            });
+        }
+    }
+
+    protected void onToolbarDoubleClick() {
+        PrefUtils.set(PrefUtils.DOUBLE_CLICK_TITLE_TIP_ABLE, false);
     }
 
     @Override
@@ -79,28 +118,12 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mPresenter != null) {
+        if (mPresenter != null) {
             mPresenter.detachView();
         }
-        if(this.equals(curActivity)){
+        if (this.equals(curActivity)) {
             curActivity = null;
         }
-    }
-
-    protected void initView(Bundle savedInstanceState) {
-        if(toolbar != null){
-            setSupportActionBar(toolbar);
-            DoubleClickHandler.setDoubleClickListener(toolbar, new DoubleClickHandler.DoubleClickListener() {
-                @Override
-                public void onDoubleClick(View view) {
-                    onToolbarDoubleClick();
-                }
-            });
-        }
-    }
-
-    protected void onToolbarDoubleClick(){
-        PrefUtils.set(PrefUtils.DOUBLE_CLICK_TITLE_TIP_ABLE, false);
     }
 
     @Override
@@ -121,16 +144,41 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         }
     }
 
-    public void finishActivity(){
+    protected void setToolbarTitle(String title) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(title);
+        }
+        if (toolbarLayout != null) {
+            toolbarLayout.setTitle(title);
+        }
+    }
+
+    protected void setToolbarSubTitle(String subTitle) {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setSubtitle(subTitle);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            LogUtil.d("android.R.id.home  selected");
+            finishActivity();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void finishActivity() {
         finish();
     }
 
-    protected Fragment getVisibleFragment(){
+    protected Fragment getVisibleFragment() {
         @SuppressLint("RestrictedApi")
         List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
-        if(fragmentList != null ){
-            for(Fragment fragment : fragmentList){
-                if(fragment != null && fragment.isVisible()){
+        if (fragmentList != null) {
+            for (Fragment fragment : fragmentList) {
+                if (fragment != null && fragment.isVisible()) {
                     return fragment;
                 }
             }
@@ -156,15 +204,15 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
 
     @Override
     public void dismissProgressDialog() {
-        if(mProgressDialog != null){
+        if (mProgressDialog != null) {
             mProgressDialog.dismiss();
-        }else{
+        } else {
             throw new NullPointerException("dismissProgressDialog: can't dismiss a null dialog, must showForRepo dialog first!");
         }
     }
 
     @Override
-    public ProgressDialog getProgressDialog(String content){
+    public ProgressDialog getProgressDialog(String content) {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(getActivity());
             mProgressDialog.setCancelable(false);
@@ -174,7 +222,7 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
     }
 
     @Override
-    public void showToast(String message){
+    public void showToast(String message) {
         Toasty.normal(getActivity(), message).show();
     }
 
@@ -232,11 +280,13 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
                 .show();
     }
 
-    @Override
-    public void showLoginPage() {
-        getActivity().finishAffinity();
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
-        startActivity(intent);
+    protected void postDelayFinish(int time) {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        }, time);
     }
 
     public static BaseActivity getCurActivity() {
@@ -247,18 +297,12 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         return this;
     }
 
-    protected abstract void setPresenter();
-
-    protected abstract int getContentView();
-
-
-    /**
-     * 初始化activity
-     */
-    @CallSuper
-    protected void initActivity(){
-
+    @NonNull
+    protected AppApplication getAppApplication() {
+        return (AppApplication) getApplication();
     }
+
+    protected abstract void setPresenter();
 
     protected void delayFinish() {
         delayFinish(1000);
@@ -273,12 +317,11 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         }, mills);
     }
 
-    protected void setToolbarTitle(String title) {
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setTitle(title);
-        }
-        if (toolbarLayout != null) {
-            toolbarLayout.setTitle(title);
-        }
+    @Override
+    public void showLoginPage() {
+        getActivity().finishAffinity();
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        startActivity(intent);
     }
+
 }
