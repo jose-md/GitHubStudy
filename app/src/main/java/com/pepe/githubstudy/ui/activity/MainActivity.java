@@ -260,7 +260,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
 //                SettingsActivity.show(getActivity(), SETTINGS_REQUEST_CODE);
                 break;
             case R.id.nav_about:
-//                AboutActivity.show(getActivity());
+                AboutActivity.show(getActivity());
                 break;
             case R.id.nav_logout:
 //                logout();

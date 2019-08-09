@@ -18,6 +18,7 @@ public class AppApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        application = this;
         // 配置上层 配置
         EngineConfig config = new EngineConfig.Builder()
                 .engineRequest(new RetrofitRequest())
