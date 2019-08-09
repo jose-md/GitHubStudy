@@ -31,6 +31,7 @@ public class SplashActivity extends BaseActivity {
         }
     }
 
+    @Override
     public void showLoginPage() {
         delayFinish();
         startActivity(new Intent(getActivity(), LoginActivity.class));
@@ -47,9 +48,7 @@ public class SplashActivity extends BaseActivity {
 
     @Override
     protected void setPresenter() {
-        SplashPresenter presenter = new SplashPresenter();
-        presenter.setView(this);
-        mPresenter = presenter;
+        mPresenter = new SplashPresenter();
     }
 
     /**

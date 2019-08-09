@@ -2,6 +2,7 @@ package com.pepe.githubstudy.ui.activity;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -27,7 +28,9 @@ import com.bumptech.glide.request.RequestOptions;
 import com.pepe.githubstudy.R;
 import com.pepe.githubstudy.bean.UserInfo;
 import com.pepe.githubstudy.http.HttpCallBack;
+import com.pepe.githubstudy.mvp.contract.IMainContract;
 import com.pepe.githubstudy.mvp.presenter.MainPresenter;
+import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
 import com.pepe.githubstudy.ui.activity.base.BaseActivity;
 import com.pepe.githubstudy.ui.fragment.ActivityFragment;
 import com.pepe.githubstudy.ui.fragment.BookmarksFragment;
@@ -45,7 +48,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity<MainPresenter> implements IMainContract.View {
 
     public static final String USER_NAME = "494778200pepe";
     private Context mContext = MainActivity.this;
@@ -106,9 +109,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void setPresenter() {
-        MainPresenter presenter = new MainPresenter();
-        presenter.setView(this);
-        mPresenter = presenter;
+        mPresenter =  new MainPresenter();
     }
 
     @Override
@@ -138,7 +139,7 @@ public class MainActivity extends BaseActivity {
                 toggleAccountLay();
             }
         });
-        ((MainPresenter) mPresenter).getUserInfo(USER_NAME, new HttpCallBack<UserInfo>() {
+        mPresenter.getUserInfo(USER_NAME, new HttpCallBack<UserInfo>() {
             @Override
             public void onFailure(Exception e) {
                 LogUtil.d("error : " + e.getMessage());
@@ -407,5 +408,12 @@ public class MainActivity extends BaseActivity {
                 drawerLayout.addView(navView);
             }
         }
+    }
+
+    @Override
+    public void restartApp() {
+        getActivity().finishAffinity();
+        Intent intent = new Intent(getActivity(), SplashActivity.class);
+        startActivity(intent);
     }
 }
