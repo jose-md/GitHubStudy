@@ -232,6 +232,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
         }
     }
 
+    private final int SETTINGS_REQUEST_CODE = 100;
     private void updateFragmentByNavId(int id) {
         if (FRAGMENT_NAV_ID_LIST.contains(id)) {
             updateTitle(id);
@@ -257,7 +258,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
 //                SearchActivity.show(getActivity());
                 break;
             case R.id.nav_settings:
-//                SettingsActivity.show(getActivity(), SETTINGS_REQUEST_CODE);
+                SettingsActivity.show(getActivity(), SETTINGS_REQUEST_CODE);
                 break;
             case R.id.nav_about:
                 AboutActivity.show(getActivity());

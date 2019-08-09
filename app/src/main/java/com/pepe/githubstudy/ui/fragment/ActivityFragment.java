@@ -1,20 +1,10 @@
 package com.pepe.githubstudy.ui.fragment;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.view.ContextMenu;
-import android.view.MenuItem;
-import android.view.View;
 
-import com.pepe.githubstudy.R;
-import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
-import com.pepe.githubstudy.ui.fragment.base.BaseFragment;
 import com.pepe.githubstudy.utils.BundleHelper;
-import com.pepe.githubstudy.utils.PrefUtils;
-import com.pepe.githubstudy.widget.ContextMenuRecyclerView;
 
 /**
  * @author 1one

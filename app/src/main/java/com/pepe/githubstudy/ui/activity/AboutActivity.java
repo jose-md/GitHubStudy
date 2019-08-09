@@ -20,10 +20,6 @@ import com.pepe.githubstudy.utils.ThemeHelper;
 
 import io.reactivex.annotations.Beta;
 
-/**
- * Created by ThirtyDegreesRay on 2017/8/29.
- */
-
 public class AboutActivity extends MaterialAboutActivity {
 
     public static void show(@NonNull Context context){

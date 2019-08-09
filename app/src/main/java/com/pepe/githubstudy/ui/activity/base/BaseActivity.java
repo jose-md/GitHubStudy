@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -21,6 +22,8 @@ import com.pepe.githubstudy.R;
 import com.pepe.githubstudy.mvp.contract.base.IBaseContract;
 import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
 import com.pepe.githubstudy.ui.activity.LoginActivity;
+import com.pepe.githubstudy.ui.widget.DoubleClickHandler;
+import com.pepe.githubstudy.utils.PrefUtils;
 
 import java.util.List;
 
@@ -43,6 +46,8 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
     protected P mPresenter;
     private ProgressDialog mProgressDialog;
 
+    private static BaseActivity curActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.ThemeLightTeal_Green);
@@ -60,10 +65,42 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         }
     }
 
-    protected void initView(Bundle savedInstanceState) {
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
+    @Override
+    protected void onResume() {
+        super.onResume();
+        curActivity = getActivity();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mPresenter != null) {
+            mPresenter.detachView();
         }
+        if(this.equals(curActivity)){
+            curActivity = null;
+        }
+    }
+
+    protected void initView(Bundle savedInstanceState) {
+        if(toolbar != null){
+            setSupportActionBar(toolbar);
+            DoubleClickHandler.setDoubleClickListener(toolbar, new DoubleClickHandler.DoubleClickListener() {
+                @Override
+                public void onDoubleClick(View view) {
+                    onToolbarDoubleClick();
+                }
+            });
+        }
+    }
+
+    protected void onToolbarDoubleClick(){
+        PrefUtils.set(PrefUtils.DOUBLE_CLICK_TITLE_TIP_ABLE, false);
     }
 
     @Override
@@ -76,6 +113,12 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
     public void onLowMemory() {
         super.onLowMemory();
         Glide.with(this).onLowMemory();
+    }
+
+    protected void setToolbarBackEnable() {
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     public void finishActivity(){
@@ -196,6 +239,10 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         startActivity(intent);
     }
 
+    public static BaseActivity getCurActivity() {
+        return curActivity;
+    }
+
     protected BaseActivity getActivity() {
         return this;
     }
@@ -205,7 +252,13 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
     protected abstract int getContentView();
 
 
-    protected abstract void initActivity();
+    /**
+     * 初始化activity
+     */
+    @CallSuper
+    protected void initActivity(){
+
+    }
 
     protected void delayFinish() {
         delayFinish(1000);

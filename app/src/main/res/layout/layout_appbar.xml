@@ -22,7 +22,9 @@
         android:visibility="gone"
         app:tabGravity="fill"
         app:tabMode="fixed"
-        app:tabTextAppearance="@style/TextAppearance.Design.Tab" />
+        style="@style/SplashTheme"
+        app:tabTextAppearance="@style/TextAppearance.Design.Tab"
+        app:tabSelectedTextColor="?title_color"/>
 
     <!--<android.support.design.widget.TabLayout-->
     <!--android:id="@+id/tab_layout"-->
