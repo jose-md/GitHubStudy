@@ -13,6 +13,7 @@ import android.view.MenuItem;
 
 import com.pepe.githubstudy.R;
 import com.pepe.githubstudy.mvp.contract.base.IBaseContract;
+import com.pepe.githubstudy.utils.LogUtil;
 import com.pepe.githubstudy.utils.ViewUtils;
 
 import butterknife.BindView;
@@ -89,8 +90,23 @@ public abstract class BaseDrawerActivity<P extends IBaseContract.Presenter> exte
         }
     }
 
-    @Override
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        if (drawerLayout != null && item.getItemId() == getEndDrawerToggleMenuItemId()) {
+//            openDrawer(false);
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
+
+        @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        LogUtil.d("onOptionsItemSelected  item.getItemId() = " + item.getItemId());
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
         if (drawerLayout != null && item.getItemId() == getEndDrawerToggleMenuItemId()) {
             openDrawer(false);
             return true;

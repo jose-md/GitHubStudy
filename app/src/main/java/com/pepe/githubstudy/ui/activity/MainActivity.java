@@ -31,6 +31,7 @@ import com.pepe.githubstudy.http.HttpCallBack;
 import com.pepe.githubstudy.mvp.contract.IMainContract;
 import com.pepe.githubstudy.mvp.presenter.MainPresenter;
 import com.pepe.githubstudy.ui.activity.base.BaseActivity;
+import com.pepe.githubstudy.ui.activity.base.BaseDrawerActivity;
 import com.pepe.githubstudy.ui.fragment.ActivityFragment;
 import com.pepe.githubstudy.ui.fragment.BookmarksFragment;
 import com.pepe.githubstudy.ui.fragment.CollectionsFragment;
@@ -47,7 +48,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity<MainPresenter> implements IMainContract.View {
+public class MainActivity extends BaseDrawerActivity<MainPresenter> implements IMainContract.View {
 
     public static final String USER_NAME = "494778200pepe";
     private Context mContext = MainActivity.this;
@@ -58,15 +59,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
     TabLayout tabLayout;
     @BindView(R.id.frame_layout_content)
     FrameLayout frameLayoutContent;
-    @BindView(R.id.nav_view_start)
-    @Nullable
-    protected NavigationView navViewStart;
-    @BindView(R.id.nav_view_end)
-    @Nullable
-    protected NavigationView navViewEnd;
-    @BindView(R.id.drawer_layout)
-    @Nullable
-    protected DrawerLayout drawerLayout;
 
     private AppCompatImageView toggleAccountBn;
 
@@ -123,6 +115,8 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
     @Override
     protected void initActivity() {
         super.initActivity();
+        setStartDrawerEnable(true);
+        setEndDrawerEnable(true);
         navViewStart.setItemIconTintList(null);
         selectedPage = R.id.nav_news;
         navViewStart.setCheckedItem(selectedPage);
@@ -139,7 +133,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
             }
         });
         mPresenter.getUserInfo(USER_NAME);
-        initStartDrawerView();
     }
 
     @Override
@@ -182,77 +175,20 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
         menu.setGroupVisible(R.id.setting, !isManageAccount);
     }
 
-    private void initStartDrawerView() {
-        if (navViewStart == null) {
-            return;
-        }
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout,
-                toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        toggle.syncState();
-        navViewStart.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                return MainActivity.this.onNavigationItemSelected(item, true);
-            }
-        });
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        LogUtil.d("onOptionsItemSelected  item.getItemId() = " + item.getItemId());
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
-                return true;
-        }
-        if (drawerLayout != null && item.getItemId() == getEndDrawerToggleMenuItemId()) {
-            openDrawer(false);
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-    private boolean onNavigationItemSelected(@NonNull final MenuItem item, final boolean isStartDrawer) {
-        NavigationView navView = navViewStart;
-        boolean isMultiSelect = false;
-        if (navView == null) {
-            return true;
-        }
-        if (isMultiSelect) {
-            ViewUtils.selectMenuItem(navView.getMenu(), item.getItemId(), true);
-        }
-        closeDrawer();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                onNavItemSelected(item, isStartDrawer);
-            }
-        }, 250);
-        return !isMultiSelect;
-    }
-
-    protected void onNavItemSelected(@NonNull MenuItem item, boolean isStartDrawer) {
-        int id = item.getItemId();
-        updateFragmentByNavId(id);
-    }
-
-    protected final void openDrawer(boolean isStartDrawer) {
-        if (drawerLayout != null) {
-            drawerLayout.openDrawer(isStartDrawer ? GravityCompat.START : GravityCompat.END);
-        }
-    }
-
-
-    protected final void closeDrawer() {
-        if (drawerLayout != null) {
-            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                drawerLayout.closeDrawer(GravityCompat.START);
-            }
-            if (drawerLayout.isDrawerOpen(GravityCompat.END)) {
-                drawerLayout.closeDrawer(GravityCompat.END);
-            }
-        }
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        LogUtil.d("onOptionsItemSelected  item.getItemId() = " + item.getItemId());
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                drawerLayout.openDrawer(GravityCompat.START);
+//                return true;
+//        }
+//        if (drawerLayout != null && item.getItemId() == getEndDrawerToggleMenuItemId()) {
+//            openDrawer(false);
+//            return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     private final int SETTINGS_REQUEST_CODE = 100;
 
@@ -395,38 +331,6 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
         }
     }
 
-    protected void removeStartDrawer() {
-        removeDrawer(navViewStart);
-    }
-
-    protected void removeEndDrawer() {
-        removeDrawer(navViewEnd);
-    }
-
-    protected void updateStartDrawerContent(int menuId) {
-        updateDrawerContent(navViewStart, menuId);
-    }
-
-    protected void updateEndDrawerContent(int menuId) {
-        updateDrawerContent(navViewEnd, menuId);
-    }
-
-    private void removeDrawer(NavigationView navView) {
-        if (drawerLayout != null && navView != null) {
-            drawerLayout.removeView(navView);
-        }
-    }
-
-    private void updateDrawerContent(NavigationView navView, int menuId) {
-        if (drawerLayout != null && navView != null) {
-            navView.getMenu().clear();
-            navView.inflateMenu(menuId);
-            if (drawerLayout.indexOfChild(navView) == -1) {
-                drawerLayout.addView(navView);
-            }
-        }
-    }
-
     @Override
     public void restartApp() {
         getActivity().finishAffinity();
@@ -446,14 +350,5 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
     public boolean onPrepareOptionsMenu(Menu menu) {
         invalidateMainMenu();
         return super.onPrepareOptionsMenu(menu);
-    }
-
-
-    protected boolean isEndDrawerMultiSelect() {
-        return false;
-    }
-
-    protected int getEndDrawerToggleMenuItemId() {
-        return -1;
     }
 }
