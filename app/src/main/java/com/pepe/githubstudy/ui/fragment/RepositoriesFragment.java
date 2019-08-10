@@ -1,6 +1,10 @@
 package com.pepe.githubstudy.ui.fragment;
 
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+
+import com.pepe.githubstudy.mvp.model.SearchModel;
+import com.pepe.githubstudy.utils.BundleHelper;
 
 /**
  * @author 1one
@@ -10,5 +14,16 @@ public class RepositoriesFragment extends Fragment {
 
     public enum RepositoriesType{
         OWNED, PUBLIC, STARRED, TRENDING, SEARCH, FORKS, TRACE, BOOKMARK, COLLECTION, TOPIC
+    }
+
+    public static RepositoriesFragment createForSearch(@NonNull SearchModel searchModel){
+        RepositoriesFragment fragment = new RepositoriesFragment();
+        fragment.setArguments(
+                BundleHelper.builder()
+                        .put("type", RepositoriesType.SEARCH)
+                        .put("searchModel", searchModel)
+                        .build()
+        );
+        return fragment;
     }
 }

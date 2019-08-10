@@ -10,6 +10,7 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -316,6 +317,19 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
             }
         }, mills);
     }
+
+    protected void setToolbarScrollAble(boolean scrollAble) {
+        if(toolbar == null) {
+            return;
+        }
+        int flags = scrollAble ? (AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
+                | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+                | AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP) : 0;
+        AppBarLayout.LayoutParams layoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+        layoutParams.setScrollFlags(flags);
+        toolbar.setLayoutParams(layoutParams);
+    }
+
 
     @Override
     public void showLoginPage() {

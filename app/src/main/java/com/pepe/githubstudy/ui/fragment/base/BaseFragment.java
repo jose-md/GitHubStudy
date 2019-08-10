@@ -56,4 +56,17 @@ public abstract class BaseFragment extends Fragment {
     public void scrollToTop() {
 
     }
+
+    public void onFragmentShowed() {
+        isFragmentShowed = true;
+    }
+
+    public void onFragmentHided() {
+        isFragmentShowed = false;
+    }
+
+    public BaseFragment setPagerFragment(boolean flag) {
+        isPagerFragment = flag;
+        return this;
+    }
 }

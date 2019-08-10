@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 
 import com.pepe.githubstudy.mvp.contract.base.IBaseContract;
@@ -73,5 +74,10 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
         } else {
             throw new NullPointerException("BasePresenter:mView is't instance of Context,can't use getContext() method.");
         }
+    }
+
+    @NonNull
+    protected String getString(@StringRes int resId) {
+        return getContext().getResources().getString(resId);
     }
 }

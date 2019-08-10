@@ -278,7 +278,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
 //                TrendingActivity.show(getActivity());
                 break;
             case R.id.nav_search:
-//                SearchActivity.show(getActivity());
+                SearchActivity.show(getActivity());
                 break;
             case R.id.nav_settings:
                 SettingsActivity.show(getActivity(), SETTINGS_REQUEST_CODE);
@@ -290,7 +290,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
 //                logout();
                 break;
             case R.id.nav_add_account:
-//                showLoginPage();
+                showLoginPage();
                 break;
             default:
                 break;
