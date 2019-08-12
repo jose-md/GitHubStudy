@@ -1,7 +1,7 @@
 package com.pepe.githubstudy.http.convert;
 
 import com.google.gson.Gson;
-import com.pepe.githubstudy.http.Converter;
+import com.pepe.githubstudy.dareen.Converter;
 
 /**
  * @author 1one

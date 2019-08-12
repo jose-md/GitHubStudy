@@ -1,5 +1,8 @@
-package com.pepe.githubstudy.http;
+package com.pepe.githubstudy.dareen;
 
+import com.pepe.githubstudy.dareen.Converter;
+import com.pepe.githubstudy.dareen.EngineCallback;
+import com.pepe.githubstudy.dareen.HttpUtils;
 import com.pepe.githubstudy.utils.Utils;
 
 /**

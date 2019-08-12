@@ -2,6 +2,8 @@ package com.pepe.githubstudy.http.retrofit;
 
 import android.util.Log;
 
+import com.pepe.githubstudy.utils.LogUtil;
+
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
@@ -19,7 +21,7 @@ public class RetrofitClient {
                 .addInterceptor(new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
                     @Override
                     public void log(String message) {
-                        Log.e("TAG",message);
+                        LogUtil.d(message);
                     }
                 }).setLevel(HttpLoggingInterceptor.Level.BODY))
                 .build();

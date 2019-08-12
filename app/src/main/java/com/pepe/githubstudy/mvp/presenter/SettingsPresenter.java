@@ -15,6 +15,11 @@ import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
 public class SettingsPresenter extends BasePresenter<ISettingsContract.View>
         implements ISettingsContract.Presenter{
 
+    public SettingsPresenter(){
+        super();
+    }
+
+
     @Override
     public void logout() {
 

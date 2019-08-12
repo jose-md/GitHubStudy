@@ -3,8 +3,8 @@ package com.pepe.githubstudy.mvp.presenter;
 import android.support.annotation.NonNull;
 
 import com.pepe.githubstudy.bean.UserInfo;
-import com.pepe.githubstudy.http.HttpCallBack;
-import com.pepe.githubstudy.http.HttpUtils;
+import com.pepe.githubstudy.dareen.HttpCallBack;
+import com.pepe.githubstudy.dareen.HttpUtils;
 import com.pepe.githubstudy.mvp.contract.IMainContract;
 import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
 import com.pepe.githubstudy.utils.LogUtil;
@@ -17,6 +17,7 @@ public class MainPresenter extends BasePresenter<IMainContract.View>
         implements IMainContract.Presenter{
 
     public MainPresenter() {
+        super();
     }
 
     public void getUserInfo(String username) {

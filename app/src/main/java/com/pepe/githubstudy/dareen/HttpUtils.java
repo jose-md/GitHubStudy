@@ -1,24 +1,9 @@
-package com.pepe.githubstudy.http;
+package com.pepe.githubstudy.dareen;
 
-import android.content.Context;
 import android.text.TextUtils;
-import android.view.View;
-
-import com.google.gson.Gson;
-import com.pepe.githubstudy.service.GitHubService;
 
 import java.util.HashMap;
 import java.util.Map;
-
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
-import retrofit2.Callback;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * @author 1one
@@ -30,6 +15,7 @@ public class HttpUtils {
     private final int TYPE_POST = 0x0011, TYPE_GET = 0x0022;
     private int mType = TYPE_GET;
     private Map<String, Object> mParams;
+    private Map<String, String> mHeaders;
     private String mUrl;
     // 指定配置 config 参数
     static EngineConfig mConfig;
@@ -50,6 +36,7 @@ public class HttpUtils {
 
     private HttpUtils() {
         mParams = new HashMap<>();
+        mHeaders = new HashMap<>();
     }
 
     public static void initConfig(EngineConfig engineConfig) {
@@ -59,6 +46,11 @@ public class HttpUtils {
 
     public HttpUtils param(String key, Object value) {
         mParams.put(key, value);
+        return this;
+    }
+
+    public HttpUtils header(String key, String value) {
+        mHeaders.put(key, value);
         return this;
     }
 
@@ -88,9 +80,13 @@ public class HttpUtils {
         }
         // 异常判断
         if (mType == TYPE_GET) {
-            mHttpRequest.get( mUrl, mParams, callback, true);
+            if (mHeaders.isEmpty()) {
+                mHttpRequest.get(mUrl, mParams, callback, true);
+            } else {
+                mHttpRequest.getWithHeaders(mUrl, mParams, mHeaders, callback, true);
+            }
         } else if (mType == TYPE_POST) {
-            mHttpRequest.post( mUrl, mParams, callback, true);
+            mHttpRequest.post(mUrl, mParams, callback, true);
         }
     }
 

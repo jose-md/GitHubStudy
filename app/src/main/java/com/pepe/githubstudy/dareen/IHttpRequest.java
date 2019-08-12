@@ -1,6 +1,4 @@
-package com.pepe.githubstudy.http;
-
-import android.content.Context;
+package com.pepe.githubstudy.dareen;
 
 import java.util.Map;
 
@@ -12,6 +10,9 @@ public interface IHttpRequest {
 
     void get(String url, Map<String, Object> params,
              final EngineCallback callback, final boolean cache);
+
+    void getWithHeaders(String url, Map<String, Object> params, Map<String, String> headers,
+                        final EngineCallback callback, final boolean cache);
 
     void post(String url, Map<String, Object> params,
               final EngineCallback callback, final boolean cache);

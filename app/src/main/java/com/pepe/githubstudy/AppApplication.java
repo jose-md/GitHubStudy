@@ -2,8 +2,8 @@ package com.pepe.githubstudy;
 
 import android.app.Application;
 
-import com.pepe.githubstudy.http.EngineConfig;
-import com.pepe.githubstudy.http.HttpUtils;
+import com.pepe.githubstudy.dareen.EngineConfig;
+import com.pepe.githubstudy.dareen.HttpUtils;
 import com.pepe.githubstudy.http.convert.GsonConvert;
 import com.pepe.githubstudy.http.retrofit.RetrofitRequest;
 

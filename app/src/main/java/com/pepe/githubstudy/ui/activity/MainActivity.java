@@ -4,15 +4,10 @@ package com.pepe.githubstudy.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -27,10 +22,8 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.pepe.githubstudy.R;
 import com.pepe.githubstudy.bean.UserInfo;
-import com.pepe.githubstudy.http.HttpCallBack;
 import com.pepe.githubstudy.mvp.contract.IMainContract;
 import com.pepe.githubstudy.mvp.presenter.MainPresenter;
-import com.pepe.githubstudy.ui.activity.base.BaseActivity;
 import com.pepe.githubstudy.ui.activity.base.BaseDrawerActivity;
 import com.pepe.githubstudy.ui.fragment.ActivityFragment;
 import com.pepe.githubstudy.ui.fragment.BookmarksFragment;
@@ -39,7 +32,6 @@ import com.pepe.githubstudy.ui.fragment.RepositoriesFragment;
 import com.pepe.githubstudy.ui.fragment.TopicsFragment;
 import com.pepe.githubstudy.ui.fragment.TraceFragment;
 import com.pepe.githubstudy.utils.LogUtil;
-import com.pepe.githubstudy.utils.ViewUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -175,20 +167,48 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
         menu.setGroupVisible(R.id.setting, !isManageAccount);
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        LogUtil.d("onOptionsItemSelected  item.getItemId() = " + item.getItemId());
-//        switch (item.getItemId()) {
-//            case android.R.id.home:
-//                drawerLayout.openDrawer(GravityCompat.START);
-//                return true;
-//        }
-//        if (drawerLayout != null && item.getItemId() == getEndDrawerToggleMenuItemId()) {
-//            openDrawer(false);
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_sort, menu);
+        MenuItem menuItem = menu.findItem(R.id.nav_sort);
+        menuItem.setVisible(selectedPage == R.id.nav_owned || selectedPage == R.id.nav_starred);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        invalidateMainMenu();
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    protected boolean isEndDrawerMultiSelect() {
+        return true;
+    }
+
+    @Override
+    protected int getEndDrawerToggleMenuItemId() {
+        return R.id.nav_sort;
+    }
+
+    @Override
+    protected void onNavItemSelected(@NonNull MenuItem item, boolean isStartDrawer) {
+        super.onNavItemSelected(item, isStartDrawer);
+        if (!isStartDrawer) {
+            handlerEndDrawerClick(item);
+            return;
+        }
+        int id = item.getItemId();
+        updateFragmentByNavId(id);
+    }
+
+    private void handlerEndDrawerClick(MenuItem item) {
+        Fragment fragment = getVisibleFragment();
+        if (fragment != null && fragment instanceof RepositoriesFragment
+                && (selectedPage == R.id.nav_owned || selectedPage == R.id.nav_starred)) {
+//            ((RepositoriesFragment) fragment).onDrawerSelected(navViewEnd, item);
+        }
+    }
 
     private final int SETTINGS_REQUEST_CODE = 100;
 
@@ -293,8 +313,8 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
 //                return TraceFragment.create();
 //            case R.id.nav_collections:
 //                return CollectionsFragment.create();
-//            case R.id.nav_topics:
-//                return TopicsFragment.create();
+            case R.id.nav_topics:
+                return TopicsFragment.create();
         }
         return null;
     }
@@ -336,19 +356,5 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
         getActivity().finishAffinity();
         Intent intent = new Intent(getActivity(), SplashActivity.class);
         startActivity(intent);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_sort, menu);
-        MenuItem menuItem = menu.findItem(R.id.nav_sort);
-        menuItem.setVisible(selectedPage == R.id.nav_owned || selectedPage == R.id.nav_starred);
-        return true;
-    }
-
-    @Override
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        invalidateMainMenu();
-        return super.onPrepareOptionsMenu(menu);
     }
 }

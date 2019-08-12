@@ -25,6 +25,7 @@ public class SearchPresenter extends BasePresenter<ISearchContract.View>
     ArrayList<SearchModel> searchModels;
 
     public SearchPresenter() {
+        super();
     }
 
     @Override
