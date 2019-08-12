@@ -20,9 +20,12 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.pepe.githubstudy.AppApplication;
 import com.pepe.githubstudy.R;
+import com.pepe.githubstudy.inject.component.AppComponent;
 import com.pepe.githubstudy.mvp.contract.base.IBaseContract;
 import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
 import com.pepe.githubstudy.ui.activity.LoginActivity;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -35,6 +38,7 @@ import es.dmoral.toasty.Toasty;
 public abstract class BaseFragment<P extends IBaseContract.Presenter>
         extends Fragment implements IBaseContract.View {
 
+    @Inject
     protected P mPresenter;
     private ProgressDialog mProgressDialog;
     Unbinder unbinder;
@@ -46,7 +50,7 @@ public abstract class BaseFragment<P extends IBaseContract.Presenter>
 
     protected abstract int getLayoutId();
 
-    protected abstract void setPresenter();
+    protected abstract void setupFragmentComponent(AppComponent appComponent);
 
     protected abstract void initFragment(Bundle savedInstanceState);
 
@@ -66,7 +70,6 @@ public abstract class BaseFragment<P extends IBaseContract.Presenter>
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        setPresenter();
         super.onCreate(savedInstanceState);
         if (mPresenter != null) {
             mPresenter.attachView(this);

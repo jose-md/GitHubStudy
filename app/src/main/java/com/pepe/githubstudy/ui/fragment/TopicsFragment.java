@@ -7,6 +7,9 @@ import android.view.View;
 
 import com.pepe.githubstudy.R;
 import com.pepe.githubstudy.http.convert.ITopicsContract;
+import com.pepe.githubstudy.inject.component.AppComponent;
+import com.pepe.githubstudy.inject.component.DaggerFragmentComponent;
+import com.pepe.githubstudy.inject.module.FragmentModule;
 import com.pepe.githubstudy.mvp.model.Topic;
 import com.pepe.githubstudy.mvp.presenter.TopicsPresenter;
 import com.pepe.githubstudy.ui.adapter.TopicsAdapter;
@@ -55,11 +58,13 @@ public class TopicsFragment extends ListFragment<TopicsPresenter, TopicsAdapter>
     }
 
     @Override
-    protected void setPresenter() {
-        LogUtil.d("===> setPresenter" );
-        mPresenter = new TopicsPresenter();
+    protected void setupFragmentComponent(AppComponent appComponent) {
+        DaggerFragmentComponent.builder()
+                .appComponent(appComponent)
+                .fragmentModule(new FragmentModule(this))
+                .build()
+                .inject(this);
     }
-
 
     @Override
     protected void onReLoadData() {

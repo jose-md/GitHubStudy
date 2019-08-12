@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 
 import java.util.List;
 
+import javax.inject.Inject;
+
 
 /**
  * Created by ThirtyDegreesRay on 2017/8/9 21:24:34
@@ -20,6 +22,7 @@ public class FragmentViewPagerAdapter extends FragmentStatePagerAdapter {
 
     private Fragment curFragment;
 
+    @Inject
     public FragmentViewPagerAdapter(FragmentManager fm) {
         super(fm);
     }

@@ -10,6 +10,8 @@ import com.pepe.githubstudy.mvp.contract.base.IBaseContract;
 import com.pepe.githubstudy.ui.fragment.base.BaseFragment;
 import com.pepe.githubstudy.utils.LogUtil;
 
+import javax.inject.Inject;
+
 
 public abstract class SingleFragmentActivity<P extends IBaseContract.Presenter, F extends Fragment>
         extends BaseDrawerActivity<P> implements IBaseContract.View{

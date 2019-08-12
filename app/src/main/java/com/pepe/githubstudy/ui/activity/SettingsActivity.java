@@ -13,6 +13,9 @@ import android.view.ViewAnimationUtils;
 
 
 import com.pepe.githubstudy.R;
+import com.pepe.githubstudy.inject.component.AppComponent;
+import com.pepe.githubstudy.inject.component.DaggerActivityComponent;
+import com.pepe.githubstudy.inject.module.ActivityModule;
 import com.pepe.githubstudy.mvp.contract.ISettingsContract;
 import com.pepe.githubstudy.mvp.presenter.SettingsPresenter;
 import com.pepe.githubstudy.ui.activity.base.SingleFragmentActivity;
@@ -37,6 +40,21 @@ public class SettingsActivity extends SingleFragmentActivity<SettingsPresenter, 
     @BindView(R.id.root_layout)
     View rootLayout;
     boolean recreated = false;
+
+
+    /**
+     * 依赖注入的入口
+     *
+     * @param appComponent appComponent
+     */
+    @Override
+    protected void setupActivityComponent(AppComponent appComponent) {
+        DaggerActivityComponent.builder()
+                .appComponent(appComponent)
+                .activityModule(new ActivityModule(getActivity()))
+                .build()
+                .inject(this);
+    }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
@@ -95,11 +113,6 @@ public class SettingsActivity extends SingleFragmentActivity<SettingsPresenter, 
     @Override
     public void finishActivity() {
         super.finishActivity();
-    }
-
-    @Override
-    protected void setPresenter() {
-        mPresenter = new SettingsPresenter();
     }
 
     @Override

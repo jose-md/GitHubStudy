@@ -23,6 +23,8 @@ import android.view.View;
 import com.bumptech.glide.Glide;
 import com.pepe.githubstudy.AppApplication;
 import com.pepe.githubstudy.R;
+import com.pepe.githubstudy.dao.DaoSession;
+import com.pepe.githubstudy.inject.component.AppComponent;
 import com.pepe.githubstudy.mvp.contract.base.IBaseContract;
 import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
 import com.pepe.githubstudy.ui.activity.LoginActivity;
@@ -31,6 +33,8 @@ import com.pepe.githubstudy.utils.LogUtil;
 import com.pepe.githubstudy.utils.PrefUtils;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,6 +52,7 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
     //    @BindView(R.id.toolbar_layout)
     @Nullable
     protected CollapsingToolbarLayout toolbarLayout;
+    @Inject
     protected P mPresenter;
     private ProgressDialog mProgressDialog;
 
@@ -57,11 +62,11 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.ThemeLightTeal_Green);
         super.onCreate(savedInstanceState);
+        setupActivityComponent(getAppComponent());
         if (getContentView() != 0) {
             setContentView(getContentView());
             ButterKnife.bind(getActivity());
         }
-        setPresenter();
         initActivity();
         initView(savedInstanceState);
         if (mPresenter != null) {
@@ -69,6 +74,12 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
             mPresenter.onViewInitialized();
         }
     }
+
+    /**
+     * 依赖注入的入口
+     * @param appComponent appComponent
+     */
+    protected abstract void setupActivityComponent(AppComponent appComponent);
 
     /**
      * 获取ContentView id
@@ -303,7 +314,13 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         return (AppApplication) getApplication();
     }
 
-    protected abstract void setPresenter();
+    protected AppComponent getAppComponent(){
+        return getAppApplication().getAppComponent();
+    }
+
+    protected DaoSession getDaoSession(){
+        return getAppComponent().getDaoSession();
+    }
 
     protected void delayFinish() {
         delayFinish(1000);

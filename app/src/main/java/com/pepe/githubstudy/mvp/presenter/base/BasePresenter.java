@@ -9,6 +9,7 @@ import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 
 import com.pepe.githubstudy.R;
+import com.pepe.githubstudy.dao.DaoSession;
 import com.pepe.githubstudy.http.GitHubWebPageService;
 import com.pepe.githubstudy.http.core.AppRetrofit;
 import com.pepe.githubstudy.http.core.HttpObserver;
@@ -51,11 +52,14 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
 
     //View
     protected V mView;
+    //db Dao
+    protected DaoSession daoSession;
     private ArrayList<HttpSubscriber> subscribers;
     private boolean isAttached = false;
     private boolean isViewInitialized = false;
 
-    public BasePresenter() {
+    public BasePresenter(DaoSession daoSession) {
+        this.daoSession = daoSession;
         subscribers = new ArrayList<>();
     }
 

@@ -73,6 +73,8 @@ dependencies {
 
     // 关于页
     api "com.github.daniel-stoneuk:material-about-library:2.2.1"
+    // submitbutton
+    implementation "com.unstoppable:submitbutton:1.1.2"
 
     // 设置页 dialog
     api "com.afollestad.material-dialogs:core:0.9.4.5"

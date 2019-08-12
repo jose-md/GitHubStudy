@@ -90,15 +90,6 @@ public abstract class BaseDrawerActivity<P extends IBaseContract.Presenter> exte
         }
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        if (drawerLayout != null && item.getItemId() == getEndDrawerToggleMenuItemId()) {
-//            openDrawer(false);
-//            return true;
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         LogUtil.d("onOptionsItemSelected  item.getItemId() = " + item.getItemId());

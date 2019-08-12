@@ -6,6 +6,9 @@ import com.pepe.githubstudy.dareen.EngineConfig;
 import com.pepe.githubstudy.dareen.HttpUtils;
 import com.pepe.githubstudy.http.convert.GsonConvert;
 import com.pepe.githubstudy.http.retrofit.RetrofitRequest;
+import com.pepe.githubstudy.inject.component.AppComponent;
+import com.pepe.githubstudy.inject.component.DaggerAppComponent;
+import com.pepe.githubstudy.inject.module.AppModule;
 
 /**
  * @author 1one
@@ -14,6 +17,7 @@ import com.pepe.githubstudy.http.retrofit.RetrofitRequest;
 public class AppApplication extends Application {
 
     private static AppApplication application;
+    private AppComponent mAppComponent;
 
     @Override
     public void onCreate() {
@@ -27,11 +31,18 @@ public class AppApplication extends Application {
                 // 添加默认参数 platform = android
                 .builder();
         HttpUtils.initConfig(config);
+
+        mAppComponent = DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .build();
     }
 
     public static AppApplication get(){
         return application;
     }
 
+    public AppComponent getAppComponent(){
+        return mAppComponent;
+    }
 
 }

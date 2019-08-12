@@ -22,6 +22,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
 import com.pepe.githubstudy.R;
 import com.pepe.githubstudy.bean.UserInfo;
+import com.pepe.githubstudy.inject.component.AppComponent;
+import com.pepe.githubstudy.inject.component.DaggerActivityComponent;
+import com.pepe.githubstudy.inject.module.ActivityModule;
 import com.pepe.githubstudy.mvp.contract.IMainContract;
 import com.pepe.githubstudy.mvp.presenter.MainPresenter;
 import com.pepe.githubstudy.ui.activity.base.BaseDrawerActivity;
@@ -91,11 +94,6 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
     }
 
     @Override
-    protected void setPresenter() {
-        mPresenter = new MainPresenter();
-    }
-
-    @Override
     protected int getContentView() {
         return R.layout.activity_main;
     }
@@ -103,6 +101,21 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
     ImageView avatar;
     TextView name;
     TextView mail;
+
+
+    /**
+     * 依赖注入的入口
+     *
+     * @param appComponent appComponent
+     */
+    @Override
+    protected void setupActivityComponent(AppComponent appComponent) {
+        DaggerActivityComponent.builder()
+                .appComponent(appComponent)
+                .activityModule(new ActivityModule(getActivity()))
+                .build()
+                .inject(this);
+    }
 
     @Override
     protected void initActivity() {

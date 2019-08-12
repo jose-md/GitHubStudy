@@ -5,6 +5,7 @@ package com.pepe.githubstudy.mvp.presenter;
 import android.support.annotation.NonNull;
 
 
+import com.pepe.githubstudy.dao.DaoSession;
 import com.pepe.githubstudy.mvp.contract.ISearchContract;
 import com.pepe.githubstudy.mvp.model.SearchModel;
 import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
@@ -13,6 +14,8 @@ import com.pepe.githubstudy.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
+
+import javax.inject.Inject;
 
 
 /**
@@ -24,8 +27,9 @@ public class SearchPresenter extends BasePresenter<ISearchContract.View>
 
     ArrayList<SearchModel> searchModels;
 
-    public SearchPresenter() {
-        super();
+    @Inject
+    public SearchPresenter(DaoSession daoSession) {
+        super(daoSession);
     }
 
     @Override

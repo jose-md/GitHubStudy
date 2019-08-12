@@ -21,6 +21,8 @@ import com.pepe.githubstudy.utils.LogUtil;
 import java.util.ArrayList;
 
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 
 /**
@@ -32,6 +34,7 @@ public abstract class PagerActivity<P extends BasePresenter> extends BaseDrawerA
         ViewPager.OnPageChangeListener,
         TabLayout.OnTabSelectedListener {
 
+    @Inject
     protected FragmentViewPagerAdapter pagerAdapter;
 
     @BindView(R.id.view_pager)

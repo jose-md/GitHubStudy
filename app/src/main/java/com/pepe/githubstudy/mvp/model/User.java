@@ -6,6 +6,9 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
+import com.pepe.githubstudy.dao.BookMarkUser;
+import com.pepe.githubstudy.dao.LocalUser;
+import com.pepe.githubstudy.dao.TraceUser;
 
 import java.util.Date;
 

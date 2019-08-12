@@ -2,6 +2,7 @@ package com.pepe.githubstudy.mvp.presenter;
 
 
 import com.pepe.githubstudy.R;
+import com.pepe.githubstudy.dao.DaoSession;
 import com.pepe.githubstudy.http.GitHubWebPageService;
 import com.pepe.githubstudy.http.HttpConfig;
 import com.pepe.githubstudy.http.convert.ITopicsContract;
@@ -19,6 +20,8 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
+import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.Observer;
@@ -38,9 +41,11 @@ public class TopicsPresenter extends BasePresenter<ITopicsContract.View>
 
     private ArrayList<Topic> topics;
 
-    public TopicsPresenter() {
-        super();
+    @Inject
+    public TopicsPresenter(DaoSession daoSession) {
+        super(daoSession);
     }
+
 
     @Override
     public void onViewInitialized() {

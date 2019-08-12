@@ -8,6 +8,9 @@ import android.os.Handler;
 import android.support.annotation.Nullable;
 
 
+import com.pepe.githubstudy.inject.component.AppComponent;
+import com.pepe.githubstudy.inject.component.DaggerActivityComponent;
+import com.pepe.githubstudy.inject.module.ActivityModule;
 import com.pepe.githubstudy.mvp.contract.IMainContract;
 import com.pepe.githubstudy.mvp.contract.ISplashContract;
 import com.pepe.githubstudy.mvp.presenter.MainPresenter;
@@ -51,14 +54,24 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements ISp
         return 0;
     }
 
+    /**
+     * 依赖注入的入口
+     *
+     * @param appComponent appComponent
+     */
+    @Override
+    protected void setupActivityComponent(AppComponent appComponent) {
+        DaggerActivityComponent.builder()
+                .appComponent(appComponent)
+                .activityModule(new ActivityModule(getActivity()))
+                .build()
+                .inject(this);
+    }
+
     @Override
     protected void initActivity() {
         super.initActivity();
         showMainPage();
     }
 
-    @Override
-    protected void setPresenter() {
-        mPresenter = new SplashPresenter();
-    }
 }

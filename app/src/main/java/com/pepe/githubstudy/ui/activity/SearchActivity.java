@@ -20,6 +20,9 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
 import com.pepe.githubstudy.R;
+import com.pepe.githubstudy.inject.component.AppComponent;
+import com.pepe.githubstudy.inject.component.DaggerActivityComponent;
+import com.pepe.githubstudy.inject.module.ActivityModule;
 import com.pepe.githubstudy.mvp.contract.ISearchContract;
 import com.pepe.githubstudy.mvp.model.SearchModel;
 import com.pepe.githubstudy.mvp.presenter.SearchPresenter;
@@ -58,6 +61,15 @@ public class SearchActivity extends PagerActivity<SearchPresenter>
         super.initActivity();
         MENU_ID_MAP.put(0, SearchModel.REPO_SORT_ID_LIST);
         MENU_ID_MAP.put(1, SearchModel.USER_SORT_ID_LIST);
+    }
+
+    @Override
+    protected void setupActivityComponent(AppComponent appComponent) {
+        DaggerActivityComponent.builder()
+                .appComponent(appComponent)
+                .activityModule(new ActivityModule(getActivity()))
+                .build()
+                .inject(this);
     }
 
     @Nullable
@@ -122,11 +134,6 @@ public class SearchActivity extends PagerActivity<SearchPresenter>
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void setPresenter() {
-        mPresenter = new SearchPresenter();
     }
 
     @Override

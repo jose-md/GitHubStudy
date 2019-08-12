@@ -3,8 +3,11 @@
 package com.pepe.githubstudy.mvp.presenter;
 
 
+import com.pepe.githubstudy.dao.DaoSession;
 import com.pepe.githubstudy.mvp.contract.ISettingsContract;
 import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
+
+import javax.inject.Inject;
 
 /**
  * Created on 2017/8/1.
@@ -15,8 +18,9 @@ import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
 public class SettingsPresenter extends BasePresenter<ISettingsContract.View>
         implements ISettingsContract.Presenter{
 
-    public SettingsPresenter(){
-        super();
+    @Inject
+    public SettingsPresenter(DaoSession daoSession) {
+        super(daoSession);
     }
 
 
