@@ -167,6 +167,13 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         }
     }
 
+    protected void setToolbarTitle(String title, String subTitle) {
+        setToolbarTitle(title);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setSubtitle(subTitle);
+        }
+    }
+
     protected void setToolbarSubTitle(String subTitle) {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setSubtitle(subTitle);

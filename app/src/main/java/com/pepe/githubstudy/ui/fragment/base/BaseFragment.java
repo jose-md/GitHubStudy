@@ -71,6 +71,7 @@ public abstract class BaseFragment<P extends IBaseContract.Presenter>
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupFragmentComponent(getAppComponent());
         if (mPresenter != null) {
             mPresenter.attachView(this);
         }
@@ -151,6 +152,10 @@ public abstract class BaseFragment<P extends IBaseContract.Presenter>
 
     protected AppApplication getAppApplication() {
         return AppApplication.get();
+    }
+
+    protected AppComponent getAppComponent() {
+        return getAppApplication().getAppComponent();
     }
 
     @Override
