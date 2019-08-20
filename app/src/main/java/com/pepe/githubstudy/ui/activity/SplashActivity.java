@@ -4,18 +4,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 
 
 import com.pepe.githubstudy.inject.component.AppComponent;
 import com.pepe.githubstudy.inject.component.DaggerActivityComponent;
 import com.pepe.githubstudy.inject.module.ActivityModule;
-import com.pepe.githubstudy.mvp.contract.IMainContract;
 import com.pepe.githubstudy.mvp.contract.ISplashContract;
-import com.pepe.githubstudy.mvp.presenter.MainPresenter;
 import com.pepe.githubstudy.mvp.presenter.SplashPresenter;
 import com.pepe.githubstudy.ui.activity.base.BaseActivity;
+import com.pepe.githubstudy.utils.LogUtil;
 
 /**
  * @author 1one
@@ -23,19 +21,14 @@ import com.pepe.githubstudy.ui.activity.base.BaseActivity;
  */
 public class SplashActivity extends BaseActivity<SplashPresenter> implements ISplashContract.View {
 
-    public static final String USER_NAME = "494778200pepe";
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     @Override
     public void showMainPage() {
         delayFinish();
         Uri dataUri = getIntent().getData();
         if (dataUri == null) {
             startActivity(new Intent(getActivity(), MainActivity.class));
+        } else {
+            BrowserFilterActivity.handleBrowserUri(getActivity(), dataUri);
         }
     }
 
@@ -43,15 +36,6 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements ISp
     public void showLoginPage() {
         delayFinish();
         startActivity(new Intent(getActivity(), LoginActivity.class));
-    }
-
-    /**
-     * 获取ContentView id
-     * @return
-     */
-    @Override
-    protected int getContentView() {
-        return 0;
     }
 
     /**
@@ -68,10 +52,55 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements ISp
                 .inject(this);
     }
 
+    /**
+     * 获取ContentView id
+     *
+     * @return
+     */
+    @Override
+    protected int getContentView() {
+        return 0;
+    }
+
+    /**
+     * 初始化activity
+     */
     @Override
     protected void initActivity() {
         super.initActivity();
-        showMainPage();
+        mPresenter.getUser();
+    }
+
+    /**
+     * 初始化view
+     *
+     * @param savedInstanceState
+     */
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        super.initView(savedInstanceState);
+    }
+
+    /**
+     * Dispatch incoming result to the correct fragment.
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @NonNull Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode) {
+//            case REQUEST_ACCESS_TOKEN:
+//                if(resultCode == RESULT_OK){
+//                    showMainPage();
+//                }
+//                break;
+            default:
+                break;
+        }
     }
 
 }

@@ -146,7 +146,9 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
                     .doOnSubscribe(new Consumer<Disposable>() {
                         @Override
                         public void accept(Disposable disposable) throws Exception {
-                            dialog.show();
+                            if(dialog != null){
+                                dialog.show();
+                            }
                         }
                     })
                     .subscribeOn(AndroidSchedulers.mainThread()) // 指定主线程

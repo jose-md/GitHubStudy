@@ -58,6 +58,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPersonName"
                         android:maxLines="1"
+                        android:text="494778200pepe"
                         android:imeOptions="actionNext"/>
                 </android.support.design.widget.TextInputLayout>
 
@@ -76,6 +77,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="textPassword"
                         android:maxLines="1"
+                        android:text="wpwp198895"
                         android:imeOptions="actionSend"/>
                 </android.support.design.widget.TextInputLayout>
 

@@ -29,6 +29,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -52,7 +53,7 @@ public enum AppRetrofit {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(timeOut, TimeUnit.MILLISECONDS)
                 .addInterceptor(new BaseInterceptor())
-                .addNetworkInterceptor(new NetworkBaseInterceptor())
+//                .addNetworkInterceptor(new NetworkBaseInterceptor())
                 .cache(cache)
                 .build();
 
@@ -125,8 +126,16 @@ public enum AppRetrofit {
                         .cacheControl(CacheControl.FORCE_NETWORK)
                         .build();
             }
-
-            return chain.proceed(request);
+            Response response = chain.proceed(request);
+            ResponseBody responseBody = response.body();
+            long contentLength = responseBody.contentLength();
+            LogUtil.d("<-- "
+                    + response.code()
+                    + (response.message().isEmpty() ? "" : ' ' + response.message())
+                    + ' ' + response.request().url()
+                    );
+            LogUtil.d("body = " + responseBody.toString());
+            return response;
         }
     }
 
@@ -162,7 +171,7 @@ public enum AppRetrofit {
             //设置缓存策略
             else {
                 Response res = originalResponse.newBuilder()
-                        .header("Cache-Control", requestCacheControl)
+//                        .header("Cache-Control", requestCacheControl)
                         //纠正服务器时间，服务器时间出错时可能会导致缓存处理出错
 //                        .header("Date", getGMTTime())
                         .removeHeader("Pragma")

@@ -67,12 +67,12 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
             setContentView(getContentView());
             ButterKnife.bind(getActivity());
         }
-        initActivity();
-        initView(savedInstanceState);
         if (mPresenter != null) {
             mPresenter.attachView(this);
             mPresenter.onViewInitialized();
         }
+        initActivity();
+        initView(savedInstanceState);
     }
 
     /**

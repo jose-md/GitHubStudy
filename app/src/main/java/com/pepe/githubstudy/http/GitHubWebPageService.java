@@ -3,6 +3,8 @@ package com.pepe.githubstudy.http;
 import android.support.annotation.NonNull;
 
 
+import com.pepe.githubstudy.mvp.model.WikiFeedModel;
+
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
@@ -18,11 +20,44 @@ import retrofit2.http.Query;
 
 public interface GitHubWebPageService {
 
+    @NonNull
+    @GET("{owner}/{repo}/wiki.atom")
+    Observable<Response<WikiFeedModel>> getWiki(
+            @Header("forceNetWork") boolean forceNetWork,
+            @Path("owner") String owner,
+            @Path("repo") String repo
+    );
 
+    @NonNull
+    @GET("collections")
+    Observable<Response<ResponseBody>> getCollections(
+            @Header("forceNetWork") boolean forceNetWork
+    );
+
+    @NonNull
+    @GET("collections/{collectionId}")
+    Observable<Response<ResponseBody>> getCollectionInfo(
+            @Header("forceNetWork") boolean forceNetWork,
+            @Path("collectionId") String collectionId
+    );
 
     @NonNull
     @GET("topics")
     Observable<Response<ResponseBody>> getTopics(
             @Header("forceNetWork") boolean forceNetWork
     );
+
+    @NonNull
+    @GET("trending/{language}")
+    Observable<Response<ResponseBody>> getTrendingRepos(
+            @Header("forceNetWork") boolean forceNetWork,
+            @Path(value = "language", encoded = true) String language,
+            @Query("since") String since
+    );
+
+    @Headers("Cache-Control: public, max-age=86400")
+    @NonNull
+    @GET("trending")
+    Observable<Response<ResponseBody>> getTrendingLanguages();
+
 }
