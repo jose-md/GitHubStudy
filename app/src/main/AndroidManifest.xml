@@ -54,6 +54,11 @@
         <activity android:name=".ui.activity.SearchActivity" android:label="@string/settings"/>
         <activity android:name=".ui.activity.ProfileActivity" android:label="@string/profile"/>
         <activity android:name=".ui.activity.IssuesActivity" android:label="@string/issue"/>
+        <activity android:name=".ui.activity.RepositoryActivity" android:label="@string/repository"/>
+        <activity android:name=".ui.activity.ReleasesActivity" android:label="@string/release"/>
+        <activity android:name=".ui.activity.NotificationsActivity" android:label="@string/notifications"/>
+        <activity android:name=".ui.activity.CommitDetailActivity" android:label="@string/commit"/>
+        <activity android:name=".ui.activity.CommitsListActivity" android:label="@string/commits_list"/>
 
     </application>
 

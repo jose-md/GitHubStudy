@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
 import com.pepe.githubstudy.R;
+import com.pepe.githubstudy.inject.component.AppComponent;
 import com.pepe.githubstudy.mvp.contract.base.IBaseContract;
 import com.pepe.githubstudy.ui.fragment.base.BaseFragment;
 import com.pepe.githubstudy.utils.LogUtil;
@@ -54,6 +55,10 @@ public abstract class SingleFragmentActivity<P extends IBaseContract.Presenter, 
        LogUtil.d("onAttachFragment");
     }
 
+    @Override
+    protected void setupActivityComponent(AppComponent appComponent) {
+
+    }
 
     @Override
     protected void onToolbarDoubleClick() {

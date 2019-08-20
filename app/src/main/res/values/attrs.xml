@@ -10,4 +10,17 @@
     <attr name="popup_theme" format="reference"/>
     <attr name="popup_menu_theme" format="reference"/>
 
+
+    <declare-styleable name="CodeWebView">
+        <attr name="webview_background" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="ToastAbleImageButton">
+        <attr name="toast_text" format="string"/>
+    </declare-styleable>
+
+    <declare-styleable name="CircleBackgroundImageView">
+        <attr name="background_color" format="color"/>
+    </declare-styleable>
+
 </resources>

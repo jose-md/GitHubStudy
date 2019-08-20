@@ -241,7 +241,7 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
                 IssuesActivity.showForUser(getActivity());
                 break;
             case R.id.nav_notifications:
-//                NotificationsActivity.show(getActivity());
+                NotificationsActivity.show(getActivity());
                 break;
             case R.id.nav_trending:
 //                TrendingActivity.show(getActivity());

@@ -9,11 +9,16 @@ import android.support.v4.app.Fragment;
 
 import com.pepe.githubstudy.R;
 import com.pepe.githubstudy.mvp.model.Issue;
+import com.pepe.githubstudy.mvp.model.Repository;
 import com.pepe.githubstudy.mvp.model.SearchModel;
 import com.pepe.githubstudy.mvp.model.User;
 import com.pepe.githubstudy.ui.fragment.ActivityFragment;
+import com.pepe.githubstudy.ui.fragment.CommitsFragment;
 import com.pepe.githubstudy.ui.fragment.IssuesFragment;
+import com.pepe.githubstudy.ui.fragment.NotificationsFragment;
 import com.pepe.githubstudy.ui.fragment.ProfileInfoFragment;
+import com.pepe.githubstudy.ui.fragment.RepoFilesFragment;
+import com.pepe.githubstudy.ui.fragment.RepoInfoFragment;
 import com.pepe.githubstudy.ui.fragment.RepositoriesFragment;
 import com.pepe.githubstudy.ui.fragment.base.BaseFragment;
 
@@ -43,24 +48,44 @@ public class FragmentPagerModel {
         return fragment;
     }
 
-//    public static List<FragmentPagerModel> createRepoPagerList(@NonNull Context context
-//            , @NonNull final Repository repository, @NonNull ArrayList<Fragment> fragments) {
-//
-//        return setPagerFragmentFlag(Arrays.asList(
-//                new FragmentPagerModel(context.getString(R.string.info),
-//                        getFragment(fragments, 0, () -> RepoInfoFragment.create(repository))),
-//                new FragmentPagerModel(context.getString(R.string.files),
-//                        getFragment(fragments, 1, () -> RepoFilesFragment.create(repository))),
-//                new FragmentPagerModel(context.getString(R.string.commits),
-//                        getFragment(fragments, 2,
-//                                () -> CommitsFragment.createForRepo(repository.getOwner().getLogin(),
-//                                repository.getName(), repository.getDefaultBranch()))),
-//                new FragmentPagerModel(context.getString(R.string.activity),
-//                        getFragment(fragments, 3,
-//                                () -> ActivityFragment.create(ActivityFragment.ActivityType.Repository,
-//                                repository.getOwner().getLogin(), repository.getName())))
-//        ));
-//    }
+    public static List<FragmentPagerModel> createRepoPagerList(@NonNull Context context
+            , @NonNull final Repository repository, @NonNull ArrayList<Fragment> fragments) {
+
+        return setPagerFragmentFlag(Arrays.asList(
+                new FragmentPagerModel(context.getString(R.string.info),
+                        getFragment(fragments, 0, new FragmentCreator() {
+                            @Override
+                            public Fragment createFragment() {
+                                return RepoInfoFragment.create(repository);
+                            }
+                        })),
+                new FragmentPagerModel(context.getString(R.string.files),
+                        getFragment(fragments, 1, new FragmentCreator() {
+                            @Override
+                            public Fragment createFragment() {
+                                return RepoFilesFragment.create(repository);
+                            }
+                        })),
+                new FragmentPagerModel(context.getString(R.string.commits),
+                        getFragment(fragments, 2,
+                                new FragmentCreator() {
+                                    @Override
+                                    public Fragment createFragment() {
+                                        return CommitsFragment.createForRepo(repository.getOwner().getLogin(),
+                                                repository.getName(), repository.getDefaultBranch());
+                                    }
+                                })),
+                new FragmentPagerModel(context.getString(R.string.activity),
+                        getFragment(fragments, 3,
+                                new FragmentCreator() {
+                                    @Override
+                                    public Fragment createFragment() {
+                                        return ActivityFragment.create(ActivityFragment.ActivityType.Repository,
+                                                repository.getOwner().getLogin(), repository.getName());
+                                    }
+                                }))
+        ));
+    }
 
     public static List<FragmentPagerModel> createProfilePagerList(Context context, final User user
             , @NonNull ArrayList<Fragment> fragments) {
@@ -174,17 +199,32 @@ public class FragmentPagerModel {
 //        ));
 //    }
 
-//    public static List<FragmentPagerModel> createNotificationsPagerList(
-//            @NonNull Context context, @NonNull ArrayList<Fragment> fragments) {
-//        return setPagerFragmentFlag(Arrays.asList(
-//                new FragmentPagerModel(context.getString(R.string.unread),
-//                        getFragment(fragments, 0, () -> NotificationsFragment.create(NotificationsFragment.NotificationsType.Unread))),
-//                new FragmentPagerModel(context.getString(R.string.participating),
-//                        getFragment(fragments, 1, () -> NotificationsFragment.create(NotificationsFragment.NotificationsType.Participating))),
-//                new FragmentPagerModel(context.getString(R.string.all),
-//                        getFragment(fragments, 2, () -> NotificationsFragment.create(NotificationsFragment.NotificationsType.All)))
-//        ));
-//    }
+    public static List<FragmentPagerModel> createNotificationsPagerList(
+            @NonNull Context context, @NonNull ArrayList<Fragment> fragments) {
+        return setPagerFragmentFlag(Arrays.asList(
+                new FragmentPagerModel(context.getString(R.string.unread),
+                        getFragment(fragments, 0, new FragmentCreator() {
+                            @Override
+                            public Fragment createFragment() {
+                                return NotificationsFragment.create(NotificationsFragment.NotificationsType.Unread);
+                            }
+                        })),
+                new FragmentPagerModel(context.getString(R.string.participating),
+                        getFragment(fragments, 1, new FragmentCreator() {
+                            @Override
+                            public Fragment createFragment() {
+                                return NotificationsFragment.create(NotificationsFragment.NotificationsType.Participating);
+                            }
+                        })),
+                new FragmentPagerModel(context.getString(R.string.all),
+                        getFragment(fragments, 2, new FragmentCreator() {
+                            @Override
+                            public Fragment createFragment() {
+                                return NotificationsFragment.create(NotificationsFragment.NotificationsType.All);
+                            }
+                        }))
+        ));
+    }
 
 //    public static List<FragmentPagerModel> createTracePagerList(
 //            @NonNull Context context, @NonNull ArrayList<Fragment> fragments) {
