@@ -9,7 +9,9 @@ import android.support.v4.app.Fragment;
 
 import com.pepe.githubstudy.R;
 import com.pepe.githubstudy.mvp.model.SearchModel;
+import com.pepe.githubstudy.mvp.model.User;
 import com.pepe.githubstudy.ui.fragment.ActivityFragment;
+import com.pepe.githubstudy.ui.fragment.ProfileInfoFragment;
 import com.pepe.githubstudy.ui.fragment.RepositoriesFragment;
 import com.pepe.githubstudy.ui.fragment.base.BaseFragment;
 
@@ -58,19 +60,34 @@ public class FragmentPagerModel {
 //        ));
 //    }
 
-//    public static List<FragmentPagerModel> createProfilePagerList(Context context, final User user
-//            , @NonNull ArrayList<Fragment> fragments) {
-//        List<FragmentPagerModel> list = new ArrayList<>();
-//        list.add(new FragmentPagerModel(context.getString(R.string.info),
-//                getFragment(fragments, 0, () -> ProfileInfoFragment.create(user))));
-//        list.add(new FragmentPagerModel(context.getString(R.string.activity),
-//                getFragment(fragments, 1, () -> ActivityFragment.create(ActivityFragment.ActivityType.User, user.getLogin(), null))));
-//        if (user.isUser()) {
-//            list.add(new FragmentPagerModel(context.getString(R.string.starred),
-//                    getFragment(fragments, 2, () -> RepositoriesFragment.create(RepositoriesFragment.RepositoriesType.STARRED, user.getLogin()))));
-//        }
-//        return setPagerFragmentFlag(list);
-//    }
+    public static List<FragmentPagerModel> createProfilePagerList(Context context, final User user
+            , @NonNull ArrayList<Fragment> fragments) {
+        List<FragmentPagerModel> list = new ArrayList<>();
+        list.add(new FragmentPagerModel(context.getString(R.string.info),
+                getFragment(fragments, 0, new FragmentCreator() {
+                    @Override
+                    public Fragment createFragment() {
+                        return ProfileInfoFragment.create(user);
+                    }
+                })));
+        list.add(new FragmentPagerModel(context.getString(R.string.activity),
+                getFragment(fragments, 1, new FragmentCreator() {
+                    @Override
+                    public Fragment createFragment() {
+                        return ActivityFragment.create(ActivityFragment.ActivityType.User, user.getLogin(), null);
+                    }
+                })));
+        if (user.isUser()) {
+            list.add(new FragmentPagerModel(context.getString(R.string.starred),
+                    getFragment(fragments, 2, new FragmentCreator() {
+                        @Override
+                        public Fragment createFragment() {
+                            return  RepositoriesFragment.create(RepositoriesFragment.RepositoriesType.STARRED, user.getLogin());
+                        }
+                    })));
+        }
+        return setPagerFragmentFlag(list);
+    }
 
     public static List<FragmentPagerModel> createSearchPagerList(@NonNull Context context
             , @NonNull final ArrayList<SearchModel> searchModels, @NonNull ArrayList<Fragment> fragments) {

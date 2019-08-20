@@ -5,6 +5,7 @@ package com.pepe.githubstudy.inject.component;
 
 import com.pepe.githubstudy.inject.FragmentScope;
 import com.pepe.githubstudy.inject.module.FragmentModule;
+import com.pepe.githubstudy.ui.fragment.ProfileInfoFragment;
 import com.pepe.githubstudy.ui.fragment.TopicsFragment;
 
 import dagger.Component;
@@ -17,7 +18,7 @@ public interface FragmentComponent {
 //    void inject(RepoFilesFragment fragment);
 //    void inject(UserListFragment fragment);
 //    void inject(ViewerFragment fragment);
-//    void inject(ProfileInfoFragment fragment);
+    void inject(ProfileInfoFragment fragment);
 //    void inject(ActivityFragment fragment);
 //    void inject(ReleasesFragment fragment);
 //    void inject(IssuesFragment fragment);

@@ -160,23 +160,4 @@ public class LoginPresenter extends BasePresenter<ILoginContract.View>
         AppData.INSTANCE.setAuthUser(authUser);
         AppData.INSTANCE.setLoggedUser(userInfo);
     }
-
-    protected LoginService getLoginService() {
-        return AppRetrofit.INSTANCE
-                .getRetrofit(AppConfig.GITHUB_BASE_URL, null)
-                .create(LoginService.class);
-    }
-
-    protected LoginService getLoginService(String token) {
-        return AppRetrofit.INSTANCE
-                .getRetrofit(AppConfig.GITHUB_API_BASE_URL, token)
-                .create(LoginService.class);
-    }
-
-    protected UserService getUserService(String token) {
-        return AppRetrofit.INSTANCE
-                .getRetrofit(AppConfig.GITHUB_API_BASE_URL, token)
-                .create(UserService.class);
-    }
-
 }

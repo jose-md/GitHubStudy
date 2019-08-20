@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.SubMenu;
 import android.view.View;
+import android.widget.TextView;
 
 
 import com.pepe.githubstudy.R;
@@ -60,6 +61,26 @@ public class ViewUtils {
         upEvent.recycle();
     }
 
+
+    public static void setLongClickCopy(@NonNull TextView textView) {
+        textView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                TextView text = (TextView) v;
+                AppUtils.copyToClipboard(text.getContext(), text.getText().toString());
+                return true;
+            }
+        });
+    }
+
+    public static void setTextView(@NonNull TextView textView, String text) {
+        if (!StringUtils.isBlank(text)) {
+            textView.setText(text);
+            textView.setVisibility(View.VISIBLE);
+        } else {
+            textView.setVisibility(View.GONE);
+        }
+    }
 
     public static MenuItem getSelectedMenu(@NonNull MenuItem menuItem) {
         if (menuItem.getSubMenu() == null || menuItem.getSubMenu().size() == 0) {

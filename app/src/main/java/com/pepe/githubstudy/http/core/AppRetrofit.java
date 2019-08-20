@@ -113,19 +113,19 @@ public enum AppRetrofit {
             }
            LogUtil.d( request.url().toString());
 
-            //第二次请求，强制使用网络请求
-            String forceNetWork = request.header("forceNetWork");
-            //有forceNetWork且无网络状态下取从缓存中取
-            if (!StringUtils.isBlank(forceNetWork) &&
-                    !NetHelper.INSTANCE.getNetEnabled()) {
-                request = request.newBuilder()
-                        .cacheControl(CacheControl.FORCE_CACHE)
-                        .build();
-            } else if("true".equals(forceNetWork)){
-                request = request.newBuilder()
-                        .cacheControl(CacheControl.FORCE_NETWORK)
-                        .build();
-            }
+//            //第二次请求，强制使用网络请求
+//            String forceNetWork = request.header("forceNetWork");
+//            //有forceNetWork且无网络状态下取从缓存中取
+//            if (!StringUtils.isBlank(forceNetWork) &&
+//                    !NetHelper.INSTANCE.getNetEnabled()) {
+//                request = request.newBuilder()
+//                        .cacheControl(CacheControl.FORCE_CACHE)
+//                        .build();
+//            } else if("true".equals(forceNetWork)){
+//                request = request.newBuilder()
+//                        .cacheControl(CacheControl.FORCE_NETWORK)
+//                        .build();
+//            }
             Response response = chain.proceed(request);
             ResponseBody responseBody = response.body();
             long contentLength = responseBody.contentLength();

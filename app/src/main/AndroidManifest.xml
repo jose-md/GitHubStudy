@@ -52,6 +52,7 @@
         <activity android:name=".ui.activity.AboutActivity" android:label="@string/about"/>
         <activity android:name=".ui.activity.SettingsActivity" android:label="@string/settings"/>
         <activity android:name=".ui.activity.SearchActivity" android:label="@string/settings"/>
+        <activity android:name=".ui.activity.ProfileActivity" android:label="@string/profile"/>
 
     </application>
 

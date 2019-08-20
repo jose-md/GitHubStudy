@@ -8,9 +8,19 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 
+import com.pepe.githubstudy.AppConfig;
+import com.pepe.githubstudy.AppData;
 import com.pepe.githubstudy.R;
 import com.pepe.githubstudy.dao.DaoSession;
+import com.pepe.githubstudy.http.CommitService;
 import com.pepe.githubstudy.http.GitHubWebPageService;
+import com.pepe.githubstudy.http.IssueService;
+import com.pepe.githubstudy.http.LoginService;
+import com.pepe.githubstudy.http.NotificationsService;
+import com.pepe.githubstudy.http.OpenHubService;
+import com.pepe.githubstudy.http.RepoService;
+import com.pepe.githubstudy.http.SearchService;
+import com.pepe.githubstudy.http.UserService;
 import com.pepe.githubstudy.http.core.AppRetrofit;
 import com.pepe.githubstudy.http.core.HttpObserver;
 import com.pepe.githubstudy.http.core.HttpResponse;
@@ -42,6 +52,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.ResponseBody;
 import retrofit2.Response;
 
 /**
@@ -221,9 +232,69 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
         return new HttpSubscriber<>(httpObserver);
     }
 
+    /**
+     * Retrofit
+     *
+     * @return Retrofit
+     */
+
+    protected LoginService getLoginService() {
+        return AppRetrofit.INSTANCE
+                .getRetrofit(AppConfig.GITHUB_BASE_URL, null)
+                .create(LoginService.class);
+    }
+
+    protected LoginService getLoginService(String token) {
+        return AppRetrofit.INSTANCE
+                .getRetrofit(AppConfig.GITHUB_API_BASE_URL, token)
+                .create(LoginService.class);
+    }
+
+    protected UserService getUserService(String token) {
+        return AppRetrofit.INSTANCE
+                .getRetrofit(AppConfig.GITHUB_API_BASE_URL, token)
+                .create(UserService.class);
+    }
+
+    protected UserService getUserService() {
+        return getUserService(AppData.INSTANCE.getAccessToken());
+    }
+
+    protected RepoService getRepoService() {
+        return getServices(RepoService.class);
+    }
+
+    protected SearchService getSearchService() {
+        return getServices(SearchService.class);
+    }
+
+    protected OpenHubService getOpenHubService() {
+        return getServices(OpenHubService.class, AppConfig.OPENHUB_BASE_URL, true);
+    }
+
+    protected IssueService getIssueService() {
+        return getServices(IssueService.class);
+    }
+
+    protected CommitService getCommitService() {
+        return getServices(CommitService.class);
+    }
+
+    protected NotificationsService getNotificationsService() {
+        return getServices(NotificationsService.class);
+    }
+
+    protected GitHubWebPageService getGitHubWebPageService() {
+        return getServices(GitHubWebPageService.class, AppConfig.GITHUB_BASE_URL, false);
+    }
+
+    private <T> T getServices(Class<T> serviceClass){
+        return getServices(serviceClass, AppConfig.GITHUB_API_BASE_URL, true);
+    }
+
     protected  <T> T getServices(Class<T> serviceClass, String baseUrl, boolean isJson){
         return AppRetrofit.INSTANCE
-                .getRetrofit(baseUrl, null, isJson)
+                .getRetrofit(baseUrl, AppData.INSTANCE.getAccessToken(), isJson)
                 .create(serviceClass);
     }
 
@@ -253,5 +324,46 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
             errorTip = StringUtils.isBlank(error.getMessage()) ? error.toString() : error.getMessage();
         }
         return errorTip;
+    }
+
+
+    protected void executeSimpleRequest(@NonNull final Observable<Response<ResponseBody>> observable) {
+        HttpObserver<ResponseBody> httpObserver = new HttpObserver<ResponseBody>() {
+            @Override
+            public void onError(Throwable error) {
+                mView.showErrorToast(getErrorTip(error));
+            }
+
+            @Override
+            public void onSuccess(HttpResponse<ResponseBody> response) {
+            }
+        };
+        generalRxHttpExecute(new IObservableCreator<ResponseBody>() {
+            @Override
+            public Observable<Response<ResponseBody>> createObservable(boolean forceNetWork) {
+                return observable;
+            }
+        }, httpObserver);
+    }
+
+    protected void checkStatus(@NonNull Observable<Response<ResponseBody>> observable,
+                               @NonNull final CheckStatusCallback callback) {
+        HttpSubscriber<ResponseBody> httpSubscriber = new HttpSubscriber<>(
+                new HttpObserver<ResponseBody>() {
+                    @Override
+                    public void onError(Throwable error) {
+                    }
+
+                    @Override
+                    public void onSuccess(HttpResponse<ResponseBody> response) {
+                        callback.onChecked(response.isSuccessful());
+                    }
+                }
+        );
+        generalRxHttpExecute(observable, httpSubscriber,null);
+    }
+
+    protected interface CheckStatusCallback {
+        void onChecked(boolean status);
     }
 }

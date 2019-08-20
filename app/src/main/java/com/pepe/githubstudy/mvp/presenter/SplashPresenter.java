@@ -124,14 +124,4 @@ public class SplashPresenter extends BasePresenter<ISplashContract.View>
         return selectedUser.getAuthTime().getTime() + selectedUser.getExpireIn() * 1000
                 < System.currentTimeMillis();
     }
-
-    protected UserService getUserService() {
-        return getUserService(AppData.INSTANCE.getAccessToken());
-    }
-
-    protected UserService getUserService(String token) {
-        return AppRetrofit.INSTANCE
-                .getRetrofit(HttpConfig.GITHUB_API_BASE_URL, token)
-                .create(UserService.class);
-    }
 }

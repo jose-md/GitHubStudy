@@ -171,8 +171,4 @@ public class TopicsPresenter extends BasePresenter<ITopicsContract.View>
         }
         return topTopics;
     }
-
-    protected GitHubWebPageService getGitHubWebPageService() {
-        return getServices(GitHubWebPageService.class, HttpConfig.GITHUB_BASE_URL, false);
-    }
 }

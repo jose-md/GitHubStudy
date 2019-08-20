@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.pepe.githubstudy.AppData;
 import com.pepe.githubstudy.R;
 import com.pepe.githubstudy.bean.UserInfo;
 import com.pepe.githubstudy.inject.component.AppComponent;
@@ -105,7 +106,6 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
 
     /**
      * 依赖注入的入口
-     *
      * @param appComponent appComponent
      */
     @Override
@@ -234,8 +234,8 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
         }
         switch (id) {
             case R.id.nav_profile:
-//                ProfileActivity.show(getActivity(), AppData.INSTANCE.getLoggedUser().getLogin(),
-//                        AppData.INSTANCE.getLoggedUser().getAvatarUrl());
+                ProfileActivity.show(getActivity(), AppData.INSTANCE.getLoggedUser().getLogin(),
+                        AppData.INSTANCE.getLoggedUser().getAvatarUrl());
                 break;
             case R.id.nav_issues:
 //                IssuesActivity.showForUser(getActivity());

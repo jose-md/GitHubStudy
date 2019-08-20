@@ -16,6 +16,14 @@ public class RepositoriesFragment extends Fragment {
         OWNED, PUBLIC, STARRED, TRENDING, SEARCH, FORKS, TRACE, BOOKMARK, COLLECTION, TOPIC
     }
 
+    public static RepositoriesFragment create(@NonNull RepositoriesType type,
+                                              @NonNull String user){
+        RepositoriesFragment fragment = new RepositoriesFragment();
+        fragment.setArguments(BundleHelper.builder().put("type", type)
+                .put("user", user).build());
+        return fragment;
+    }
+
     public static RepositoriesFragment createForSearch(@NonNull SearchModel searchModel){
         RepositoriesFragment fragment = new RepositoriesFragment();
         fragment.setArguments(
