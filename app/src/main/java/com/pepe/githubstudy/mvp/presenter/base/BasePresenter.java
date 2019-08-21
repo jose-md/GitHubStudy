@@ -312,6 +312,10 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
                 .create(serviceClass);
     }
 
+    public void rxDBExecute(@NonNull Runnable runnable){
+//        daoSession.rxTx().run(runnable).subscribe();
+    }
+
     @NonNull
     protected String getLoadTip() {
         return getContext().getString(R.string.loading).concat("...");

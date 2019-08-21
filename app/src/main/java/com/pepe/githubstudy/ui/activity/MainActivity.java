@@ -323,8 +323,8 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
             case R.id.nav_starred:
                 return RepositoriesFragment.create(RepositoriesFragment.RepositoriesType.STARRED,
                         AppData.INSTANCE.getLoggedUser().getLogin());
-//            case R.id.nav_bookmarks:
-//                return BookmarksFragment.create();
+            case R.id.nav_bookmarks:
+                return BookmarksFragment.create();
 //            case R.id.nav_trace:
 //                return TraceFragment.create();
 //            case R.id.nav_collections:
