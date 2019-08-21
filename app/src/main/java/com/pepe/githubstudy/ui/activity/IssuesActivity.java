@@ -26,6 +26,7 @@ import com.pepe.githubstudy.ui.fragment.base.ListFragment;
 import com.pepe.githubstudy.ui.widget.ZoomAbleFloatingActionButton;
 import com.pepe.githubstudy.utils.BundleHelper;
 import com.pepe.githubstudy.utils.ViewUtils;
+import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,9 +65,10 @@ public class IssuesActivity extends PagerActivity<IssuesActPresenter>
 
     private final static int ADD_ISSUE_REQUEST_CODE = 100;
 
+    @AutoAccess
     String userId;
-    String repoName;
-     IssuesFilter.Type issuesType;
+    @AutoAccess String repoName;
+    @AutoAccess IssuesFilter.Type issuesType;
     @BindView(R.id.add_issue_bn)
     ZoomAbleFloatingActionButton addBn;
 

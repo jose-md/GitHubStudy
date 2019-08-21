@@ -93,14 +93,20 @@ public abstract class BaseDrawerActivity<P extends IBaseContract.Presenter> exte
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         LogUtil.d("onOptionsItemSelected  item.getItemId() = " + item.getItemId());
-        if (drawerLayout != null) {
-            if (item.getItemId() == android.R.id.home) {
-                drawerLayout.openDrawer(GravityCompat.START);
-                return true;
-            } else if (item.getItemId() == getEndDrawerToggleMenuItemId()) {
-                openDrawer(false);
-                return true;
-            }
+//        if (drawerLayout != null) {
+//            if (item.getItemId() == android.R.id.home) {
+//                drawerLayout.openDrawer(GravityCompat.START);
+//                return true;
+//            } else if (item.getItemId() == getEndDrawerToggleMenuItemId()) {
+//                openDrawer(false);
+//                return true;
+//            }
+//        }
+//        return super.onOptionsItemSelected(item);
+
+        if (drawerLayout != null && item.getItemId() == getEndDrawerToggleMenuItemId()) {
+            openDrawer(false);
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
