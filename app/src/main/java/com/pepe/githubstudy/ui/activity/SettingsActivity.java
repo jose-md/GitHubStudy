@@ -20,6 +20,7 @@ import com.pepe.githubstudy.mvp.contract.ISettingsContract;
 import com.pepe.githubstudy.mvp.presenter.SettingsPresenter;
 import com.pepe.githubstudy.ui.activity.base.SingleFragmentActivity;
 import com.pepe.githubstudy.ui.fragment.SettingsFragment;
+import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 import butterknife.BindView;
 
@@ -39,6 +40,7 @@ public class SettingsActivity extends SingleFragmentActivity<SettingsPresenter, 
 
     @BindView(R.id.root_layout)
     View rootLayout;
+    @AutoAccess
     boolean recreated = false;
 
 

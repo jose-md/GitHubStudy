@@ -24,6 +24,7 @@ import com.pepe.githubstudy.inject.component.AppComponent;
 import com.pepe.githubstudy.mvp.contract.base.IBaseContract;
 import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
 import com.pepe.githubstudy.ui.activity.LoginActivity;
+import com.thirtydegreesray.dataautoaccess.DataAutoAccess;
 
 import javax.inject.Inject;
 
@@ -75,6 +76,14 @@ public abstract class BaseFragment<P extends IBaseContract.Presenter>
         if (mPresenter != null) {
             mPresenter.attachView(this);
         }
+        DataAutoAccess.getData(this, savedInstanceState);
+        DataAutoAccess.getData(this, getArguments());
+        if (mPresenter != null) {
+            mPresenter.onRestoreInstanceState(getArguments());
+        }
+        if (mPresenter != null) {
+            mPresenter.onRestoreInstanceState(savedInstanceState);
+        }
     }
 
     @Override
@@ -90,6 +99,15 @@ public abstract class BaseFragment<P extends IBaseContract.Presenter>
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        DataAutoAccess.saveData(this, outState);
+        if (mPresenter != null) {
+            mPresenter.onSaveInstanceState(outState);
+        }
     }
 
     @Override
