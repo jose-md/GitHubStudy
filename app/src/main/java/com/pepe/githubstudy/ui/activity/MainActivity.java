@@ -237,6 +237,8 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
         }
         switch (id) {
             case R.id.nav_profile:
+                LogUtil.d("===> nav_profile   getLogin = " + AppData.INSTANCE.getLoggedUser().getLogin());
+                LogUtil.d("===> nav_profile   getAvatarUrl = " + AppData.INSTANCE.getLoggedUser().getAvatarUrl());
                 ProfileActivity.show(getActivity(), AppData.INSTANCE.getLoggedUser().getLogin(),
                         AppData.INSTANCE.getLoggedUser().getAvatarUrl());
                 break;

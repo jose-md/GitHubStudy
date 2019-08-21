@@ -17,6 +17,7 @@ import com.pepe.githubstudy.http.core.HttpResponse;
 import com.pepe.githubstudy.mvp.contract.IProfileContract;
 import com.pepe.githubstudy.mvp.model.User;
 import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
+import com.pepe.githubstudy.utils.LogUtil;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 import java.util.Date;
@@ -55,6 +56,10 @@ public class ProfilePresenter extends BasePresenter<IProfileContract.View>
 
     @Override
     public void onViewInitialized() {
+        LogUtil.d("===> onViewInitialized");
+        LogUtil.d("===> onViewInitialized   loginId = " + loginId);
+        LogUtil.d("===> onViewInitialized   userAvatar = " + userAvatar);
+
         super.onViewInitialized();
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -74,16 +79,19 @@ public class ProfilePresenter extends BasePresenter<IProfileContract.View>
     }
 
     private void getProfileInfo() {
+        LogUtil.d("===> getProfileInfo");
         mView.showLoading();
         HttpObserver<User> httpObserver = new HttpObserver<User>() {
             @Override
             public void onError(Throwable error) {
+                LogUtil.d("onError");
                 mView.showErrorToast(getErrorTip(error));
                 mView.hideLoading();
             }
 
             @Override
             public void onSuccess(HttpResponse<User> response) {
+                LogUtil.d("onSuccess");
                 user = response.body();
                 mView.hideLoading();
                 if (isTransitionComplete) {
@@ -127,6 +135,7 @@ public class ProfilePresenter extends BasePresenter<IProfileContract.View>
     }
 
     private void checkFollowingStatus() {
+        LogUtil.d("===> checkFollowingStatus");
         checkStatus(
                 getUserService().checkFollowing(loginId),
                 new CheckStatusCallback() {

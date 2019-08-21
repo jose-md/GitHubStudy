@@ -99,6 +99,9 @@ public class SplashPresenter extends BasePresenter<ISplashContract.View>
 
             @Override
             public void onSuccess(@NonNull HttpResponse<User> response) {
+                LogUtil.d("user = " + response.body().toString());
+                LogUtil.d("user getAvatarUrl = " + response.body().getAvatarUrl());
+                LogUtil.d("user getLogin = " + response.body().getLogin());
                 AppData.INSTANCE.setLoggedUser(response.body());
                 if (authUser != null) {
                     authUser.setLoginId(response.body().getLogin());

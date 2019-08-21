@@ -31,6 +31,7 @@ import com.pepe.githubstudy.ui.fragment.ProfileInfoFragment;
 import com.pepe.githubstudy.ui.fragment.RepositoriesFragment;
 import com.pepe.githubstudy.utils.AppUtils;
 import com.pepe.githubstudy.utils.BundleHelper;
+import com.pepe.githubstudy.utils.LogUtil;
 import com.pepe.githubstudy.utils.PrefUtils;
 import com.pepe.githubstudy.utils.StringUtils;
 
@@ -167,6 +168,7 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter>
 
     @Override
     public void showProfileInfo(User user) {
+        LogUtil.d("===> showProfileInfo");
         invalidateOptionsMenu();
         setUserAvatar();
         joinedTime.setText(getString(R.string.joined_at).concat(" ")
@@ -228,7 +230,7 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter>
     protected void onResume() {
         super.onResume();
         //TODO Don't know why loader showImage automatic when resume from other page, conflict with screen transition
-//        loader.setVisibility(View.GONE);
+        loader.setVisibility(View.GONE);
     }
 
     @Override

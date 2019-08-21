@@ -133,6 +133,7 @@ public abstract class PagerActivity<P extends BasePresenter> extends BaseDrawerA
      * Notify first pager selected, only for first launch
      */
     protected void showFirstPager() {
+        LogUtil.d("===> showFirstPager");
         prePosition = 0;
         postNotifyFragmentStatus(0, true, 100);
 

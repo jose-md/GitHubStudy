@@ -24,6 +24,7 @@ import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.pepe.githubstudy.AppApplication;
+import com.pepe.githubstudy.AppData;
 import com.pepe.githubstudy.R;
 import com.pepe.githubstudy.dao.DaoSession;
 import com.pepe.githubstudy.inject.component.AppComponent;
@@ -33,6 +34,7 @@ import com.pepe.githubstudy.ui.activity.LoginActivity;
 import com.pepe.githubstudy.ui.widget.DoubleClickHandler;
 import com.pepe.githubstudy.utils.LogUtil;
 import com.pepe.githubstudy.utils.PrefUtils;
+import com.thirtydegreesray.dataautoaccess.DataAutoAccess;
 
 import java.util.List;
 
@@ -65,16 +67,43 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         setTheme(R.style.ThemeLightTeal_Green);
         super.onCreate(savedInstanceState);
         setupActivityComponent(getAppComponent());
+        DataAutoAccess.getData(this, savedInstanceState);
+        if(mPresenter != null) {
+            mPresenter.onRestoreInstanceState(savedInstanceState == null ?
+                    getIntent().getExtras() : savedInstanceState);
+            mPresenter.attachView(this);
+        }
+        if(savedInstanceState != null && AppData.INSTANCE.getAuthUser() == null){
+            DataAutoAccess.getData(AppData.INSTANCE, savedInstanceState);
+        }
         if (getContentView() != 0) {
             setContentView(getContentView());
             ButterKnife.bind(getActivity());
         }
-        if (mPresenter != null) {
-            mPresenter.attachView(this);
-            mPresenter.onViewInitialized();
-        }
+
         initActivity();
         initView(savedInstanceState);
+        if(mPresenter != null) {
+            mPresenter.onViewInitialized();
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //系统由于内存不足而杀死activity，此时保存数据
+        DataAutoAccess.saveData(this, outState);
+        if(mPresenter != null) {
+            mPresenter.onSaveInstanceState(outState);
+        }
+        if(curActivity.equals(this)){
+            DataAutoAccess.saveData(AppData.INSTANCE, outState);
+        }
+    }
+
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
     }
 
     /**
