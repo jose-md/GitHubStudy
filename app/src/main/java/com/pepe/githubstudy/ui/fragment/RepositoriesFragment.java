@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.pepe.githubstudy.AppData;
 import com.pepe.githubstudy.R;
 import com.pepe.githubstudy.inject.component.AppComponent;
 import com.pepe.githubstudy.inject.component.DaggerFragmentComponent;
@@ -29,6 +30,7 @@ import com.pepe.githubstudy.ui.adapter.RepositoriesAdapter;
 import com.pepe.githubstudy.ui.fragment.base.ListFragment;
 import com.pepe.githubstudy.ui.fragment.base.OnDrawerSelectedListener;
 import com.pepe.githubstudy.utils.BundleHelper;
+import com.pepe.githubstudy.utils.LogUtil;
 
 import java.util.ArrayList;
 
@@ -122,6 +124,7 @@ public class RepositoriesFragment extends ListFragment<RepositoriesPresenter, Re
 
     @Override
     public void showRepositories(ArrayList<Repository> repositoryList) {
+        LogUtil.d("===> showRepositories");
         mAdapter.setData(repositoryList);
         postNotifyDataSetChanged();
     }

@@ -17,6 +17,7 @@ import com.pepe.githubstudy.R;
 import com.pepe.githubstudy.mvp.contract.base.IBaseContract;
 import com.pepe.githubstudy.ui.adapter.base.BaseAdapter;
 import com.pepe.githubstudy.ui.adapter.base.BaseViewHolder;
+import com.pepe.githubstudy.ui.adapter.base.CatchableLinearLayoutManager;
 import com.pepe.githubstudy.utils.NetHelper;
 import com.pepe.githubstudy.utils.PrefUtils;
 import com.pepe.githubstudy.utils.ViewUtils;
@@ -65,7 +66,7 @@ public abstract class ListFragment<P extends IBaseContract.Presenter, A extends 
         refreshLayout.setOnRefreshListener(this);
         refreshLayout.setColorSchemeColors(ViewUtils.getRefreshLayoutColors(getContext()));
         setAdapter();
-//        recyclerView.setLayoutManager(new CatchableLinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(new CatchableLinearLayoutManager(getActivity()));
         mAdapter.setOnItemLongClickListener(this);
         mAdapter.setOnItemClickListener(this);
         recyclerView.setAdapter(mAdapter);

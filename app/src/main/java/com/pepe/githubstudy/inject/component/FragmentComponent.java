@@ -5,6 +5,7 @@ package com.pepe.githubstudy.inject.component;
 
 import com.pepe.githubstudy.inject.FragmentScope;
 import com.pepe.githubstudy.inject.module.FragmentModule;
+import com.pepe.githubstudy.ui.fragment.ActivityFragment;
 import com.pepe.githubstudy.ui.fragment.CommitFilesFragment;
 import com.pepe.githubstudy.ui.fragment.CommitsFragment;
 import com.pepe.githubstudy.ui.fragment.IssuesFragment;
@@ -27,7 +28,7 @@ public interface FragmentComponent {
 //    void inject(UserListFragment fragment);
 //    void inject(ViewerFragment fragment);
     void inject(ProfileInfoFragment fragment);
-//    void inject(ActivityFragment fragment);
+    void inject(ActivityFragment fragment);
     void inject(ReleasesFragment fragment);
     void inject(IssuesFragment fragment);
 //    void inject(IssueTimelineFragment fragment);

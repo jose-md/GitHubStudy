@@ -2,12 +2,14 @@ package com.pepe.githubstudy.ui.activity;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatImageView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -245,7 +247,7 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
                 NotificationsActivity.show(getActivity());
                 break;
             case R.id.nav_trending:
-//                TrendingActivity.show(getActivity());
+                TrendingActivity.show(getActivity());
                 break;
             case R.id.nav_search:
                 SearchActivity.show(getActivity());
@@ -257,7 +259,7 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
                 AboutActivity.show(getActivity());
                 break;
             case R.id.nav_logout:
-//                logout();
+                logout();
                 break;
             case R.id.nav_add_account:
                 showLoginPage();
@@ -309,12 +311,12 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
     @NonNull
     private Fragment getFragment(int itemId) {
         switch (itemId) {
-//            case R.id.nav_news:
-//                return ActivityFragment.create(ActivityFragment.ActivityType.News,
-//                        AppData.INSTANCE.getLoggedUser().getLogin());
-//            case R.id.nav_public_news:
-//                return ActivityFragment.create(ActivityFragment.ActivityType.PublicNews,
-//                        AppData.INSTANCE.getLoggedUser().getLogin());
+            case R.id.nav_news:
+                return ActivityFragment.create(ActivityFragment.ActivityType.News,
+                        AppData.INSTANCE.getLoggedUser().getLogin());
+            case R.id.nav_public_news:
+                return ActivityFragment.create(ActivityFragment.ActivityType.PublicNews,
+                        AppData.INSTANCE.getLoggedUser().getLogin());
             case R.id.nav_owned:
                 return RepositoriesFragment.create(RepositoriesFragment.RepositoriesType.OWNED,
                         AppData.INSTANCE.getLoggedUser().getLogin());
@@ -370,5 +372,25 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
         getActivity().finishAffinity();
         Intent intent = new Intent(getActivity(), SplashActivity.class);
         startActivity(intent);
+    }
+
+    private void logout() {
+        new AlertDialog.Builder(getActivity())
+                .setCancelable(true)
+                .setTitle(R.string.warning_dialog_tile)
+                .setMessage(R.string.logout_warning)
+                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setPositiveButton(R.string.logout, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mPresenter.logout();
+                    }
+                })
+                .show();
     }
 }

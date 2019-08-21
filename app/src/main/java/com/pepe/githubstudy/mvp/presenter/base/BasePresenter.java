@@ -215,7 +215,7 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
 
             @Override
             public void onSuccess(@NonNull HttpResponse<T> response) {
-                LogUtil.d("===> onError");
+                LogUtil.d("===> onSuccess");
                 if (response.isSuccessful()) {
                     if (readCacheFirst && response.isFromCache()
                             && NetHelper.INSTANCE.getNetEnabled()

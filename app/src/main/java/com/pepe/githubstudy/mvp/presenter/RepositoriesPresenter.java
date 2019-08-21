@@ -157,18 +157,21 @@ public class RepositoriesPresenter extends BasePagerPresenter<IRepositoriesContr
         HttpObserver<ArrayList<Repository>> httpObserver = new HttpObserver<ArrayList<Repository>>() {
             @Override
             public void onError(@NonNull Throwable error) {
+                LogUtil.d("onError");
                 mView.hideLoading();
                 handleError(error);
             }
 
             @Override
             public void onSuccess(@NonNull HttpResponse<ArrayList<Repository>> response) {
+                LogUtil.d("onSuccess");
                 mView.hideLoading();
                 if (isReLoad || readCacheFirst || repos == null || page == 1) {
                     repos = response.body();
                 } else {
                     repos.addAll(response.body());
                 }
+                LogUtil.d("onSuccess    repos.size() = " + repos.size());
                 if (response.body().size() == 0 && repos.size() != 0) {
                     mView.setCanLoadMore(false);
                 } else {
