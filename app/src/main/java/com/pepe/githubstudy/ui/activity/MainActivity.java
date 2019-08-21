@@ -27,6 +27,7 @@ import com.pepe.githubstudy.inject.component.AppComponent;
 import com.pepe.githubstudy.inject.component.DaggerActivityComponent;
 import com.pepe.githubstudy.inject.module.ActivityModule;
 import com.pepe.githubstudy.mvp.contract.IMainContract;
+import com.pepe.githubstudy.mvp.model.filter.RepositoriesFilter;
 import com.pepe.githubstudy.mvp.presenter.MainPresenter;
 import com.pepe.githubstudy.ui.activity.base.BaseDrawerActivity;
 import com.pepe.githubstudy.ui.fragment.ActivityFragment;
@@ -295,10 +296,10 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
     private void updateFilter(int itemId) {
         if (itemId == R.id.nav_owned) {
             updateEndDrawerContent(R.menu.menu_repositories_filter);
-//            RepositoriesFilter.initDrawer(navViewEnd, RepositoriesFragment.RepositoriesType.OWNED);
+            RepositoriesFilter.initDrawer(navViewEnd, RepositoriesFragment.RepositoriesType.OWNED);
         } else if (itemId == R.id.nav_starred) {
             updateEndDrawerContent(R.menu.menu_repositories_filter);
-//            RepositoriesFilter.initDrawer(navViewEnd, RepositoriesFragment.RepositoriesType.STARRED);
+            RepositoriesFilter.initDrawer(navViewEnd, RepositoriesFragment.RepositoriesType.STARRED);
         } else {
             removeEndDrawer();
         }
@@ -314,12 +315,12 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
 //            case R.id.nav_public_news:
 //                return ActivityFragment.create(ActivityFragment.ActivityType.PublicNews,
 //                        AppData.INSTANCE.getLoggedUser().getLogin());
-//            case R.id.nav_owned:
-//                return RepositoriesFragment.create(RepositoriesFragment.RepositoriesType.OWNED,
-//                        AppData.INSTANCE.getLoggedUser().getLogin());
-//            case R.id.nav_starred:
-//                return RepositoriesFragment.create(RepositoriesFragment.RepositoriesType.STARRED,
-//                        AppData.INSTANCE.getLoggedUser().getLogin());
+            case R.id.nav_owned:
+                return RepositoriesFragment.create(RepositoriesFragment.RepositoriesType.OWNED,
+                        AppData.INSTANCE.getLoggedUser().getLogin());
+            case R.id.nav_starred:
+                return RepositoriesFragment.create(RepositoriesFragment.RepositoriesType.STARRED,
+                        AppData.INSTANCE.getLoggedUser().getLogin());
 //            case R.id.nav_bookmarks:
 //                return BookmarksFragment.create();
 //            case R.id.nav_trace:

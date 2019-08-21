@@ -7,6 +7,7 @@ import com.pepe.githubstudy.http.core.HttpResponse;
 import com.pepe.githubstudy.mvp.contract.IReleasesContract;
 import com.pepe.githubstudy.mvp.model.Release;
 import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
+import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 import java.util.ArrayList;
 
@@ -22,8 +23,9 @@ import retrofit2.Response;
 public class ReleasesPresenter extends BasePresenter<IReleasesContract.View>
         implements IReleasesContract.Presenter{
 
+    @AutoAccess
     String owner;
-    String repo;
+    @AutoAccess String repo;
     private ArrayList<Release> releases;
 
     @Inject

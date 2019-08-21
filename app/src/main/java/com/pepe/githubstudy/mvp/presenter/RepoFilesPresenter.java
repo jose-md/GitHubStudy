@@ -16,6 +16,7 @@ import com.pepe.githubstudy.mvp.model.FilePath;
 import com.pepe.githubstudy.mvp.model.Repository;
 import com.pepe.githubstudy.mvp.presenter.base.BasePagerPresenter;
 import com.pepe.githubstudy.utils.StringUtils;
+import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,11 +36,12 @@ public class RepoFilesPresenter extends BasePagerPresenter<IRepoFilesContract.Vi
         implements IRepoFilesContract.Presenter {
 
     private Map<String, ArrayList<FileModel>> cacheMap;
-    Repository repo;
-    String curPath = "";
-    String curBranch = "";
+    @AutoAccess
+    Repository repo ;
+    @AutoAccess String curPath = "";
+    @AutoAccess String curBranch = "";
     private ArrayList<FilePath> filePath;
-    private FilePath homePath;
+    private FilePath homePath ;
 
     @Inject
     public RepoFilesPresenter(DaoSession daoSession) {

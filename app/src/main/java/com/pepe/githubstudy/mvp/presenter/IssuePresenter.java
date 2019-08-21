@@ -12,6 +12,7 @@ import com.pepe.githubstudy.mvp.model.SearchResult;
 import com.pepe.githubstudy.mvp.model.filter.IssuesFilter;
 import com.pepe.githubstudy.mvp.presenter.base.BasePagerPresenter;
 import com.pepe.githubstudy.utils.StringUtils;
+import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 import java.util.ArrayList;
 
@@ -27,9 +28,10 @@ import retrofit2.Response;
 public class IssuePresenter extends BasePagerPresenter<IIssuesContract.View>
         implements IIssuesContract.Presenter {
 
+    @AutoAccess
     IssuesFilter issuesFilter;
-    String userId;
-    String repoName;
+    @AutoAccess String userId;
+    @AutoAccess String repoName;
 
     private ArrayList<Issue> issues;
 

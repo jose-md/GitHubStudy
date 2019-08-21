@@ -19,6 +19,7 @@ import com.pepe.githubstudy.mvp.model.Branch;
 import com.pepe.githubstudy.mvp.model.Repository;
 import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
 import com.pepe.githubstudy.ui.activity.RepositoryActivity;
+import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,19 +40,18 @@ import retrofit2.Response;
 public class RepositoryPresenter extends BasePresenter<IRepositoryContract.View>
         implements IRepositoryContract.Presenter {
 
-//    @AutoAccess(dataName = "repository")
-    Repository repository;
+    @AutoAccess(dataName = "repository") Repository repository;
 
-    String owner;
-    String repoName;
+    @AutoAccess String owner;
+    @AutoAccess String repoName;
 
     private ArrayList<Branch> branches;
-    Branch curBranch;
+    @AutoAccess Branch curBranch;
     private boolean starred;
     private boolean watched;
 
     private boolean isStatusChecked = false;
-    boolean isTraceSaved = false;
+    @AutoAccess boolean isTraceSaved = false;
 
     private boolean isBookmarkQueried = false;
     private boolean bookmarked = false;

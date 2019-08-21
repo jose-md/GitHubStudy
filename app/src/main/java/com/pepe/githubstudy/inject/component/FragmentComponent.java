@@ -13,6 +13,7 @@ import com.pepe.githubstudy.ui.fragment.ProfileInfoFragment;
 import com.pepe.githubstudy.ui.fragment.ReleasesFragment;
 import com.pepe.githubstudy.ui.fragment.RepoFilesFragment;
 import com.pepe.githubstudy.ui.fragment.RepoInfoFragment;
+import com.pepe.githubstudy.ui.fragment.RepositoriesFragment;
 import com.pepe.githubstudy.ui.fragment.TopicsFragment;
 
 import dagger.Component;
@@ -20,7 +21,7 @@ import dagger.Component;
 @FragmentScope
 @Component(modules = FragmentModule.class, dependencies = AppComponent.class)
 public interface FragmentComponent {
-//    void inject(RepositoriesFragment fragment);
+    void inject(RepositoriesFragment fragment);
     void inject(RepoInfoFragment fragment);
     void inject(RepoFilesFragment fragment);
 //    void inject(UserListFragment fragment);

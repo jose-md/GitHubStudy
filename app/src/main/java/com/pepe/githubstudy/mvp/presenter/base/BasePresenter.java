@@ -2,6 +2,7 @@ package com.pepe.githubstudy.mvp.presenter.base;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -34,6 +35,7 @@ import com.pepe.githubstudy.utils.LogUtil;
 import com.pepe.githubstudy.utils.NetHelper;
 import com.pepe.githubstudy.utils.PrefUtils;
 import com.pepe.githubstudy.utils.StringUtils;
+import com.thirtydegreesray.dataautoaccess.DataAutoAccess;
 
 
 import org.apache.http.conn.ConnectTimeoutException;
@@ -72,6 +74,19 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
     public BasePresenter(DaoSession daoSession) {
         this.daoSession = daoSession;
         subscribers = new ArrayList<>();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        DataAutoAccess.saveData(this, outState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle outState) {
+        if (outState == null) {
+            return;
+        }
+        DataAutoAccess.getData(this, outState);
     }
 
     /**
@@ -150,14 +165,14 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
      * @param <T>
      */
     protected <T> void generalRxHttpExecute(
-            @NonNull Observable<Response<T>> observable, @Nullable HttpSubscriber<T> subscriber,final ProgressDialog dialog) {
+            @NonNull Observable<Response<T>> observable, @Nullable HttpSubscriber<T> subscriber, final ProgressDialog dialog) {
         if (subscriber != null) {
             subscribers.add(subscriber);
             observable.subscribeOn(Schedulers.io())
                     .doOnSubscribe(new Consumer<Disposable>() {
                         @Override
                         public void accept(Disposable disposable) throws Exception {
-                            if(dialog != null){
+                            if (dialog != null) {
                                 dialog.show();
                             }
                         }
@@ -207,7 +222,7 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
                             && requestTimesMap.get(observableCreator.toString()) < 2) {
                         requestTimesMap.put(observableCreator.toString(), 2);
                         generalRxHttpExecute(observableCreator.createObservable(true),
-                                new HttpSubscriber<>(this),progressDialog);
+                                new HttpSubscriber<>(this), progressDialog);
                     }
                     httpObserver.onSuccess(response);
                 } else if (response.getOriResponse().code() == 404) {
@@ -225,7 +240,7 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
         boolean cacheFirstEnable = PrefUtils.isCacheFirstEnable();
 //        cacheFirstEnable = cacheFirstEnable || !NetHelper.INSTANCE.getNetEnabled();
         generalRxHttpExecute(observableCreator.createObservable(!cacheFirstEnable || !readCacheFirst),
-                new HttpSubscriber<>(tempObserver),progressDialog);
+                new HttpSubscriber<>(tempObserver), progressDialog);
     }
 
     private <T> HttpSubscriber<T> getHttpSubscriber(HttpObserver<T> httpObserver) {
@@ -234,7 +249,6 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
 
     /**
      * Retrofit
-     *
      * @return Retrofit
      */
 
@@ -288,11 +302,11 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
         return getServices(GitHubWebPageService.class, AppConfig.GITHUB_BASE_URL, false);
     }
 
-    private <T> T getServices(Class<T> serviceClass){
+    private <T> T getServices(Class<T> serviceClass) {
         return getServices(serviceClass, AppConfig.GITHUB_API_BASE_URL, true);
     }
 
-    protected  <T> T getServices(Class<T> serviceClass, String baseUrl, boolean isJson){
+    protected <T> T getServices(Class<T> serviceClass, String baseUrl, boolean isJson) {
         return AppRetrofit.INSTANCE
                 .getRetrofit(baseUrl, AppData.INSTANCE.getAccessToken(), isJson)
                 .create(serviceClass);
@@ -311,10 +325,10 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
     @NonNull
     protected String getErrorTip(@NonNull Throwable error) {
         String errorTip = null;
-        if(error == null){
+        if (error == null) {
             return errorTip;
         }
-        if(error instanceof UnknownHostException){
+        if (error instanceof UnknownHostException) {
             errorTip = getString(R.string.no_network_tip);
         } else if (error instanceof SocketTimeoutException || error instanceof ConnectTimeoutException) {
             errorTip = getString(R.string.load_timeout_tip);
@@ -360,7 +374,7 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
                     }
                 }
         );
-        generalRxHttpExecute(observable, httpSubscriber,null);
+        generalRxHttpExecute(observable, httpSubscriber, null);
     }
 
     protected interface CheckStatusCallback {

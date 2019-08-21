@@ -8,6 +8,7 @@ import com.pepe.githubstudy.http.core.HttpResponse;
 import com.pepe.githubstudy.mvp.contract.IReleaseInfoContract;
 import com.pepe.githubstudy.mvp.model.Release;
 import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
+import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 import javax.inject.Inject;
 
@@ -21,10 +22,12 @@ import retrofit2.Response;
 public class ReleaseInfoPresenter extends BasePresenter<IReleaseInfoContract.View>
         implements IReleaseInfoContract.Presenter{
 
+    @AutoAccess
     String owner;
-    String repoName;
-    String tagName;
-    Release release;
+    @AutoAccess String repoName;
+    @AutoAccess String tagName;
+    @AutoAccess Release release;
+
 
     @Inject
     public ReleaseInfoPresenter(DaoSession daoSession) {

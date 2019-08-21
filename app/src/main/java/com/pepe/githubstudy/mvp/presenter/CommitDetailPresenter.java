@@ -16,6 +16,7 @@ import com.pepe.githubstudy.mvp.model.RepoCommitExt;
 import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
 import com.pepe.githubstudy.utils.GitHubHelper;
 import com.pepe.githubstudy.utils.StringUtils;
+import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 import javax.inject.Inject;
 
@@ -29,13 +30,13 @@ import retrofit2.Response;
 public class CommitDetailPresenter extends BasePresenter<ICommitDetailContract.View>
         implements ICommitDetailContract.Presenter {
 
+    @AutoAccess
     String user;
-    String repo;
-
-    RepoCommit commit;
-    String commitSha;
-    String userAvatarUrl;
-    String commitUrl;
+    @AutoAccess String repo;
+    @AutoAccess RepoCommit commit;
+    @AutoAccess String commitSha;
+    @AutoAccess String userAvatarUrl;
+    @AutoAccess String commitUrl;
     private RepoCommitExt commitExt;
 
 

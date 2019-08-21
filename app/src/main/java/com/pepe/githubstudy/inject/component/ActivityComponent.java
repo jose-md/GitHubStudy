@@ -14,6 +14,7 @@ import com.pepe.githubstudy.ui.activity.RepositoryActivity;
 import com.pepe.githubstudy.ui.activity.SearchActivity;
 import com.pepe.githubstudy.ui.activity.SettingsActivity;
 import com.pepe.githubstudy.ui.activity.SplashActivity;
+import com.pepe.githubstudy.ui.activity.TrendingActivity;
 
 import dagger.Component;
 
@@ -32,5 +33,5 @@ public interface ActivityComponent {
 //    void inject(IssueDetailActivity activity);
 //    void inject(EditIssueActivity activity);
     void inject(CommitDetailActivity activity);
-//    void inject(TrendingActivity activity);
+    void inject(TrendingActivity activity);
 }

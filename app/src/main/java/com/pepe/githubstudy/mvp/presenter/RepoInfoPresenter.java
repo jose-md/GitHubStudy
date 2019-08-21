@@ -12,6 +12,7 @@ import com.pepe.githubstudy.mvp.contract.IRepoInfoContract;
 import com.pepe.githubstudy.mvp.model.Repository;
 import com.pepe.githubstudy.mvp.presenter.base.BasePagerPresenter;
 import com.pepe.githubstudy.utils.StringUtils;
+import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 import java.io.IOException;
 
@@ -27,8 +28,9 @@ import retrofit2.Response;
 public class RepoInfoPresenter extends BasePagerPresenter<IRepoInfoContract.View>
         implements IRepoInfoContract.Presenter{
 
+    @AutoAccess
     Repository repository;
-    String curBranch = "";
+    @AutoAccess String curBranch = "";
     private String readmeSource;
 
     @Inject

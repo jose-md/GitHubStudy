@@ -8,6 +8,7 @@ import com.pepe.githubstudy.http.core.HttpResponse;
 import com.pepe.githubstudy.mvp.contract.IProfileInfoContract;
 import com.pepe.githubstudy.mvp.model.User;
 import com.pepe.githubstudy.mvp.presenter.base.BasePagerPresenter;
+import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 import java.util.ArrayList;
 
@@ -23,6 +24,7 @@ import retrofit2.Response;
 public class ProfileInfoPresenter extends BasePagerPresenter<IProfileInfoContract.View>
         implements IProfileInfoContract.Presenter {
 
+    @AutoAccess
     User user;
     private ArrayList<User> orgs;
 

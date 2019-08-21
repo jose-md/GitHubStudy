@@ -59,6 +59,7 @@
         <activity android:name=".ui.activity.NotificationsActivity" android:label="@string/notifications"/>
         <activity android:name=".ui.activity.CommitDetailActivity" android:label="@string/commit"/>
         <activity android:name=".ui.activity.CommitsListActivity" android:label="@string/commits_list"/>
+        <activity android:name=".ui.activity.TrendingActivity" />
 
     </application>
 

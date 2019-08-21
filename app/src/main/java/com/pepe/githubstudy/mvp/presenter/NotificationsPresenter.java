@@ -16,6 +16,7 @@ import com.pepe.githubstudy.mvp.presenter.base.BasePagerPresenter;
 import com.pepe.githubstudy.ui.adapter.base.DoubleTypesModel;
 import com.pepe.githubstudy.ui.fragment.NotificationsFragment;
 import com.pepe.githubstudy.utils.StringUtils;
+import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -34,6 +35,7 @@ import retrofit2.Response;
 public class NotificationsPresenter extends BasePagerPresenter<INotificationsContract.View>
         implements INotificationsContract.Presenter {
 
+    @AutoAccess
     NotificationsFragment.NotificationsType type;
     private ArrayList<Notification> notifications;
     private ArrayList<DoubleTypesModel<Repository, Notification>> sortedNotifications;

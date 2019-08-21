@@ -48,6 +48,10 @@ public interface IBaseContract {
 
     interface Presenter<V extends IBaseContract.View>{
 
+        void onSaveInstanceState(Bundle outState);
+
+        void onRestoreInstanceState(Bundle outState);
+
         void attachView(@NonNull V view);
 
         void detachView();

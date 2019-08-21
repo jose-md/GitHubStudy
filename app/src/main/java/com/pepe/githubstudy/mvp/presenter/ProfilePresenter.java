@@ -17,6 +17,7 @@ import com.pepe.githubstudy.http.core.HttpResponse;
 import com.pepe.githubstudy.mvp.contract.IProfileContract;
 import com.pepe.githubstudy.mvp.model.User;
 import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
+import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 import java.util.Date;
 import java.util.UUID;
@@ -34,14 +35,15 @@ import retrofit2.Response;
 public class ProfilePresenter extends BasePresenter<IProfileContract.View>
         implements IProfileContract.Presenter {
 
+    @AutoAccess
     String loginId;
-    String userAvatar;
+    @AutoAccess String userAvatar;
     private User user;
     private boolean following = false;
 
     private boolean isTransitionComplete = false;
     private boolean isWaitForTransition = false;
-    boolean isTraceSaved = false;
+    @AutoAccess boolean isTraceSaved = false;
 
     private boolean isBookmarkQueried = false;
     private boolean bookmarked = false;

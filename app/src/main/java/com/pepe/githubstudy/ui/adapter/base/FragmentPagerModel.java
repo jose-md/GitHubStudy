@@ -12,6 +12,7 @@ import com.pepe.githubstudy.mvp.model.Issue;
 import com.pepe.githubstudy.mvp.model.Repository;
 import com.pepe.githubstudy.mvp.model.SearchModel;
 import com.pepe.githubstudy.mvp.model.User;
+import com.pepe.githubstudy.mvp.model.filter.TrendingSince;
 import com.pepe.githubstudy.ui.fragment.ActivityFragment;
 import com.pepe.githubstudy.ui.fragment.CommitsFragment;
 import com.pepe.githubstudy.ui.fragment.IssuesFragment;
@@ -109,7 +110,7 @@ public class FragmentPagerModel {
                     getFragment(fragments, 2, new FragmentCreator() {
                         @Override
                         public Fragment createFragment() {
-                            return  RepositoriesFragment.create(RepositoriesFragment.RepositoriesType.STARRED, user.getLogin());
+                            return RepositoriesFragment.create(RepositoriesFragment.RepositoriesType.STARRED, user.getLogin());
                         }
                     })));
         }
@@ -137,17 +138,32 @@ public class FragmentPagerModel {
         ));
     }
 
-//    public static List<FragmentPagerModel> createTrendingPagerList(
-//            @NonNull Context context, @NonNull ArrayList<Fragment> fragments) {
-//        return setPagerFragmentFlag(Arrays.asList(
-//                new FragmentPagerModel(context.getString(R.string.daily),
-//                        getFragment(fragments, 0, () -> RepositoriesFragment.createForTrending(TrendingSince.Daily))),
-//                new FragmentPagerModel(context.getString(R.string.weekly),
-//                        getFragment(fragments, 1, () -> RepositoriesFragment.createForTrending(TrendingSince.Weekly))),
-//                new FragmentPagerModel(context.getString(R.string.monthly),
-//                        getFragment(fragments, 2, () -> RepositoriesFragment.createForTrending(TrendingSince.Monthly)))
-//        ));
-//    }
+    public static List<FragmentPagerModel> createTrendingPagerList(
+            @NonNull Context context, @NonNull ArrayList<Fragment> fragments) {
+        return setPagerFragmentFlag(Arrays.asList(
+                new FragmentPagerModel(context.getString(R.string.daily),
+                        getFragment(fragments, 0, new FragmentCreator() {
+                            @Override
+                            public Fragment createFragment() {
+                                return RepositoriesFragment.createForTrending(TrendingSince.Daily);
+                            }
+                        })),
+                new FragmentPagerModel(context.getString(R.string.weekly),
+                        getFragment(fragments, 1, new FragmentCreator() {
+                            @Override
+                            public Fragment createFragment() {
+                                return RepositoriesFragment.createForTrending(TrendingSince.Weekly);
+                            }
+                        })),
+                new FragmentPagerModel(context.getString(R.string.monthly),
+                        getFragment(fragments, 2, new FragmentCreator() {
+                            @Override
+                            public Fragment createFragment() {
+                                return RepositoriesFragment.createForTrending(TrendingSince.Monthly);
+                            }
+                        }))
+        ));
+    }
 
     public static List<FragmentPagerModel> createRepoIssuesPagerList(@NonNull Context context
             , @NonNull final String userId, @NonNull final String repoName, @NonNull ArrayList<Fragment> fragments) {
@@ -163,7 +179,7 @@ public class FragmentPagerModel {
                         getFragment(fragments, 1, new FragmentCreator() {
                             @Override
                             public Fragment createFragment() {
-                                return  IssuesFragment.createForRepo(Issue.IssueState.closed, userId, repoName);
+                                return IssuesFragment.createForRepo(Issue.IssueState.closed, userId, repoName);
                             }
                         }))
         ));

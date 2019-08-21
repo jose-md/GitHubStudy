@@ -11,6 +11,7 @@ import com.pepe.githubstudy.mvp.model.SearchModel;
 import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
 import com.pepe.githubstudy.utils.PrefUtils;
 import com.pepe.githubstudy.utils.StringUtils;
+import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,6 +26,7 @@ import javax.inject.Inject;
 public class SearchPresenter extends BasePresenter<ISearchContract.View>
         implements ISearchContract.Presenter {
 
+    @AutoAccess
     ArrayList<SearchModel> searchModels;
 
     @Inject
