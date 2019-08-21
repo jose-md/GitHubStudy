@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 
 import com.pepe.githubstudy.R;
+import com.pepe.githubstudy.common.GlideApp;
 import com.pepe.githubstudy.mvp.model.BookmarkExt;
 import com.pepe.githubstudy.mvp.model.Repository;
 import com.pepe.githubstudy.mvp.model.User;
@@ -73,10 +74,10 @@ public class BookmarksAdapter extends BaseAdapter<BaseViewHolder, BookmarkExt> {
         if(getItemViewType(position) == 0){
             User user = model.getUser();
             UserViewHolder userViewHolder = (UserViewHolder) holder;
-//            GlideApp.with(fragment)
-//                    .load(user.getAvatarUrl())
-//                    .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
-//                    .into(userViewHolder.avatar);
+            GlideApp.with(fragment)
+                    .load(user.getAvatarUrl())
+                    .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
+                    .into(userViewHolder.avatar);
             userViewHolder.name.setText(user.getLogin());
             userViewHolder.name.setTextColor(ViewUtils.getAccentColor(context));
         } else {
@@ -87,10 +88,10 @@ public class BookmarksAdapter extends BaseAdapter<BaseViewHolder, BookmarkExt> {
             repoViewHolder.tvStarNum.setText(String.valueOf(repository.getStargazersCount()));
             repoViewHolder.tvForkNum.setText(String.valueOf(repository.getForksCount()));
             repoViewHolder.tvOwnerName.setText(repository.getOwner().getLogin());
-//            GlideApp.with(fragment)
-//                    .load(repository.getOwner().getAvatarUrl())
-//                    .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
-//                    .into(repoViewHolder.ivUserAvatar);
+            GlideApp.with(fragment)
+                    .load(repository.getOwner().getAvatarUrl())
+                    .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
+                    .into(repoViewHolder.ivUserAvatar);
             repoViewHolder.forkMark.setVisibility(repository.isFork() ? View.VISIBLE : View.GONE);
 
             if(StringUtils.isBlank(repository.getLanguage())){

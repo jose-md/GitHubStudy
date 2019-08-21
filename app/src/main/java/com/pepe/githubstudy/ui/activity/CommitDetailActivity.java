@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.pepe.githubstudy.R;
+import com.pepe.githubstudy.common.GlideApp;
 import com.pepe.githubstudy.inject.component.AppComponent;
 import com.pepe.githubstudy.inject.component.DaggerActivityComponent;
 import com.pepe.githubstudy.inject.module.ActivityModule;
@@ -124,10 +125,10 @@ public class CommitDetailActivity extends BaseActivity<CommitDetailPresenter>
     public void showCommit(RepoCommit commit) {
         setToolbarTitle(getString(R.string.commit).concat(" ").concat(commit.getShortSha()));
         if (commit.getAuthor() != null) {
-//            GlideApp.with(getActivity())
-//                    .load(commit.getAuthor().getAvatarUrl())
-//                    .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
-//                    .into(userAvatar);
+            GlideApp.with(getActivity())
+                    .load(commit.getAuthor().getAvatarUrl())
+                    .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
+                    .into(userAvatar);
         } else {
             userAvatar.setImageResource(R.drawable.ic_question);
         }
@@ -169,10 +170,10 @@ public class CommitDetailActivity extends BaseActivity<CommitDetailPresenter>
 
     @Override
     public void showUserAvatar(String userAvatarUrl) {
-//        GlideApp.with(getActivity())
-//                .load(userAvatarUrl)
-//                .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
-//                .into(userAvatar);
+        GlideApp.with(getActivity())
+                .load(userAvatarUrl)
+                .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
+                .into(userAvatar);
     }
 
     @OnClick(R.id.comment_bn)

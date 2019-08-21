@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 
 import com.pepe.githubstudy.R;
+import com.pepe.githubstudy.common.GlideApp;
 import com.pepe.githubstudy.mvp.model.Topic;
 import com.pepe.githubstudy.ui.adapter.base.BaseAdapter;
 import com.pepe.githubstudy.ui.adapter.base.BaseViewHolder;
@@ -16,6 +17,7 @@ import com.pepe.githubstudy.ui.fragment.base.BaseFragment;
 import com.pepe.githubstudy.utils.PrefUtils;
 import com.pepe.githubstudy.utils.StringUtils;
 import com.pepe.githubstudy.utils.ViewUtils;
+import com.pepe.githubstudy.utils.WindowUtil;
 
 import butterknife.BindView;
 
@@ -46,22 +48,22 @@ public class TopicsAdapter extends BaseAdapter<TopicsAdapter.ViewHolder, Topic> 
         holder.name.setText(model.getName());
         holder.desc.setText(model.getDesc());
 
-//        if(StringUtils.isBlank(model.getImage())){
-//            int padding = WindowUtil.dipToPx(context, 16);
-//            holder.image.setPadding(padding, padding, padding, padding);
-//            holder.image.setBackgroundColor(ViewUtils.getWindowBackground(context));
-//            holder.image.setImageTintList(ColorStateList.valueOf(ViewUtils.getSecondaryTextColor(context)));
-//            holder.image.setImageResource(R.drawable.ic_topic);
-//        } else {
-//            holder.image.setPadding(0, 0, 0, 0);
-//            int transparentColor = context.getResources().getColor(R.color.transparent);
-//            holder.image.setBackgroundColor(transparentColor);
-//            holder.image.setImageTintList(null);
-//            GlideApp.with(fragment)
-//                    .load(model.getImage())
-//                    .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
-//                    .into(holder.image);
-//        }
+        if(StringUtils.isBlank(model.getImage())){
+            int padding = WindowUtil.dipToPx(context, 16);
+            holder.image.setPadding(padding, padding, padding, padding);
+            holder.image.setBackgroundColor(ViewUtils.getWindowBackground(context));
+            holder.image.setImageTintList(ColorStateList.valueOf(ViewUtils.getSecondaryTextColor(context)));
+            holder.image.setImageResource(R.drawable.ic_topic);
+        } else {
+            holder.image.setPadding(0, 0, 0, 0);
+            int transparentColor = context.getResources().getColor(R.color.transparent);
+            holder.image.setBackgroundColor(transparentColor);
+            holder.image.setImageTintList(null);
+            GlideApp.with(fragment)
+                    .load(model.getImage())
+                    .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
+                    .into(holder.image);
+        }
     }
 
     class ViewHolder extends BaseViewHolder {

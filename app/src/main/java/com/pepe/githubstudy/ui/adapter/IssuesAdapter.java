@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 
 import com.pepe.githubstudy.R;
+import com.pepe.githubstudy.common.GlideApp;
 import com.pepe.githubstudy.mvp.model.Issue;
 import com.pepe.githubstudy.ui.activity.ProfileActivity;
 import com.pepe.githubstudy.ui.adapter.base.BaseAdapter;
@@ -54,10 +55,10 @@ public class IssuesAdapter extends BaseAdapter<IssuesAdapter.ViewHolder, Issue> 
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         Issue model = data.get(position);
-//        GlideApp.with(fragment)
-//                .load(model.getUser().getAvatarUrl())
-//                .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
-//                .into(holder.userAvatar);
+        GlideApp.with(fragment)
+                .load(model.getUser().getAvatarUrl())
+                .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
+                .into(holder.userAvatar);
         holder.userName.setText(model.getUser().getLogin());
         holder.issueTitle.setText(model.getTitle());
         holder.commentNum.setText(String.valueOf(model.getCommentNum()));

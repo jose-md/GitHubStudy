@@ -4,6 +4,7 @@ package com.pepe.githubstudy.ui.activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -25,10 +26,13 @@ import com.bumptech.glide.request.RequestOptions;
 import com.pepe.githubstudy.AppData;
 import com.pepe.githubstudy.R;
 import com.pepe.githubstudy.bean.UserInfo;
+import com.pepe.githubstudy.common.GlideApp;
+import com.pepe.githubstudy.dao.AuthUser;
 import com.pepe.githubstudy.inject.component.AppComponent;
 import com.pepe.githubstudy.inject.component.DaggerActivityComponent;
 import com.pepe.githubstudy.inject.module.ActivityModule;
 import com.pepe.githubstudy.mvp.contract.IMainContract;
+import com.pepe.githubstudy.mvp.model.User;
 import com.pepe.githubstudy.mvp.model.filter.RepositoriesFilter;
 import com.pepe.githubstudy.mvp.presenter.MainPresenter;
 import com.pepe.githubstudy.ui.activity.base.BaseDrawerActivity;
@@ -39,6 +43,9 @@ import com.pepe.githubstudy.ui.fragment.RepositoriesFragment;
 import com.pepe.githubstudy.ui.fragment.TopicsFragment;
 import com.pepe.githubstudy.ui.fragment.TraceFragment;
 import com.pepe.githubstudy.utils.LogUtil;
+import com.pepe.githubstudy.utils.PrefUtils;
+import com.pepe.githubstudy.utils.StringUtils;
+import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -90,17 +97,15 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
         }
     }
 
+    @AutoAccess
     int selectedPage;
+    private boolean isAccountsAdded = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    @Override
-    protected int getContentView() {
-        return R.layout.activity_main;
-    }
 
     ImageView avatar;
     TextView name;
@@ -123,10 +128,52 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
     @Override
     protected void initActivity() {
         super.initActivity();
+//        if (AppData.INSTANCE.getLoggedUser() != null) {
+//            CrashReport.putUserData(getApplicationContext(),
+//                    "GitHubId", AppData.INSTANCE.getLoggedUser().getLogin());
+//        }
         setStartDrawerEnable(true);
         setEndDrawerEnable(true);
-        navViewStart.setItemIconTintList(null);
-        selectedPage = R.id.nav_news;
+    }
+
+
+    @Override
+    protected int getContentView() {
+        return R.layout.activity_main;
+    }
+
+    /**
+     * 初始化view
+     * @param savedInstanceState
+     */
+    @Override
+    protected void initView(Bundle savedInstanceState) {
+        super.initView(savedInstanceState);
+
+        setToolbarScrollAble(true);
+        updateStartDrawerContent(R.menu.activity_main_drawer);
+        removeEndDrawer();
+        if (mPresenter.isFirstUseAndNoNewsUser()) {
+            selectedPage = R.id.nav_public_news;
+            updateFragmentByNavId(selectedPage);
+        } else if (selectedPage != 0) {
+            updateFragmentByNavId(selectedPage);
+        } else {
+            String startPageId = PrefUtils.getStartPage();
+            int startPageIndex = Arrays.asList(getResources().getStringArray(R.array.start_pages_id))
+                    .indexOf(startPageId);
+            TypedArray typedArray = getResources().obtainTypedArray(R.array.start_pages_nav_id);
+            int startPageNavId = typedArray.getResourceId(startPageIndex, 0);
+            typedArray.recycle();
+            if (FRAGMENT_NAV_ID_LIST.contains(startPageNavId)) {
+                selectedPage = startPageNavId;
+                updateFragmentByNavId(selectedPage);
+            } else {
+                selectedPage = R.id.nav_news;
+                updateFragmentByNavId(selectedPage);
+                updateFragmentByNavId(startPageNavId);
+            }
+        }
         navViewStart.setCheckedItem(selectedPage);
 
         avatar = navViewStart.getHeaderView(0).findViewById(R.id.avatar);
@@ -140,6 +187,18 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
                 toggleAccountLay();
             }
         });
+
+        User loginUser = AppData.INSTANCE.getLoggedUser();
+        GlideApp.with(getActivity())
+                .load(loginUser.getAvatarUrl())
+                .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
+                .into(avatar);
+        name.setText(StringUtils.isBlank(loginUser.getName()) ? loginUser.getLogin() : loginUser.getName());
+        String joinTime = getString(R.string.joined_at).concat(" ")
+                .concat(StringUtils.getDateStr(loginUser.getCreatedAt()));
+        mail.setText(StringUtils.isBlank(loginUser.getBio()) ? joinTime : loginUser.getBio());
+
+        tabLayout.setVisibility(View.GONE);
         mPresenter.getUserInfo(USER_NAME);
     }
 
@@ -173,6 +232,22 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
             return;
         }
         Menu menu = navViewStart.getMenu();
+
+        if (!isAccountsAdded) {
+            isAccountsAdded = true;
+            List<AuthUser> users = mPresenter.getLoggedUserList();
+            for (AuthUser user : users) {
+                MenuItem menuItem = menu.add(R.id.manage_accounts, Menu.NONE, 1, user.getLoginId())
+                        .setIcon(R.drawable.ic_menu_person)
+                        .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                mPresenter.toggleAccount(item.getTitle().toString());
+                                return true;
+                            }
+                        });
+            }
+        }
 
         menu.setGroupVisible(R.id.my_account, isManageAccount);
         menu.setGroupVisible(R.id.manage_accounts, isManageAccount);

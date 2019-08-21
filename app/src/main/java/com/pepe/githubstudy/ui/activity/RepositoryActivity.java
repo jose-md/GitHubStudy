@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.pepe.githubstudy.AppData;
 import com.pepe.githubstudy.R;
+import com.pepe.githubstudy.common.GlideApp;
 import com.pepe.githubstudy.inject.component.AppComponent;
 import com.pepe.githubstudy.inject.component.DaggerActivityComponent;
 import com.pepe.githubstudy.inject.module.ActivityModule;
@@ -211,10 +212,10 @@ public class RepositoryActivity extends PagerActivity<RepositoryPresenter>
             viewPager.setAdapter(pagerAdapter);
             showFirstPager();
 
-//            GlideApp.with(getActivity())
-//                    .load(repo.getOwner().getAvatarUrl())
-//                    .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
-//                    .into(userImageViewBg);
+            GlideApp.with(getActivity())
+                    .load(repo.getOwner().getAvatarUrl())
+                    .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
+                    .into(userImageViewBg);
         } else {
             noticeRepositoryUpdated(repo);
         }

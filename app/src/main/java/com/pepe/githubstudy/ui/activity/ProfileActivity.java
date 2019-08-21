@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 
 import com.pepe.githubstudy.R;
+import com.pepe.githubstudy.common.GlideApp;
 import com.pepe.githubstudy.inject.component.AppComponent;
 import com.pepe.githubstudy.inject.component.DaggerActivityComponent;
 import com.pepe.githubstudy.inject.module.ActivityModule;
@@ -216,14 +217,14 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter>
             return;
         }
         isAvatarSetted = true;
-//        GlideApp.with(getActivity())
-//                .load(mPresenter.getUserAvatar())
-//                .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
-//                .into(userImageViewBg);
-//        GlideApp.with(getActivity())
-//                .load(mPresenter.getUserAvatar())
-//                .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
-//                .into(userImageView);
+        GlideApp.with(getActivity())
+                .load(mPresenter.getUserAvatar())
+                .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
+                .into(userImageViewBg);
+        GlideApp.with(getActivity())
+                .load(mPresenter.getUserAvatar())
+                .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
+                .into(userImageView);
     }
 
     @Override

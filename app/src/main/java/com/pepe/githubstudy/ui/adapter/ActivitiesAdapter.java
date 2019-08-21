@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.pepe.githubstudy.R;
+import com.pepe.githubstudy.common.GlideApp;
 import com.pepe.githubstudy.mvp.model.Event;
 import com.pepe.githubstudy.mvp.model.EventPayload;
 import com.pepe.githubstudy.mvp.model.PushEventCommit;
@@ -60,10 +61,10 @@ public class ActivitiesAdapter extends BaseAdapter<ActivitiesAdapter.ViewHolder,
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
         Event model = data.get(position);
-//        GlideApp.with(fragment)
-//                .load(model.getActor().getAvatarUrl())
-//                .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
-//                .into(holder.userAvatar);
+        GlideApp.with(fragment)
+                .load(model.getActor().getAvatarUrl())
+                .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
+                .into(holder.userAvatar);
         holder.userName.setText(model.getActor().getLogin());
         holder.time.setText(StringUtils.getNewsTimeStr(context, model.getCreatedAt()));
 

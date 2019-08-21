@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 
 import com.pepe.githubstudy.bean.UserInfo;
+import com.pepe.githubstudy.dao.AuthUser;
 import com.pepe.githubstudy.mvp.contract.base.IBaseContract;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public interface IMainContract {
 
     interface Presenter extends IBaseContract.Presenter<IMainContract.View>{
         boolean isFirstUseAndNoNewsUser();
+        List<AuthUser> getLoggedUserList();
         void toggleAccount(@NonNull String loginId);
         void logout();
     }

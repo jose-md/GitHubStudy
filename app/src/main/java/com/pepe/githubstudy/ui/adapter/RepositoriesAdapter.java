@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 
 import com.pepe.githubstudy.R;
+import com.pepe.githubstudy.common.GlideApp;
 import com.pepe.githubstudy.mvp.model.Repository;
 import com.pepe.githubstudy.ui.activity.ProfileActivity;
 import com.pepe.githubstudy.ui.adapter.base.BaseAdapter;
@@ -120,10 +121,10 @@ public class RepositoriesAdapter extends BaseAdapter<RepositoriesAdapter.ViewHol
             holder.ivUserAvatar.setVisibility(View.VISIBLE);
             holder.ownerLay.setVisibility(View.VISIBLE);
             holder.sinceStarLay.setVisibility(View.GONE);
-//            GlideApp.with(fragment)
-//                    .load(repository.getOwner().getAvatarUrl())
-//                    .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
-//                    .into(holder.ivUserAvatar);
+            GlideApp.with(fragment)
+                    .load(repository.getOwner().getAvatarUrl())
+                    .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
+                    .into(holder.ivUserAvatar);
         } else {
             holder.ivUserAvatar.setVisibility(View.GONE);
             holder.ownerLay.setVisibility(View.GONE);

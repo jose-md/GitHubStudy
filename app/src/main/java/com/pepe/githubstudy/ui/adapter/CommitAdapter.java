@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 
 import com.pepe.githubstudy.R;
+import com.pepe.githubstudy.common.GlideApp;
 import com.pepe.githubstudy.mvp.model.RepoCommit;
 import com.pepe.githubstudy.ui.activity.ProfileActivity;
 import com.pepe.githubstudy.ui.adapter.base.BaseAdapter;
@@ -51,10 +52,10 @@ public class CommitAdapter extends BaseAdapter<CommitAdapter.ViewHolder, RepoCom
         super.onBindViewHolder(holder, position);
         RepoCommit model = data.get(position);
         if(model.getAuthor() != null){
-//            GlideApp.with(fragment)
-//                    .load(model.getAuthor().getAvatarUrl())
-//                    .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
-//                    .into(holder.userAvatar);
+            GlideApp.with(fragment)
+                    .load(model.getAuthor().getAvatarUrl())
+                    .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
+                    .into(holder.userAvatar);
         } else {
             holder.userAvatar.setImageResource(R.drawable.ic_question);
         }

@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 
 import com.pepe.githubstudy.R;
+import com.pepe.githubstudy.common.GlideApp;
 import com.pepe.githubstudy.mvp.model.Notification;
 import com.pepe.githubstudy.mvp.model.NotificationSubject;
 import com.pepe.githubstudy.mvp.model.Repository;
@@ -82,10 +83,10 @@ public class NotificationsAdapter extends BaseAdapter<BaseViewHolder,
             RepoViewHolder holder = (RepoViewHolder) viewHolder;
             Repository model = data.get(position).getM1();
             holder.repoName.setText(model.getFullName());
-//            GlideApp.with(fragment)
-//                    .load(model.getOwner().getAvatarUrl())
-//                    .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
-//                    .into(holder.userAvatar);
+            GlideApp.with(fragment)
+                    .load(model.getOwner().getAvatarUrl())
+                    .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
+                    .into(holder.userAvatar);
         } else {
             NotificationViewHolder holder = (NotificationViewHolder) viewHolder;
             Notification model = data.get(position).getM2();

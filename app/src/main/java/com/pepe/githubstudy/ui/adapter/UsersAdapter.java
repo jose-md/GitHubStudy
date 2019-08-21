@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 
 import com.pepe.githubstudy.R;
+import com.pepe.githubstudy.common.GlideApp;
 import com.pepe.githubstudy.mvp.model.User;
 import com.pepe.githubstudy.ui.adapter.base.BaseAdapter;
 import com.pepe.githubstudy.ui.adapter.base.BaseViewHolder;
@@ -50,10 +51,10 @@ public class UsersAdapter extends BaseAdapter<UsersAdapter.ViewHolder, User> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
-//        GlideApp.with(fragment)
-//                .load(data.get(position).getAvatarUrl())
-//                .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
-//                .into(holder.avatar);
+        GlideApp.with(fragment)
+                .load(data.get(position).getAvatarUrl())
+                .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
+                .into(holder.avatar);
         holder.name.setText(data.get(position).getLogin());
     }
 
