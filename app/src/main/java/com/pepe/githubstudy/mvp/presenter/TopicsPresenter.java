@@ -1,6 +1,8 @@
 package com.pepe.githubstudy.mvp.presenter;
 
 
+import android.app.ProgressDialog;
+
 import com.pepe.githubstudy.R;
 import com.pepe.githubstudy.dao.DaoSession;
 import com.pepe.githubstudy.http.GitHubWebPageService;
@@ -57,17 +59,21 @@ public class TopicsPresenter extends BasePresenter<ITopicsContract.View>
     @Override
     public void loadTopics(boolean isReload) {
         LogUtil.d("===> loadTopics isReload = " + isReload);
+        final ProgressDialog progressDialog = mView.getProgressDialog(getLoadTip());
         HttpObserver<ResponseBody> httpObserver = new HttpObserver<ResponseBody>() {
             @Override
             public void onError(Throwable error) {
                 LogUtil.d("===> loadTopics onError");
-                mView.hideLoading();
+//                mView.hideLoading();
+                progressDialog.hide();
                 mView.showLoadError(getErrorTip(error));
             }
 
             @Override
             public void onSuccess(HttpResponse<ResponseBody> response) {
                 LogUtil.d("===> loadTopics onSuccess");
+//                mView.hideLoading();
+                progressDialog.hide();
                 try {
                     parsePageData(response.body().string());
                 } catch (IOException e) {
@@ -80,7 +86,7 @@ public class TopicsPresenter extends BasePresenter<ITopicsContract.View>
             public Observable<Response<ResponseBody>> createObservable(boolean forceNetWork) {
                 return getGitHubWebPageService().getTopics(forceNetWork);
             }
-        }, httpObserver, !isReload,mView.getProgressDialog(getLoadTip()));
+        }, httpObserver, !isReload,progressDialog);
     }
 
     private void parsePageData(String page) {

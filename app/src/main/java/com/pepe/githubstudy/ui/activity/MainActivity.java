@@ -400,10 +400,10 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
                         AppData.INSTANCE.getLoggedUser().getLogin());
             case R.id.nav_bookmarks:
                 return BookmarksFragment.create();
-//            case R.id.nav_trace:
-//                return TraceFragment.create();
-//            case R.id.nav_collections:
-//                return CollectionsFragment.create();
+            case R.id.nav_trace:
+                return TraceFragment.create();
+            case R.id.nav_collections:
+                return CollectionsFragment.create();
             case R.id.nav_topics:
                 return TopicsFragment.create();
         }

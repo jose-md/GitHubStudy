@@ -1,13 +1,14 @@
 package com.pepe.githubstudy.mvp.presenter;
 
-import com.pepe.githubstudy.dao.Bookmark;
-import com.pepe.githubstudy.dao.BookmarkDao;
+
 import com.pepe.githubstudy.dao.DaoSession;
 import com.pepe.githubstudy.dao.LocalRepo;
 import com.pepe.githubstudy.dao.LocalUser;
-import com.pepe.githubstudy.mvp.contract.IBookmarkContract;
-import com.pepe.githubstudy.mvp.model.BookmarkExt;
+import com.pepe.githubstudy.dao.Trace;
+import com.pepe.githubstudy.dao.TraceDao;
+import com.pepe.githubstudy.mvp.contract.ITraceContract;
 import com.pepe.githubstudy.mvp.model.Repository;
+import com.pepe.githubstudy.mvp.model.TraceExt;
 import com.pepe.githubstudy.mvp.model.User;
 import com.pepe.githubstudy.mvp.presenter.base.BasePresenter;
 
@@ -19,52 +20,51 @@ import javax.inject.Inject;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
-
 /**
- * Created by ThirtyDegreesRay on 2017/11/22 15:59:45
+ * Created by ThirtyDegreesRay on 2017/11/23 10:55:30
  */
 
-public class BookmarkPresenter extends BasePresenter<IBookmarkContract.View>
-        implements IBookmarkContract.Presenter {
+public class TracePresenter extends BasePresenter<ITraceContract.View>
+        implements ITraceContract.Presenter {
 
-    private ArrayList<BookmarkExt> bookmarks;
-    private BookmarkExt removedBookmark;
+    private ArrayList<TraceExt> traceList;
+    private TraceExt removedTrace;
     private int removedPosition;
 
     @Inject
-    public BookmarkPresenter(DaoSession daoSession) {
+    public TracePresenter(DaoSession daoSession) {
         super(daoSession);
     }
 
     @Override
     public void onViewInitialized() {
         super.onViewInitialized();
-        loadBookmarks(1);
+        loadTraceList(1);
     }
 
     @Override
-    public void loadBookmarks(final int page) {
+    public void loadTraceList(final int page) {
         mView.showLoading();
-        final ArrayList<BookmarkExt> tempBookmarks = new ArrayList<>();
+        final ArrayList<TraceExt> tempTraceList = new ArrayList<>();
         daoSession.rxTx()
                 .run(new Runnable() {
                     @Override
                     public void run() {
-                        List<Bookmark> bookmarkList = daoSession.getBookmarkDao().queryBuilder()
-                                .orderDesc(BookmarkDao.Properties.MarkTime)
+                        List<Trace> traceListDb = daoSession.getTraceDao().queryBuilder()
+                                .orderDesc(TraceDao.Properties.LatestTime)
                                 .offset((page - 1) * 30)
                                 .limit(page * 30)
                                 .list();
-                        for(Bookmark bookmark : bookmarkList){
-                            BookmarkExt ext = BookmarkExt.generate(bookmark);
-                            if("user".equals(bookmark.getType())){
+                        for (Trace trace : traceListDb) {
+                            TraceExt ext = TraceExt.generate(trace);
+                            if ("user".equals(trace.getType())) {
                                 LocalUser localUser = daoSession.getLocalUserDao().load(ext.getUserId());
                                 ext.setUser(User.generateFromLocalUser(localUser));
-                            }else{
+                            } else {
                                 LocalRepo localRepo = daoSession.getLocalRepoDao().load(ext.getRepoId());
                                 ext.setRepository(Repository.generateFromLocalRepo(localRepo));
                             }
-                            tempBookmarks.add(ext);
+                            tempTraceList.add(ext);
                         }
                     }
                 })
@@ -72,39 +72,49 @@ public class BookmarkPresenter extends BasePresenter<IBookmarkContract.View>
                 .subscribe(new Action1<Void>() {
                     @Override
                     public void call(Void aVoid) {
-                        if(bookmarks == null || page == 1){
-                            bookmarks = tempBookmarks;
+                        if (traceList == null || page == 1) {
+                            traceList = tempTraceList;
                         } else {
-                            bookmarks.addAll(tempBookmarks);
+                            traceList.addAll(tempTraceList);
                         }
-                        mView.showBookmarks(bookmarks);
+                        mView.showTraceList(traceList);
                         mView.hideLoading();
                     }
                 });
     }
 
     @Override
-    public void removeBookmark(int position) {
-        removedBookmark = bookmarks.remove(position);
+    public void removeTrace(int position) {
+        removedTrace = traceList.remove(position);
         removedPosition = position;
         rxDBExecute(new Runnable() {
             @Override
             public void run() {
-                daoSession.getBookmarkDao().deleteByKey(removedBookmark.getId());
+                daoSession.getTraceDao().deleteByKey(removedTrace.getId());
             }
         });
     }
 
     @Override
-    public void undoRemoveBookmark() {
-        bookmarks.add(removedPosition, removedBookmark);
+    public void undoRemoveTrace() {
+        traceList.add(removedPosition, removedTrace);
         mView.notifyItemAdded(removedPosition);
         rxDBExecute(new Runnable() {
             @Override
             public void run() {
-                daoSession.getBookmarkDao().insert(removedBookmark);
+                daoSession.getTraceDao().insert(removedTrace);
             }
         });
+    }
+
+    @Override
+    public int getFirstItemByDate(long dateTime) {
+        for (TraceExt trace : traceList) {
+            if (trace.getLatestDate().getTime() == dateTime) {
+                return traceList.indexOf(trace);
+            }
+        }
+        return 0;
     }
 
 }

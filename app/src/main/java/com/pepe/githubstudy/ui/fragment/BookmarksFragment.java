@@ -137,5 +137,4 @@ public class BookmarksFragment extends ListFragment<BookmarkPresenter, Bookmarks
                 })
                 .show();
     }
-
 }
