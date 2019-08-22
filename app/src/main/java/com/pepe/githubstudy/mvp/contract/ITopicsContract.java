@@ -1,5 +1,4 @@
-package com.pepe.githubstudy.http.convert;
-
+package com.pepe.githubstudy.mvp.contract;
 
 import com.pepe.githubstudy.mvp.contract.base.IBaseContract;
 import com.pepe.githubstudy.mvp.contract.base.IBaseListContract;

@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">PitHub</string>
+
+    <string name="no_cache_and_network">Network and cache is unavailable.</string>
+    <string name="page_no_found">Page not found.</string>
+    <string name="unauthorized">Unauthorized.</string>
+</resources>

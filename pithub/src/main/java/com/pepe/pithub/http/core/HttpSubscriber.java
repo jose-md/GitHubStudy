@@ -1,6 +1,6 @@
 
 
-package com.pepe.githubstudy.http.core;
+package com.pepe.pithub.http.core;
 
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;

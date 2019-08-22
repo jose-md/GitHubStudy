@@ -1,4 +1,4 @@
-package com.pepe.githubstudy.mvp.presenter.base;
+package com.pepe.pithub.mvp.presenter;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -9,74 +9,47 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 
-import com.pepe.githubstudy.AppConfig;
-import com.pepe.githubstudy.AppData;
-import com.pepe.githubstudy.R;
-import com.pepe.githubstudy.dao.DaoSession;
-import com.pepe.githubstudy.http.CommitService;
-import com.pepe.githubstudy.http.GitHubWebPageService;
-import com.pepe.githubstudy.http.IssueService;
-import com.pepe.githubstudy.http.LoginService;
-import com.pepe.githubstudy.http.NotificationsService;
-import com.pepe.githubstudy.http.OpenHubService;
-import com.pepe.githubstudy.http.RepoService;
-import com.pepe.githubstudy.http.SearchService;
-import com.pepe.githubstudy.http.UserService;
-import com.pepe.githubstudy.http.core.AppRetrofit;
-import com.pepe.githubstudy.http.core.HttpObserver;
-import com.pepe.githubstudy.http.core.HttpResponse;
-import com.pepe.githubstudy.http.core.HttpSubscriber;
-import com.pepe.githubstudy.http.error.HttpError;
-import com.pepe.githubstudy.http.error.HttpErrorCode;
-import com.pepe.githubstudy.http.error.HttpPageNoFoundError;
-import com.pepe.githubstudy.http.error.UnauthorizedError;
-import com.pepe.githubstudy.mvp.contract.base.IBaseContract;
-import com.pepe.githubstudy.utils.LogUtil;
-import com.pepe.githubstudy.utils.NetHelper;
-import com.pepe.githubstudy.utils.PrefUtils;
-import com.pepe.githubstudy.utils.StringUtils;
+import com.pepe.pithub.AppConfig;
+import com.pepe.pithub.http.core.HttpObserver;
+import com.pepe.pithub.http.core.HttpResponse;
+import com.pepe.pithub.http.core.HttpSubscriber;
+import com.pepe.pithub.http.error.HttpError;
+import com.pepe.pithub.http.error.HttpErrorCode;
+import com.pepe.pithub.http.error.HttpPageNoFoundError;
+import com.pepe.pithub.http.error.UnauthorizedError;
+import com.pepe.pithub.mvp.contract.base.IBaseContract;
+import com.pepe.pithub.utils.LogUtil;
+import com.pepe.pithub.utils.NetHelper;
+import com.pepe.pithub.utils.PrefUtils;
 import com.thirtydegreesray.dataautoaccess.DataAutoAccess;
 
-
-import org.apache.http.conn.ConnectTimeoutException;
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-
-import java.net.SocketTimeoutException;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import io.reactivex.Observable;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
 import retrofit2.Response;
 
 /**
  * @author 1one
- * @date 2019/8/7.
+ * @date 2019/8/22.
  */
 public abstract class BasePresenter<V extends IBaseContract.View> implements IBaseContract.Presenter<V> {
 
     //View
     protected V mView;
-    //db Dao
-    protected DaoSession daoSession;
     private ArrayList<HttpSubscriber> subscribers;
     private boolean isAttached = false;
     private boolean isViewInitialized = false;
 
     private CompositeDisposable mCompositeDisposable;
 
-    public BasePresenter(DaoSession daoSession) {
-        LogUtil.d("===> BasePresenter");
-        this.daoSession = daoSession;
+    public BasePresenter() {
         subscribers = new ArrayList<>();
     }
 
@@ -225,7 +198,7 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
             @Override
             public void onError(Throwable error) {
 //                if (!checkIsUnauthorized(error)) {
-                    httpObserver.onError(error);
+                httpObserver.onError(error);
 //                }
             }
 
@@ -254,7 +227,6 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
         };
 
         boolean cacheFirstEnable = PrefUtils.isCacheFirstEnable();
-//        cacheFirstEnable = cacheFirstEnable || !NetHelper.INSTANCE.getNetEnabled();
         generalRxHttpExecute(observableCreator.createObservable(!cacheFirstEnable || !readCacheFirst),
                 new HttpSubscriber<>(tempObserver), progressDialog);
     }
@@ -263,141 +235,14 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
         return new HttpSubscriber<>(httpObserver);
     }
 
-    /**
-     * Retrofit
-     * @return Retrofit
-     */
-
-    protected LoginService getLoginService() {
-        return AppRetrofit.INSTANCE
-                .getRetrofit(AppConfig.GITHUB_BASE_URL, null)
-                .create(LoginService.class);
-    }
-
-    protected LoginService getLoginService(String token) {
-        return AppRetrofit.INSTANCE
-                .getRetrofit(AppConfig.GITHUB_API_BASE_URL, token)
-                .create(LoginService.class);
-    }
-
-    protected UserService getUserService(String token) {
-        return AppRetrofit.INSTANCE
-                .getRetrofit(AppConfig.GITHUB_API_BASE_URL, token)
-                .create(UserService.class);
-    }
-
-    protected UserService getUserService() {
-        return getUserService(AppData.INSTANCE.getAccessToken());
-    }
-
-    protected RepoService getRepoService() {
-        return getServices(RepoService.class);
-    }
-
-    protected SearchService getSearchService() {
-        return getServices(SearchService.class);
-    }
-
-    protected OpenHubService getOpenHubService() {
-        return getServices(OpenHubService.class, AppConfig.OPENHUB_BASE_URL, true);
-    }
-
-    protected IssueService getIssueService() {
-        return getServices(IssueService.class);
-    }
-
-    protected CommitService getCommitService() {
-        return getServices(CommitService.class);
-    }
-
-    protected NotificationsService getNotificationsService() {
-        return getServices(NotificationsService.class);
-    }
-
-    protected GitHubWebPageService getGitHubWebPageService() {
-        return getServices(GitHubWebPageService.class, AppConfig.GITHUB_BASE_URL, false);
-    }
-
     private <T> T getServices(Class<T> serviceClass) {
         return getServices(serviceClass, AppConfig.GITHUB_API_BASE_URL, true);
     }
 
     protected <T> T getServices(Class<T> serviceClass, String baseUrl, boolean isJson) {
-        return AppRetrofit.INSTANCE
-                .getRetrofit(baseUrl, AppData.INSTANCE.getAccessToken(), isJson)
-                .create(serviceClass);
-    }
-
-    public void rxDBExecute(@NonNull Runnable runnable) {
-        daoSession.rxTx().run(runnable).subscribe();
-    }
-
-    @NonNull
-    protected String getLoadTip() {
-        return getContext().getString(R.string.loading).concat("...");
-    }
-
-    protected boolean isLastResponse(@NonNull HttpResponse response) {
-        return response.isFromNetWork() ||
-                !NetHelper.INSTANCE.getNetEnabled();
-    }
-
-    @NonNull
-    protected String getErrorTip(@NonNull Throwable error) {
-        String errorTip = null;
-        if (error == null) {
-            return errorTip;
-        }
-        if (error instanceof UnknownHostException) {
-            errorTip = getString(R.string.no_network_tip);
-        } else if (error instanceof SocketTimeoutException || error instanceof ConnectTimeoutException) {
-            errorTip = getString(R.string.load_timeout_tip);
-        } else if (error instanceof HttpError) {
-            errorTip = error.getMessage();
-        } else {
-            errorTip = StringUtils.isBlank(error.getMessage()) ? error.toString() : error.getMessage();
-        }
-        return errorTip;
-    }
-
-
-    protected void executeSimpleRequest(@NonNull final Observable<Response<ResponseBody>> observable) {
-        HttpObserver<ResponseBody> httpObserver = new HttpObserver<ResponseBody>() {
-            @Override
-            public void onError(Throwable error) {
-                mView.showErrorToast(getErrorTip(error));
-            }
-
-            @Override
-            public void onSuccess(HttpResponse<ResponseBody> response) {
-            }
-        };
-        generalRxHttpExecute(new IObservableCreator<ResponseBody>() {
-            @Override
-            public Observable<Response<ResponseBody>> createObservable(boolean forceNetWork) {
-                return observable;
-            }
-        }, httpObserver);
-    }
-
-    protected void checkStatus(@NonNull Observable<Response<ResponseBody>> observable,
-                               @NonNull final CheckStatusCallback callback) {
-        HttpSubscriber<ResponseBody> httpSubscriber = new HttpSubscriber<>(
-                new HttpObserver<ResponseBody>() {
-                    @Override
-                    public void onError(Throwable error) {
-                    }
-
-                    @Override
-                    public void onSuccess(HttpResponse<ResponseBody> response) {
-                        callback.onChecked(response.isSuccessful());
-                    }
-                }
-        );
-        generalRxHttpExecute(observable, httpSubscriber, null);
-    }
-
-    protected interface CheckStatusCallback {
-        void onChecked(boolean status);
+//        return AppRetrofit.INSTANCE
+//                .getRetrofit(baseUrl, AppData.INSTANCE.getAccessToken(), isJson)
+//                .create(serviceClass);
+        return null;
     }
 }
