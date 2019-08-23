@@ -19,6 +19,7 @@ import com.pepe.githubstudy.mvp.model.Event;
 import com.pepe.githubstudy.mvp.presenter.ActivityPresenter;
 import com.pepe.githubstudy.ui.activity.CommitDetailActivity;
 import com.pepe.githubstudy.ui.activity.CommitsListActivity;
+import com.pepe.githubstudy.ui.activity.IssueDetailActivity;
 import com.pepe.githubstudy.ui.activity.IssuesActivity;
 import com.pepe.githubstudy.ui.activity.ProfileActivity;
 import com.pepe.githubstudy.ui.activity.ReleasesActivity;
@@ -27,6 +28,7 @@ import com.pepe.githubstudy.ui.adapter.ActivitiesAdapter;
 import com.pepe.githubstudy.ui.fragment.base.ListFragment;
 import com.pepe.githubstudy.ui.widget.ContextMenuRecyclerView;
 import com.pepe.githubstudy.utils.BundleHelper;
+import com.pepe.githubstudy.utils.LogUtil;
 import com.pepe.githubstudy.utils.PrefUtils;
 
 import java.util.ArrayList;
@@ -101,6 +103,7 @@ public class ActivityFragment extends ListFragment<ActivityPresenter, Activities
         //TODO to be better redirection
         String owner = event.getRepo().getFullName().split("/")[0];
         String repoName = event.getRepo().getFullName().split("/")[1];
+        LogUtil.d("event.getType() = " + event.getType());
         switch (event.getType()) {
             case ForkEvent:
                 String actorId = event.getActor().getLogin();
@@ -112,8 +115,8 @@ public class ActivityFragment extends ListFragment<ActivityPresenter, Activities
                 break;
             case IssueCommentEvent:
             case IssuesEvent:
-//                IssueDetailActivity.show(getActivity(), owner, repoName,
-//                        event.getPayload().getIssue().getNumber());
+                IssueDetailActivity.show(getActivity(), owner, repoName,
+                        event.getPayload().getIssue().getNumber());
                 break;
             case PushEvent:
                 if (event.getPayload().getCommits() == null) {
@@ -177,9 +180,9 @@ public class ActivityFragment extends ListFragment<ActivityPresenter, Activities
                 intent = IssuesActivity.createIntentForRepo(getActivity(), owner, repo);
                 break;
             case Issue:
-//                text = getString(R.string.issue) + " " + model.getIssue().getNumber();
-//                intent = IssueDetailActivity.createIntent(getActivity(), owner,
-//                        repo, model.getIssue().getNumber());
+                text = getString(R.string.issue) + " " + model.getIssue().getNumber();
+                intent = IssueDetailActivity.createIntent(getActivity(), owner,
+                        repo, model.getIssue().getNumber());
                 break;
             case Commits:
                 text = getString(R.string.commits_list);

@@ -125,7 +125,7 @@
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/text_mini"
                         android:textColor="?android:textColorSecondary"
-                        android:text="ThirtyDegreesRay"
+                        android:text="pepe"
                         android:layout_marginLeft="@dimen/spacing_mini"/>
                 </LinearLayout>
                 <LinearLayout
