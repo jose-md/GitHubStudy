@@ -24,6 +24,7 @@ import com.pepe.githubstudy.ui.fragment.TopicsFragment;
 import com.pepe.githubstudy.ui.fragment.TraceFragment;
 import com.pepe.githubstudy.ui.fragment.UserListFragment;
 import com.pepe.githubstudy.ui.fragment.ViewerFragment;
+import com.pepe.githubstudy.ui.fragment.WikiFragment;
 
 import dagger.Component;
 
@@ -46,7 +47,7 @@ public interface FragmentComponent {
     void inject(BookmarksFragment fragment);
     void inject(TraceFragment fragment);
     void inject(LanguagesEditorFragment fragment);
-//    void inject(WikiFragment fragment);
+    void inject(WikiFragment fragment);
     void inject(CollectionsFragment fragment);
     void inject(TopicsFragment fragment);
     void inject(LabelManageFragment fragment);

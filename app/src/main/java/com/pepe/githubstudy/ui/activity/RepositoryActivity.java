@@ -141,9 +141,11 @@ public class RepositoryActivity extends PagerActivity<RepositoryPresenter>
                 mPresenter.loadBranchesAndTags();
                 return true;
             case R.id.action_share:
+                // TODO AppOpener
 //                AppOpener.shareText(getActivity(), mPresenter.getRepository().getHtmlUrl());
                 return true;
             case R.id.action_open_in_browser:
+                // TODO AppOpener
 //                AppOpener.openInCustomTabsOrBrowser(getActivity(), mPresenter.getRepository().getHtmlUrl());
                 return true;
             case R.id.action_copy_url:
@@ -167,14 +169,16 @@ public class RepositoryActivity extends PagerActivity<RepositoryPresenter>
                 showReleases();
                 return true;
             case R.id.action_wiki:
-//                WikiActivity.show(getActivity(), mPresenter.getRepository().getOwner().getLogin(),
-//                        mPresenter.getRepository().getName());
+                WikiActivity.show(getActivity(), mPresenter.getRepository().getOwner().getLogin(),
+                        mPresenter.getRepository().getName());
                 return true;
             case R.id.action_download_source_zip:
+                // TODO AppOpener
 //                AppOpener.startDownload(getActivity(), mPresenter.getZipSourceUrl(),
 //                        mPresenter.getZipSourceName());
                 return true;
             case R.id.action_download_source_tar:
+                // TODO AppOpener
 //                AppOpener.startDownload(getActivity(), mPresenter.getTarSourceUrl(),
 //                        mPresenter.getTarSourceName());
                 return true;

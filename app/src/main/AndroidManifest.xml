@@ -67,6 +67,8 @@
         <activity android:name=".ui.activity.IssueDetailActivity" />
         <activity android:name=".ui.activity.LanguagesEditorActivity" />
         <activity android:name=".ui.activity.RepoListActivity" />
+        <activity android:name=".ui.activity.WikiActivity" />
+        <activity android:name=".ui.activity.ReleaseInfoActivity" />
 
     </application>
 

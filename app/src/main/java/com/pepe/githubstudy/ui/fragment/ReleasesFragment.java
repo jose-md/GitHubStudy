@@ -12,6 +12,7 @@ import com.pepe.githubstudy.inject.module.FragmentModule;
 import com.pepe.githubstudy.mvp.contract.IReleasesContract;
 import com.pepe.githubstudy.mvp.model.Release;
 import com.pepe.githubstudy.mvp.presenter.ReleasesPresenter;
+import com.pepe.githubstudy.ui.activity.ReleaseInfoActivity;
 import com.pepe.githubstudy.ui.adapter.ReleasesAdapter;
 import com.pepe.githubstudy.ui.fragment.base.ListFragment;
 import com.pepe.githubstudy.utils.BundleHelper;
@@ -82,8 +83,8 @@ public class ReleasesFragment extends ListFragment<ReleasesPresenter, ReleasesAd
     @Override
     public void onItemClick(int position, @NonNull View view) {
         super.onItemClick(position, view);
-//        ReleaseInfoActivity.show(getActivity(), mPresenter.getOwner(), mPresenter.getRepoName(),
-//                mAdapter.getData().get(position));
+        ReleaseInfoActivity.show(getActivity(), mPresenter.getOwner(), mPresenter.getRepoName(),
+                mAdapter.getData().get(position));
     }
 
     @Override

@@ -12,6 +12,7 @@ import com.pepe.githubstudy.ui.activity.IssuesActivity;
 import com.pepe.githubstudy.ui.activity.LoginActivity;
 import com.pepe.githubstudy.ui.activity.MainActivity;
 import com.pepe.githubstudy.ui.activity.ProfileActivity;
+import com.pepe.githubstudy.ui.activity.ReleaseInfoActivity;
 import com.pepe.githubstudy.ui.activity.RepositoryActivity;
 import com.pepe.githubstudy.ui.activity.SearchActivity;
 import com.pepe.githubstudy.ui.activity.SettingsActivity;
@@ -30,7 +31,7 @@ public interface ActivityComponent {
     void inject(RepositoryActivity activity);
     void inject(ProfileActivity activity);
     void inject(SearchActivity activity);
-//    void inject(ReleaseInfoActivity activity);
+    void inject(ReleaseInfoActivity activity);
     void inject(IssuesActivity activity);
     void inject(IssueDetailActivity activity);
     void inject(EditIssueActivity activity);

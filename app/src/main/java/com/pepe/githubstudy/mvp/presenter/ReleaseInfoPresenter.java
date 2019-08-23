@@ -1,7 +1,5 @@
 package com.pepe.githubstudy.mvp.presenter;
 
-
-
 import com.pepe.githubstudy.dao.DaoSession;
 import com.pepe.githubstudy.http.core.HttpObserver;
 import com.pepe.githubstudy.http.core.HttpResponse;
@@ -24,10 +22,12 @@ public class ReleaseInfoPresenter extends BasePresenter<IReleaseInfoContract.Vie
 
     @AutoAccess
     String owner;
-    @AutoAccess String repoName;
-    @AutoAccess String tagName;
-    @AutoAccess Release release;
-
+    @AutoAccess
+    String repoName;
+    @AutoAccess
+    String tagName;
+    @AutoAccess
+    Release release;
 
     @Inject
     public ReleaseInfoPresenter(DaoSession daoSession) {
