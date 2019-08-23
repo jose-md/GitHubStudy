@@ -53,13 +53,42 @@ public class LoginPresenter extends BasePresenter<ILoginContract.View>
 
     @Override
     public void getToken(String code, String state) {
+        Observable<Response<OauthToken>> observable =
+                getLoginService().getAccessToken(AppConfig.OPENHUB_CLIENT_ID,
+                        AppConfig.OPENHUB_CLIENT_SECRET, code, state);
+
+        HttpSubscriber<OauthToken> subscriber =
+                new HttpSubscriber<>(
+                        new HttpObserver<OauthToken>() {
+                            @Override
+                            public void onError(@NonNull Throwable error) {
+                                mView.dismissProgressDialog();
+                                mView.showErrorToast(getErrorTip(error));
+                            }
+
+                            @Override
+                            public void onSuccess(@NonNull HttpResponse<OauthToken> response) {
+                                OauthToken token = response.body();
+                                if (token != null) {
+                                    mView.onGetTokenSuccess(BasicToken.generateFromOauthToken(token));
+                                } else {
+                                    mView.onGetTokenError(response.getOriResponse().message());
+                                }
+                            }
+                        }
+                );
+        generalRxHttpExecute(observable, subscriber, mView.getProgressDialog(getLoadTip()));
 
     }
 
     @NonNull
     @Override
     public String getOAuth2Url() {
-        return "";
+        String randomState = UUID.randomUUID().toString();
+        return AppConfig.OAUTH2_URL +
+                "?client_id=" + AppConfig.OPENHUB_CLIENT_ID +
+                "&scope=" + AppConfig.OAUTH2_SCOPE +
+                "&state=" + randomState;
     }
 
     @Override
@@ -116,7 +145,7 @@ public class LoginPresenter extends BasePresenter<ILoginContract.View>
 
                     @Override
                     public void onSuccess(HttpResponse<User> response) {
-//                        mView.dismissProgressDialog();
+                        mView.dismissProgressDialog();
                         User user = response.body();
                         if(user != null){
                             LogUtil.d("login = " + user.getLogin());

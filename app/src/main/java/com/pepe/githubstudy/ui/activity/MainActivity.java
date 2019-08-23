@@ -42,6 +42,7 @@ import com.pepe.githubstudy.ui.fragment.CollectionsFragment;
 import com.pepe.githubstudy.ui.fragment.RepositoriesFragment;
 import com.pepe.githubstudy.ui.fragment.TopicsFragment;
 import com.pepe.githubstudy.ui.fragment.TraceFragment;
+import com.pepe.githubstudy.ui.fragment.base.BaseFragment;
 import com.pepe.githubstudy.utils.LogUtil;
 import com.pepe.githubstudy.utils.PrefUtils;
 import com.pepe.githubstudy.utils.StringUtils;
@@ -70,6 +71,12 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
 
     private final Map<Integer, String> TAG_MAP = new HashMap<>();
 
+    private final int SETTINGS_REQUEST_CODE = 100;
+
+    @AutoAccess
+    int selectedPage;
+    private boolean isAccountsAdded = false;
+
     private final List<Integer> FRAGMENT_NAV_ID_LIST = Arrays.asList(
             R.id.nav_news, R.id.nav_owned, R.id.nav_starred, R.id.nav_bookmarks,
             R.id.nav_trace, R.id.nav_public_news, R.id.nav_collections, R.id.nav_topics
@@ -96,16 +103,6 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
             TAG_MAP.put(FRAGMENT_NAV_ID_LIST.get(i), FRAGMENT_TAG_LIST.get(i));
         }
     }
-
-    @AutoAccess
-    int selectedPage;
-    private boolean isAccountsAdded = false;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
 
     ImageView avatar;
     TextView name;
@@ -199,63 +196,7 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
         mail.setText(StringUtils.isBlank(loginUser.getBio()) ? joinTime : loginUser.getBio());
 
         tabLayout.setVisibility(View.GONE);
-        mPresenter.getUserInfo(USER_NAME);
-    }
-
-    @Override
-    public void getUserInfo(UserInfo userInfo) {
-        String avatar_url = userInfo.getAvatar_url();
-        LogUtil.d("avatar_url = " + avatar_url);
-        LogUtil.d("thread name = " + Thread.currentThread().getName());
-        //设置图片圆角角度
-        RoundedCorners roundedCorners = new RoundedCorners(6);
-        //通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
-        RequestOptions options = RequestOptions.bitmapTransform(roundedCorners).override(300, 300);
-        Glide.with(mContext).load(avatar_url).into(avatar);
-        name.setText(USER_NAME);
-        String joinTime = getString(R.string.joined_at).concat(" ")
-                .concat(userInfo.getCreated_at());
-        LogUtil.d("joinTime = " + joinTime);
-        mail.setText(joinTime);
-    }
-
-    private boolean isManageAccount = false;
-
-    private void toggleAccountLay() {
-        isManageAccount = !isManageAccount;
-        toggleAccountBn.setImageResource(isManageAccount ? R.drawable.ic_arrow_drop_up : R.drawable.ic_arrow_drop_down);
-        invalidateMainMenu();
-    }
-
-    private void invalidateMainMenu() {
-        if (navViewStart == null) {
-            return;
-        }
-        Menu menu = navViewStart.getMenu();
-
-        if (!isAccountsAdded) {
-            isAccountsAdded = true;
-            List<AuthUser> users = mPresenter.getLoggedUserList();
-            for (AuthUser user : users) {
-                MenuItem menuItem = menu.add(R.id.manage_accounts, Menu.NONE, 1, user.getLoginId())
-                        .setIcon(R.drawable.ic_menu_person)
-                        .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem item) {
-                                mPresenter.toggleAccount(item.getTitle().toString());
-                                return true;
-                            }
-                        });
-            }
-        }
-
-        menu.setGroupVisible(R.id.my_account, isManageAccount);
-        menu.setGroupVisible(R.id.manage_accounts, isManageAccount);
-
-        menu.setGroupVisible(R.id.my, !isManageAccount);
-        menu.setGroupVisible(R.id.repositories, !isManageAccount);
-        menu.setGroupVisible(R.id.search, !isManageAccount);
-        menu.setGroupVisible(R.id.setting, !isManageAccount);
+//        mPresenter.getUserInfo(USER_NAME);
     }
 
     @Override
@@ -292,16 +233,6 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
         int id = item.getItemId();
         updateFragmentByNavId(id);
     }
-
-    private void handlerEndDrawerClick(MenuItem item) {
-        Fragment fragment = getVisibleFragment();
-        if (fragment != null && fragment instanceof RepositoriesFragment
-                && (selectedPage == R.id.nav_owned || selectedPage == R.id.nav_starred)) {
-//            ((RepositoriesFragment) fragment).onDrawerSelected(navViewEnd, item);
-        }
-    }
-
-    private final int SETTINGS_REQUEST_CODE = 100;
 
     private void updateFragmentByNavId(int id) {
         if (FRAGMENT_NAV_ID_LIST.contains(id)) {
@@ -344,6 +275,19 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
         }
     }
 
+    private void updateFilter(int itemId) {
+        if (itemId == R.id.nav_owned) {
+            updateEndDrawerContent(R.menu.menu_repositories_filter);
+            RepositoriesFilter.initDrawer(navViewEnd, RepositoriesFragment.RepositoriesType.OWNED);
+        } else if (itemId == R.id.nav_starred) {
+            updateEndDrawerContent(R.menu.menu_repositories_filter);
+            RepositoriesFilter.initDrawer(navViewEnd, RepositoriesFragment.RepositoriesType.STARRED);
+        } else {
+            removeEndDrawer();
+        }
+        invalidateOptionsMenu();
+    }
+
     private void updateTitle(int itemId) {
         int titleId = FRAGMENT_TITLE_LIST.get(FRAGMENT_NAV_ID_LIST.indexOf(itemId));
         setToolbarTitle(getString(titleId));
@@ -368,19 +312,6 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
         } else {
             addAndHideFragment(showFragment, visibleFragment, fragmentTag);
         }
-    }
-
-    private void updateFilter(int itemId) {
-        if (itemId == R.id.nav_owned) {
-            updateEndDrawerContent(R.menu.menu_repositories_filter);
-            RepositoriesFilter.initDrawer(navViewEnd, RepositoriesFragment.RepositoriesType.OWNED);
-        } else if (itemId == R.id.nav_starred) {
-            updateEndDrawerContent(R.menu.menu_repositories_filter);
-            RepositoriesFilter.initDrawer(navViewEnd, RepositoriesFragment.RepositoriesType.STARRED);
-        } else {
-            removeEndDrawer();
-        }
-        invalidateOptionsMenu();
     }
 
     @NonNull
@@ -409,6 +340,7 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
         }
         return null;
     }
+
 
     private void showAndHideFragment(@NonNull Fragment showFragment, @Nullable Fragment hideFragment) {
         if (hideFragment == null) {
@@ -440,6 +372,88 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
                     .hide(hideFragment)
                     .commit();
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SETTINGS_REQUEST_CODE && resultCode == RESULT_OK) {
+            recreate();
+        }
+    }
+
+    @Override
+    protected void onToolbarDoubleClick() {
+        super.onToolbarDoubleClick();
+        Fragment fragment = getVisibleFragment();
+        if (fragment != null && fragment instanceof BaseFragment) {
+            ((BaseFragment) fragment).scrollToTop();
+        }
+    }
+
+    @Override
+    public void getUserInfo(UserInfo userInfo) {
+        String avatar_url = userInfo.getAvatar_url();
+        LogUtil.d("avatar_url = " + avatar_url);
+        LogUtil.d("thread name = " + Thread.currentThread().getName());
+        //设置图片圆角角度
+        RoundedCorners roundedCorners = new RoundedCorners(6);
+        //通过RequestOptions扩展功能,override:采样率,因为ImageView就这么大,可以压缩图片,降低内存消耗
+        RequestOptions options = RequestOptions.bitmapTransform(roundedCorners).override(300, 300);
+        Glide.with(mContext).load(avatar_url).into(avatar);
+        name.setText(USER_NAME);
+        String joinTime = getString(R.string.joined_at).concat(" ")
+                .concat(userInfo.getCreated_at());
+        LogUtil.d("joinTime = " + joinTime);
+        mail.setText(joinTime);
+    }
+
+
+    private void handlerEndDrawerClick(MenuItem item) {
+        Fragment fragment = getVisibleFragment();
+        if (fragment != null && fragment instanceof RepositoriesFragment
+                && (selectedPage == R.id.nav_owned || selectedPage == R.id.nav_starred)) {
+//            ((RepositoriesFragment) fragment).onDrawerSelected(navViewEnd, item);
+        }
+    }
+
+    private boolean isManageAccount = false;
+
+    private void toggleAccountLay() {
+        isManageAccount = !isManageAccount;
+        toggleAccountBn.setImageResource(isManageAccount ? R.drawable.ic_arrow_drop_up : R.drawable.ic_arrow_drop_down);
+        invalidateMainMenu();
+    }
+
+    private void invalidateMainMenu() {
+        if (navViewStart == null) {
+            return;
+        }
+        Menu menu = navViewStart.getMenu();
+
+        if (!isAccountsAdded) {
+            isAccountsAdded = true;
+            List<AuthUser> users = mPresenter.getLoggedUserList();
+            for (AuthUser user : users) {
+                MenuItem menuItem = menu.add(R.id.manage_accounts, Menu.NONE, 1, user.getLoginId())
+                        .setIcon(R.drawable.ic_menu_person)
+                        .setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                mPresenter.toggleAccount(item.getTitle().toString());
+                                return true;
+                            }
+                        });
+            }
+        }
+
+        menu.setGroupVisible(R.id.my_account, isManageAccount);
+        menu.setGroupVisible(R.id.manage_accounts, isManageAccount);
+
+        menu.setGroupVisible(R.id.my, !isManageAccount);
+        menu.setGroupVisible(R.id.repositories, !isManageAccount);
+        menu.setGroupVisible(R.id.search, !isManageAccount);
+        menu.setGroupVisible(R.id.setting, !isManageAccount);
     }
 
     @Override
