@@ -29,8 +29,10 @@ import com.pepe.githubstudy.mvp.presenter.SearchPresenter;
 import com.pepe.githubstudy.ui.activity.base.PagerActivity;
 import com.pepe.githubstudy.ui.adapter.base.FragmentPagerModel;
 import com.pepe.githubstudy.ui.fragment.RepositoriesFragment;
+import com.pepe.githubstudy.ui.fragment.UserListFragment;
 import com.pepe.githubstudy.utils.StringUtils;
 import com.pepe.githubstudy.utils.ViewUtils;
+import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -53,7 +55,9 @@ public class SearchActivity extends PagerActivity<SearchPresenter>
 
     private final Map<Integer, List<Integer>> MENU_ID_MAP = new HashMap<>();
 
+    @AutoAccess
     boolean isInputMode = true;
+    @AutoAccess
     String[] sortInfos;
 
     @Override
@@ -208,6 +212,7 @@ public class SearchActivity extends PagerActivity<SearchPresenter>
     }
 
     private void postSearchEvent(SearchModel searchModel) {
+        // TODO AppEventBus
 //        AppEventBus.INSTANCE.getEventBus().post(new Event.SearchEvent(searchModel));
     }
 
@@ -236,11 +241,9 @@ public class SearchActivity extends PagerActivity<SearchPresenter>
     protected int getFragmentPosition(Fragment fragment) {
         if (fragment instanceof RepositoriesFragment) {
             return 0;
-        }
-//        else if (fragment instanceof UserListFragment) {
-//            return 1;
-//        }
-        else {
+        } else if (fragment instanceof UserListFragment) {
+            return 1;
+        } else {
             return -1;
         }
     }

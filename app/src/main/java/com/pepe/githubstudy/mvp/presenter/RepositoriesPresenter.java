@@ -2,7 +2,6 @@
 
 package com.pepe.githubstudy.mvp.presenter;
 
-import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -216,7 +215,6 @@ public class RepositoriesPresenter extends BasePagerPresenter<IRepositoriesContr
 
     private void searchRepos(final int page) {
         mView.showLoading();
-
         HttpObserver<SearchResult<Repository>> httpObserver =
                 new HttpObserver<SearchResult<Repository>>() {
                     @Override

@@ -252,11 +252,11 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
             case R.id.nav_issues:
                 IssuesActivity.showForUser(getActivity());
                 break;
-            case R.id.nav_trending:
-                TrendingActivity.show(getActivity());
-                break;
             case R.id.nav_search:
                 SearchActivity.show(getActivity());
+                break;
+            case R.id.nav_trending:
+                TrendingActivity.show(getActivity());
                 break;
             case R.id.nav_settings:
                 SettingsActivity.show(getActivity(), SETTINGS_REQUEST_CODE);
@@ -413,7 +413,7 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
         Fragment fragment = getVisibleFragment();
         if (fragment != null && fragment instanceof RepositoriesFragment
                 && (selectedPage == R.id.nav_owned || selectedPage == R.id.nav_starred)) {
-//            ((RepositoriesFragment) fragment).onDrawerSelected(navViewEnd, item);
+            ((RepositoriesFragment) fragment).onDrawerSelected(navViewEnd, item);
         }
     }
 

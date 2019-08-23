@@ -103,5 +103,4 @@ public class SearchPresenter extends BasePresenter<ISearchContract.View>
         }
         PrefUtils.set(PrefUtils.SEARCH_RECORDS, recordStr.toString());
     }
-
 }

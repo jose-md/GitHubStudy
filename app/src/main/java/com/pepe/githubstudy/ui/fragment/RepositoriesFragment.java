@@ -228,5 +228,4 @@ public class RepositoriesFragment extends ListFragment<RepositoriesPresenter, Re
             getArguments().putParcelable("language", language);
         }
     }
-
 }

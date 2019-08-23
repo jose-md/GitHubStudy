@@ -23,6 +23,7 @@ import com.pepe.githubstudy.ui.fragment.ProfileInfoFragment;
 import com.pepe.githubstudy.ui.fragment.RepoFilesFragment;
 import com.pepe.githubstudy.ui.fragment.RepoInfoFragment;
 import com.pepe.githubstudy.ui.fragment.RepositoriesFragment;
+import com.pepe.githubstudy.ui.fragment.UserListFragment;
 import com.pepe.githubstudy.ui.fragment.base.BaseFragment;
 
 import java.util.ArrayList;
@@ -129,14 +130,14 @@ public class FragmentPagerModel {
                                 return RepositoriesFragment.createForSearch(searchModels.get(0));
                             }
                         }))
-//                ,
-//                new FragmentPagerModel(context.getString(R.string.repositories),
-//                        getFragment(fragments, 0, new FragmentCreator() {
-//                            @Override
-//                            public Fragment createFragment() {
-//                                return UserListFragment.createForSearch(searchModels.get(1));
-//                            }
-//                        }))
+                ,
+                new FragmentPagerModel(context.getString(R.string.repositories),
+                        getFragment(fragments, 0, new FragmentCreator() {
+                            @Override
+                            public Fragment createFragment() {
+                                return UserListFragment.createForSearch(searchModels.get(1));
+                            }
+                        }))
         ));
     }
 

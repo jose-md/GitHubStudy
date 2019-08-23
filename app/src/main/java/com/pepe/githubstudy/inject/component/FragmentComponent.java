@@ -21,6 +21,7 @@ import com.pepe.githubstudy.ui.fragment.RepoInfoFragment;
 import com.pepe.githubstudy.ui.fragment.RepositoriesFragment;
 import com.pepe.githubstudy.ui.fragment.TopicsFragment;
 import com.pepe.githubstudy.ui.fragment.TraceFragment;
+import com.pepe.githubstudy.ui.fragment.UserListFragment;
 import com.pepe.githubstudy.ui.fragment.ViewerFragment;
 
 import dagger.Component;
@@ -31,7 +32,7 @@ public interface FragmentComponent {
     void inject(RepositoriesFragment fragment);
     void inject(RepoInfoFragment fragment);
     void inject(RepoFilesFragment fragment);
-//    void inject(UserListFragment fragment);
+    void inject(UserListFragment fragment);
     void inject(ViewerFragment fragment);
     void inject(ProfileInfoFragment fragment);
     void inject(ActivityFragment fragment);

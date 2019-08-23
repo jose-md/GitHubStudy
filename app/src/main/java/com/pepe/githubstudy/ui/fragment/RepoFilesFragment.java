@@ -21,6 +21,7 @@ import com.pepe.githubstudy.mvp.model.FilePath;
 import com.pepe.githubstudy.mvp.model.Repository;
 import com.pepe.githubstudy.mvp.presenter.RepoFilesPresenter;
 import com.pepe.githubstudy.ui.activity.RepositoryActivity;
+import com.pepe.githubstudy.ui.activity.ViewerActivity;
 import com.pepe.githubstudy.ui.activity.base.PagerActivity;
 import com.pepe.githubstudy.ui.adapter.FilePathAdapter;
 import com.pepe.githubstudy.ui.adapter.RepoFilesAdapter;
@@ -136,7 +137,7 @@ public class RepoFilesFragment extends ListFragment<RepoFilesPresenter, RepoFile
         if (model.isDir()) {
             mPresenter.loadFiles(model.getPath(), false);
         } else {
-//            ViewerActivity.show(getActivity(), model, mPresenter.getRepoName());
+            ViewerActivity.show(getActivity(), model, mPresenter.getRepoName());
         }
     }
 
