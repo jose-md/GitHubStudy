@@ -1,6 +1,9 @@
 package com.pepe.githubstudy;
 
 import android.app.Application;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.os.Build;
 
 import com.pepe.githubstudy.dareen.EngineConfig;
 import com.pepe.githubstudy.dareen.HttpUtils;
@@ -9,6 +12,8 @@ import com.pepe.githubstudy.http.retrofit.RetrofitRequest;
 import com.pepe.githubstudy.inject.component.AppComponent;
 import com.pepe.githubstudy.inject.component.DaggerAppComponent;
 import com.pepe.githubstudy.inject.module.AppModule;
+import com.pepe.githubstudy.service.NetBroadcastReceiver;
+import com.pepe.githubstudy.utils.NetHelper;
 
 /**
  * @author 1one
@@ -35,6 +40,21 @@ public class AppApplication extends Application {
         mAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .build();
+        initNetwork();
+    }
+
+    private void initNetwork(){
+        NetBroadcastReceiver receiver = new NetBroadcastReceiver();
+        IntentFilter filter;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        } else {
+            filter = new IntentFilter();
+            filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        }
+        registerReceiver(receiver, filter);
+
+        NetHelper.INSTANCE.init(this);
     }
 
     public static AppApplication get(){

@@ -34,6 +34,7 @@ import com.pepe.githubstudy.ui.activity.base.BaseActivity;
 import com.pepe.githubstudy.ui.fragment.IssueTimelineFragment;
 import com.pepe.githubstudy.ui.fragment.base.ListFragment;
 import com.pepe.githubstudy.ui.widget.ZoomAbleFloatingActionButton;
+import com.pepe.githubstudy.utils.AppOpener;
 import com.pepe.githubstudy.utils.AppUtils;
 import com.pepe.githubstudy.utils.BundleHelper;
 import com.pepe.githubstudy.utils.PrefUtils;
@@ -157,12 +158,10 @@ public class IssueDetailActivity extends BaseActivity<IssueDetailPresenter>
                 supportFinishAfterTransition();
                 return true;
             case R.id.action_open_in_browser:
-                // TODO AppOpener
-//                AppOpener.openInCustomTabsOrBrowser(getActivity(), mPresenter.getIssue().getHtmlUrl());
+                AppOpener.openInCustomTabsOrBrowser(getActivity(), mPresenter.getIssue().getHtmlUrl());
                 return true;
             case R.id.action_share:
-                // TODO AppOpener
-//                AppOpener.shareText(getActivity(), mPresenter.getIssue().getHtmlUrl());
+                AppOpener.shareText(getActivity(), mPresenter.getIssue().getHtmlUrl());
                 return true;
             case R.id.action_copy_url:
                 AppUtils.copyToClipboard(getActivity(), mPresenter.getIssue().getHtmlUrl());

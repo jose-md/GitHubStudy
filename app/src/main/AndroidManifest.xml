@@ -70,6 +70,10 @@
         <activity android:name=".ui.activity.WikiActivity" />
         <activity android:name=".ui.activity.ReleaseInfoActivity" />
 
+        <receiver android:name=".service.NetBroadcastReceiver"/>
+        <receiver android:name=".service.ShareBroadcastReceiver"/>
+        <receiver android:name=".service.CopyBroadcastReceiver"/>
+
     </application>
 
 </manifest>

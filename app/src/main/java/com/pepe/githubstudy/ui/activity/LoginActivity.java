@@ -17,6 +17,7 @@ import com.pepe.githubstudy.mvp.contract.ILoginContract;
 import com.pepe.githubstudy.mvp.model.BasicToken;
 import com.pepe.githubstudy.mvp.presenter.LoginPresenter;
 import com.pepe.githubstudy.ui.activity.base.BaseActivity;
+import com.pepe.githubstudy.utils.AppOpener;
 import com.pepe.githubstudy.utils.StringUtils;
 import com.pepe.githubstudy.utils.ViewUtils;
 import com.unstoppable.submitbuttonview.SubmitButton;
@@ -135,8 +136,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter>
 
     @OnClick(R.id.oauth_login_bn)
     public void onOauthLoginClick() {
-        // TODO AppOpener
-//        AppOpener.openInCustomTabsOrBrowser(getActivity(), mPresenter.getOAuth2Url());
+        AppOpener.openInCustomTabsOrBrowser(getActivity(), mPresenter.getOAuth2Url());
     }
 
     @OnClick(R.id.login_bn)

@@ -18,6 +18,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.pepe.githubstudy.R;
+import com.pepe.githubstudy.utils.AppOpener;
 import com.pepe.githubstudy.utils.AppUtils;
 import com.pepe.githubstudy.utils.PrefUtils;
 import com.pepe.githubstudy.utils.StringUtils;
@@ -231,7 +232,7 @@ public class CodeWebView extends WebView {
         if(uri == null) {
             return;
         }
-//        AppOpener.launchUrl(getContext(), uri);
+        AppOpener.launchUrl(getContext(), uri);
     }
 }
 

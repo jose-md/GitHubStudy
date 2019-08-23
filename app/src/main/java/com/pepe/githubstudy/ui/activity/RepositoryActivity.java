@@ -38,6 +38,7 @@ import com.pepe.githubstudy.ui.fragment.ActivityFragment;
 import com.pepe.githubstudy.ui.fragment.CommitsFragment;
 import com.pepe.githubstudy.ui.fragment.RepoFilesFragment;
 import com.pepe.githubstudy.ui.fragment.RepoInfoFragment;
+import com.pepe.githubstudy.utils.AppOpener;
 import com.pepe.githubstudy.utils.AppUtils;
 import com.pepe.githubstudy.utils.BundleHelper;
 import com.pepe.githubstudy.utils.PrefUtils;
@@ -141,12 +142,10 @@ public class RepositoryActivity extends PagerActivity<RepositoryPresenter>
                 mPresenter.loadBranchesAndTags();
                 return true;
             case R.id.action_share:
-                // TODO AppOpener
-//                AppOpener.shareText(getActivity(), mPresenter.getRepository().getHtmlUrl());
+                AppOpener.shareText(getActivity(), mPresenter.getRepository().getHtmlUrl());
                 return true;
             case R.id.action_open_in_browser:
-                // TODO AppOpener
-//                AppOpener.openInCustomTabsOrBrowser(getActivity(), mPresenter.getRepository().getHtmlUrl());
+                AppOpener.openInCustomTabsOrBrowser(getActivity(), mPresenter.getRepository().getHtmlUrl());
                 return true;
             case R.id.action_copy_url:
                 AppUtils.copyToClipboard(getActivity(), mPresenter.getRepository().getHtmlUrl());
@@ -161,7 +160,7 @@ public class RepositoryActivity extends PagerActivity<RepositoryPresenter>
                         getString(R.string.watched) : getString(R.string.unwatched));
                 return true;
             case R.id.action_fork:
-                if (!mPresenter.getRepository().isFork()){
+                if (!mPresenter.getRepository().isFork()) {
                     forkRepo();
                 }
                 return true;
@@ -173,14 +172,10 @@ public class RepositoryActivity extends PagerActivity<RepositoryPresenter>
                         mPresenter.getRepository().getName());
                 return true;
             case R.id.action_download_source_zip:
-                // TODO AppOpener
-//                AppOpener.startDownload(getActivity(), mPresenter.getZipSourceUrl(),
-//                        mPresenter.getZipSourceName());
+                AppOpener.startDownload(getActivity(), mPresenter.getZipSourceUrl(), mPresenter.getZipSourceName());
                 return true;
             case R.id.action_download_source_tar:
-                // TODO AppOpener
-//                AppOpener.startDownload(getActivity(), mPresenter.getTarSourceUrl(),
-//                        mPresenter.getTarSourceName());
+                AppOpener.startDownload(getActivity(), mPresenter.getTarSourceUrl(), mPresenter.getTarSourceName());
                 return true;
             case R.id.action_bookmark:
                 mPresenter.bookmark(!mPresenter.isBookmarked());

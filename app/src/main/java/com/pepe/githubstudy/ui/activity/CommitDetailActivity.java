@@ -26,6 +26,7 @@ import com.pepe.githubstudy.mvp.model.RepoCommitExt;
 import com.pepe.githubstudy.mvp.presenter.CommitDetailPresenter;
 import com.pepe.githubstudy.ui.activity.base.BaseActivity;
 import com.pepe.githubstudy.ui.fragment.CommitFilesFragment;
+import com.pepe.githubstudy.utils.AppOpener;
 import com.pepe.githubstudy.utils.AppUtils;
 import com.pepe.githubstudy.utils.BundleHelper;
 import com.pepe.githubstudy.utils.PrefUtils;
@@ -202,10 +203,10 @@ public class CommitDetailActivity extends BaseActivity<CommitDetailPresenter>
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_open_in_browser:
-//                AppOpener.openInCustomTabsOrBrowser(getActivity(), mPresenter.getCommit().getHtmlUrl());
+                AppOpener.openInCustomTabsOrBrowser(getActivity(), mPresenter.getCommit().getHtmlUrl());
                 return true;
             case R.id.action_share:
-//                AppOpener.shareText(getActivity(), mPresenter.getCommit().getHtmlUrl());
+                AppOpener.shareText(getActivity(), mPresenter.getCommit().getHtmlUrl());
                 return true;
             case R.id.action_copy_url:
                 AppUtils.copyToClipboard(getActivity(), mPresenter.getCommit().getHtmlUrl());

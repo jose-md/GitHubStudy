@@ -16,6 +16,7 @@ import com.pepe.githubstudy.mvp.model.CommitFile;
 import com.pepe.githubstudy.mvp.model.FileModel;
 import com.pepe.githubstudy.ui.activity.base.SingleFragmentActivity;
 import com.pepe.githubstudy.ui.fragment.ViewerFragment;
+import com.pepe.githubstudy.utils.AppOpener;
 import com.pepe.githubstudy.utils.AppUtils;
 import com.pepe.githubstudy.utils.BundleHelper;
 import com.pepe.githubstudy.utils.StringUtils;
@@ -174,12 +175,10 @@ public class ViewerActivity extends SingleFragmentActivity<IBaseContract.Present
         if (!StringUtils.isBlank(htmlUrl)) {
             switch (item.getItemId()) {
                 case R.id.action_open_in_browser:
-                    // TODO AppOpener
-//                    AppOpener.openInCustomTabsOrBrowser(getActivity(), htmlUrl);
+                    AppOpener.openInCustomTabsOrBrowser(getActivity(), htmlUrl);
                     return true;
                 case R.id.action_share:
-                    // TODO AppOpener
-//                    AppOpener.shareText(getActivity(), htmlUrl);
+                    AppOpener.shareText(getActivity(), htmlUrl);
                     return true;
                 case R.id.action_copy_url:
                     AppUtils.copyToClipboard(getActivity(), htmlUrl);
@@ -204,8 +203,7 @@ public class ViewerActivity extends SingleFragmentActivity<IBaseContract.Present
                     downloadUrl = imageUrl;
                     fileName = title;
                 }
-                // TODO AppOpener
-//                AppOpener.startDownload(getActivity(), downloadUrl, fileName);
+                AppOpener.startDownload(getActivity(), downloadUrl, fileName);
                 return true;
         }
         return super.onOptionsItemSelected(item);

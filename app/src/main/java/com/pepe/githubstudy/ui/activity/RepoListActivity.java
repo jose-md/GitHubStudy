@@ -18,6 +18,7 @@ import com.pepe.githubstudy.mvp.model.filter.RepositoriesFilter;
 import com.pepe.githubstudy.ui.activity.base.SingleFragmentActivity;
 import com.pepe.githubstudy.ui.fragment.RepositoriesFragment;
 import com.pepe.githubstudy.ui.fragment.base.OnDrawerSelectedListener;
+import com.pepe.githubstudy.utils.AppOpener;
 import com.pepe.githubstudy.utils.BundleHelper;
 import com.pepe.githubstudy.utils.StringUtils;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
@@ -90,8 +91,7 @@ public class RepoListActivity extends SingleFragmentActivity<IBaseContract.Prese
                 url = AppConfig.GITHUB_BASE_URL.concat("topics/").concat(topic.getId());
             }
             if(url != null){
-                // TODO AppOpener
-//                AppOpener.openInCustomTabsOrBrowser(getActivity(), url);
+                AppOpener.openInCustomTabsOrBrowser(getActivity(), url);
             }
             return true;
         }

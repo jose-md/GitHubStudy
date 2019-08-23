@@ -11,6 +11,7 @@ import com.pepe.githubstudy.R;
 import com.pepe.githubstudy.mvp.model.DownloadSource;
 import com.pepe.githubstudy.ui.adapter.base.BaseAdapter;
 import com.pepe.githubstudy.ui.adapter.base.BaseViewHolder;
+import com.pepe.githubstudy.utils.AppOpener;
 import com.pepe.githubstudy.utils.StringUtils;
 
 import butterknife.BindView;
@@ -74,7 +75,7 @@ public class DownloadSourcesAdapter extends BaseAdapter<DownloadSourcesAdapter.V
             String fileName = repoName.concat("-").concat(tagName)
                     .concat("-").concat(source.getName());
             // TODO AppOpener
-//            AppOpener.startDownload(context, source.getUrl(), fileName);
+            AppOpener.startDownload(context, source.getUrl(), fileName);
         }
 
     }

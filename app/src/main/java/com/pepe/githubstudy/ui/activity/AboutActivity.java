@@ -16,6 +16,8 @@ import com.danielstone.materialaboutlibrary.model.MaterialAboutCard;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
 import com.pepe.githubstudy.BuildConfig;
 import com.pepe.githubstudy.R;
+import com.pepe.githubstudy.utils.AppOpener;
+import com.pepe.githubstudy.utils.AppUtils;
 import com.pepe.githubstudy.utils.ThemeHelper;
 
 import io.reactivex.annotations.Beta;
@@ -78,7 +80,7 @@ public class AboutActivity extends MaterialAboutActivity {
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
-//                        RepositoryActivity.show(context, getString(R.string.author_login_id), getString(R.string.app_github_name));
+                        RepositoryActivity.show(context, getString(R.string.author_login_id), getString(R.string.app_github_name));
                     }
                 })
                 .build());
@@ -93,8 +95,8 @@ public class AboutActivity extends MaterialAboutActivity {
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
-//                        ProfileActivity.show(AboutActivity.this, getString(R.string.author_login_id),
-//                                getString(R.string.author_avatar_url));
+                        ProfileActivity.show(AboutActivity.this, getString(R.string.author_login_id),
+                                getString(R.string.author_avatar_url));
                     }
                 })
                 .build());
@@ -104,8 +106,8 @@ public class AboutActivity extends MaterialAboutActivity {
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
-//                        ProfileActivity.show(AboutActivity.this, getString(R.string.author_login_id),
-//                                getString(R.string.author_avatar_url));
+                        ProfileActivity.show(AboutActivity.this, getString(R.string.author_login_id),
+                                getString(R.string.author_avatar_url));
                     }
                 })
                 .build());
@@ -116,13 +118,13 @@ public class AboutActivity extends MaterialAboutActivity {
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
-//                        AppOpener.launchEmail(context, getString(R.string.auth_email_address));
+                        AppOpener.launchEmail(context, getString(R.string.auth_email_address));
                     }
                 })
                 .setOnLongClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
-//                        AppUtils.copyToClipboard(context, getString(R.string.auth_email_address));
+                        AppUtils.copyToClipboard(context, getString(R.string.auth_email_address));
                     }
                 })
                 .build());
@@ -136,7 +138,7 @@ public class AboutActivity extends MaterialAboutActivity {
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
-//                        AppOpener.shareText(AboutActivity.this, getString(R.string.cookapk_download_url));
+                        AppOpener.shareText(AboutActivity.this, getString(R.string.cookapk_download_url));
                     }
                 })
                 .build());
@@ -146,7 +148,7 @@ public class AboutActivity extends MaterialAboutActivity {
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
-//                        AppOpener.openInMarket(context);
+                        AppOpener.openInMarket(context);
                     }
                 })
                 .build());

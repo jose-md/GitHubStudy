@@ -30,6 +30,7 @@ import com.pepe.githubstudy.ui.adapter.base.FragmentPagerModel;
 import com.pepe.githubstudy.ui.fragment.ActivityFragment;
 import com.pepe.githubstudy.ui.fragment.ProfileInfoFragment;
 import com.pepe.githubstudy.ui.fragment.RepositoriesFragment;
+import com.pepe.githubstudy.utils.AppOpener;
 import com.pepe.githubstudy.utils.AppUtils;
 import com.pepe.githubstudy.utils.BundleHelper;
 import com.pepe.githubstudy.utils.LogUtil;
@@ -153,12 +154,10 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter>
                         getString(R.string.bookmark_saved) : getString(R.string.bookmark_removed));
                 break;
             case R.id.action_share:
-                // TODO AppOpener
-//                AppOpener.shareText(getActivity(), mPresenter.getUser().getHtmlUrl());
+                AppOpener.shareText(getActivity(), mPresenter.getUser().getHtmlUrl());
                 break;
             case R.id.action_open_in_browser:
-                // TODO AppOpener
-//                AppOpener.openInCustomTabsOrBrowser(getActivity(), mPresenter.getUser().getHtmlUrl());
+                AppOpener.openInCustomTabsOrBrowser(getActivity(), mPresenter.getUser().getHtmlUrl());
                 break;
             case R.id.action_copy_url:
                 AppUtils.copyToClipboard(getActivity(), mPresenter.getUser().getHtmlUrl());

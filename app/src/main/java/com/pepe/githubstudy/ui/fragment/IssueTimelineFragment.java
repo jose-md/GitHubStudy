@@ -19,6 +19,7 @@ import com.pepe.githubstudy.ui.activity.MarkdownEditorActivity;
 import com.pepe.githubstudy.ui.activity.ViewerActivity;
 import com.pepe.githubstudy.ui.adapter.IssueTimelineAdapter;
 import com.pepe.githubstudy.ui.fragment.base.ListFragment;
+import com.pepe.githubstudy.utils.AppOpener;
 import com.pepe.githubstudy.utils.BundleHelper;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
@@ -136,8 +137,7 @@ public class IssueTimelineFragment extends ListFragment<IssueTimelinePresenter, 
                         dialog.dismiss();
                         switch (which){
                             case 0:
-                                // TODO AppOpener
-//                                AppOpener.shareText(getActivity(), issueEvent.getHtmlUrl());
+                                AppOpener.shareText(getActivity(), issueEvent.getHtmlUrl());
                                 break;
                             case 1:
                                 editingCommentId = issueEvent.getId();
