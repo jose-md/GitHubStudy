@@ -65,6 +65,8 @@
         <activity android:name=".ui.activity.LabelManageActivity" />
         <activity android:name=".ui.activity.MarkdownEditorActivity" />
         <activity android:name=".ui.activity.IssueDetailActivity" />
+        <activity android:name=".ui.activity.LanguagesEditorActivity" />
+        <activity android:name=".ui.activity.RepoListActivity" />
 
     </application>
 

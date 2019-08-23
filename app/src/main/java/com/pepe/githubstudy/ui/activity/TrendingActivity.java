@@ -138,8 +138,8 @@ public class TrendingActivity extends PagerActivity<TrendingPresenter>
         editView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                LanguagesEditorActivity.show(getActivity(),
-//                        LanguagesEditorActivity.LanguageEditorMode.Sort, SORT_LANGUAGE_REQUEST_CODE);
+                LanguagesEditorActivity.show(getActivity(),
+                        LanguagesEditorActivity.LanguageEditorMode.Sort, SORT_LANGUAGE_REQUEST_CODE);
             }
         });
     }

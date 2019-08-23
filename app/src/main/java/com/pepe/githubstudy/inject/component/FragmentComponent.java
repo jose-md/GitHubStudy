@@ -13,6 +13,7 @@ import com.pepe.githubstudy.ui.fragment.CommitsFragment;
 import com.pepe.githubstudy.ui.fragment.IssueTimelineFragment;
 import com.pepe.githubstudy.ui.fragment.IssuesFragment;
 import com.pepe.githubstudy.ui.fragment.LabelManageFragment;
+import com.pepe.githubstudy.ui.fragment.LanguagesEditorFragment;
 import com.pepe.githubstudy.ui.fragment.NotificationsFragment;
 import com.pepe.githubstudy.ui.fragment.ProfileInfoFragment;
 import com.pepe.githubstudy.ui.fragment.ReleasesFragment;
@@ -44,7 +45,7 @@ public interface FragmentComponent {
     void inject(NotificationsFragment fragment);
     void inject(BookmarksFragment fragment);
     void inject(TraceFragment fragment);
-//    void inject(LanguagesEditorFragment fragment);
+    void inject(LanguagesEditorFragment fragment);
 //    void inject(WikiFragment fragment);
     void inject(CollectionsFragment fragment);
     void inject(TopicsFragment fragment);

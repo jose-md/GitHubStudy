@@ -129,13 +129,12 @@ public class FragmentPagerModel {
                             public Fragment createFragment() {
                                 return RepositoriesFragment.createForSearch(searchModels.get(0));
                             }
-                        }))
-                ,
-                new FragmentPagerModel(context.getString(R.string.repositories),
-                        getFragment(fragments, 0, new FragmentCreator() {
+                        })),
+                new FragmentPagerModel(context.getString(R.string.users),
+                        getFragment(fragments, 1, new FragmentCreator() {
                             @Override
                             public Fragment createFragment() {
-                                return UserListFragment.createForSearch(searchModels.get(1));
+                                return  UserListFragment.createForSearch(searchModels.get(1));
                             }
                         }))
         ));

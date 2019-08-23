@@ -12,6 +12,7 @@ import com.pepe.githubstudy.inject.module.FragmentModule;
 import com.pepe.githubstudy.mvp.contract.ICollectionsContract;
 import com.pepe.githubstudy.mvp.model.Collection;
 import com.pepe.githubstudy.mvp.presenter.CollectionsPresenter;
+import com.pepe.githubstudy.ui.activity.RepoListActivity;
 import com.pepe.githubstudy.ui.adapter.CollectionAdapter;
 import com.pepe.githubstudy.ui.fragment.base.ListFragment;
 import com.pepe.githubstudy.utils.PrefUtils;
@@ -77,6 +78,6 @@ public class CollectionsFragment extends ListFragment<CollectionsPresenter, Coll
     @Override
     public void onItemClick(int position, @NonNull View view) {
         super.onItemClick(position, view);
-//        RepoListActivity.showCollection(getActivity(), mAdapter.getData().get(position));
+        RepoListActivity.showCollection(getActivity(), mAdapter.getData().get(position));
     }
 }
