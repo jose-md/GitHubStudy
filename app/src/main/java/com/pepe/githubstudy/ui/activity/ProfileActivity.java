@@ -153,9 +153,11 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter>
                         getString(R.string.bookmark_saved) : getString(R.string.bookmark_removed));
                 break;
             case R.id.action_share:
+                // TODO AppOpener
 //                AppOpener.shareText(getActivity(), mPresenter.getUser().getHtmlUrl());
                 break;
             case R.id.action_open_in_browser:
+                // TODO AppOpener
 //                AppOpener.openInCustomTabsOrBrowser(getActivity(), mPresenter.getUser().getHtmlUrl());
                 break;
             case R.id.action_copy_url:
@@ -254,10 +256,9 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter>
 
     @OnClick(R.id.user_avatar)
     public void onUserAvatarClick() {
-//        if (!StringUtils.isBlank(mPresenter.getUserAvatar())) {
-//            ViewerActivity.showImage(getActivity(), mPresenter.getLoginId(),
-//                    mPresenter.getUserAvatar());
-//        }
+        if (!StringUtils.isBlank(mPresenter.getUserAvatar())) {
+            ViewerActivity.showImage(getActivity(), mPresenter.getLoginId(), mPresenter.getUserAvatar());
+        }
     }
 
 }

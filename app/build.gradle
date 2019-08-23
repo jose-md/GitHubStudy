@@ -98,6 +98,8 @@ dependencies {
     api "com.afollestad.material-dialogs:commons:0.9.4.5"
     //数据库工具
     implementation "org.greenrobot:greendao:3.2.2"
+    // 富文本
+    implementation "com.zzhoujay.richtext:richtext:2.5.4"
 
     implementation "org.jsoup:jsoup:1.11.2"
 

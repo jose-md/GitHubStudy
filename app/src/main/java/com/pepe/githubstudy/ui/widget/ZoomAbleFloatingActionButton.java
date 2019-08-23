@@ -7,7 +7,6 @@ import android.util.AttributeSet;
 
 import com.pepe.githubstudy.utils.AnimatorHelper;
 
-
 /**
  * Created by ThirtyDegreesRay on 2017/12/25 11:46:59
  */

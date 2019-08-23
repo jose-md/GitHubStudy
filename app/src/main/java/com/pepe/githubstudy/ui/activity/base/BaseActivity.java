@@ -20,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 
 
 import com.bumptech.glide.Glide;
@@ -35,6 +36,7 @@ import com.pepe.githubstudy.ui.widget.DoubleClickHandler;
 import com.pepe.githubstudy.utils.LogUtil;
 import com.pepe.githubstudy.utils.PrefUtils;
 import com.thirtydegreesray.dataautoaccess.DataAutoAccess;
+import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 import java.util.List;
 
@@ -50,6 +52,7 @@ import es.dmoral.toasty.Toasty;
  */
 public abstract class BaseActivity<P extends IBaseContract.Presenter> extends AppCompatActivity implements IBaseContract.View {
 
+    protected boolean isAlive = true;
     @BindView(R.id.toolbar)
     @Nullable
     protected Toolbar toolbar;
@@ -66,6 +69,7 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.ThemeLightTeal_Green);
         super.onCreate(savedInstanceState);
+        isAlive = true;
         setupActivityComponent(getAppComponent());
         DataAutoAccess.getData(this, savedInstanceState);
         if(mPresenter != null) {
@@ -167,6 +171,7 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         if (this.equals(curActivity)) {
             curActivity = null;
         }
+        isAlive = false;
     }
 
     @Override
@@ -400,6 +405,42 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         getActivity().finishAffinity();
         Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
+    }
+
+    @AutoAccess
+    boolean isFullScreen = false;
+
+    protected void exitFullScreen() {
+        showStatusBar();
+        if(toolbar != null) {
+            toolbar.setVisibility(View.VISIBLE);
+        }
+        isFullScreen = false;
+    }
+
+    protected void intoFullScreen() {
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        if(toolbar != null) {
+            toolbar.setVisibility(View.GONE);
+        }
+        isFullScreen = true;
+    }
+
+    private void showStatusBar() {
+        final WindowManager.LayoutParams attrs = getWindow().getAttributes();
+        attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getWindow().setAttributes(attrs);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(isFullScreen){
+            exitFullScreen();
+        } else {
+            super.onBackPressed();
+        }
     }
 
 }

@@ -25,6 +25,7 @@ import com.pepe.githubstudy.ui.fragment.IssuesFragment;
 import com.pepe.githubstudy.ui.fragment.base.ListFragment;
 import com.pepe.githubstudy.ui.widget.ZoomAbleFloatingActionButton;
 import com.pepe.githubstudy.utils.BundleHelper;
+import com.pepe.githubstudy.utils.LogUtil;
 import com.pepe.githubstudy.utils.ViewUtils;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
@@ -39,7 +40,7 @@ import butterknife.OnClick;
  */
 
 public class IssuesActivity extends PagerActivity<IssuesActPresenter>
-    implements ListFragment.ListScrollListener{
+        implements ListFragment.ListScrollListener {
 
     public static void showForRepo(@NonNull Activity activity, @NonNull String userId,
                                    @NonNull String repoName) {
@@ -67,8 +68,10 @@ public class IssuesActivity extends PagerActivity<IssuesActPresenter>
 
     @AutoAccess
     String userId;
-    @AutoAccess String repoName;
-    @AutoAccess IssuesFilter.Type issuesType;
+    @AutoAccess
+    String repoName;
+    @AutoAccess
+    IssuesFilter.Type issuesType;
     @BindView(R.id.add_issue_bn)
     ZoomAbleFloatingActionButton addBn;
 
@@ -106,17 +109,20 @@ public class IssuesActivity extends PagerActivity<IssuesActPresenter>
         } else {
             setToolbarTitle(getString(R.string.issues));
         }
+        LogUtil.d("issuesType = " + issuesType.name());
         addBn.setVisibility(IssuesFilter.Type.Repo.equals(issuesType) ? View.VISIBLE : View.GONE);
 
         if (IssuesFilter.Type.User.equals(issuesType)) {
+            LogUtil.d("createUserIssuesPagerList ");
             pagerAdapter.setPagerList(FragmentPagerModel
                     .createUserIssuesPagerList(getActivity(), getFragments()));
         } else {
+            LogUtil.d("createRepoIssuesPagerList ");
             List<FragmentPagerModel> fragmentPagerModels = FragmentPagerModel
                     .createRepoIssuesPagerList(getActivity(), userId, repoName, getFragments());
             pagerAdapter.setPagerList(fragmentPagerModels);
             navViewEnd.getMenu().findItem(R.id.nav_type_chooser).setVisible(false);
-            ((ListFragment)fragmentPagerModels.get(0).getFragment()).setListScrollListener(this);
+            ((ListFragment) fragmentPagerModels.get(0).getFragment()).setListScrollListener(this);
         }
         listeners = new ArrayList<>();
         for (FragmentPagerModel pagerModel : pagerAdapter.getPagerList()) {
@@ -152,7 +158,7 @@ public class IssuesActivity extends PagerActivity<IssuesActPresenter>
 
     @OnClick(R.id.add_issue_bn)
     public void onAddIssueClick() {
-//        EditIssueActivity.showForAdd(getActivity(), userId, repoName, ADD_ISSUE_REQUEST_CODE);
+        EditIssueActivity.showForAdd(getActivity(), userId, repoName, ADD_ISSUE_REQUEST_CODE);
     }
 
     private IssuesFilter getIssuesFilter(boolean open) {
@@ -237,8 +243,8 @@ public class IssuesActivity extends PagerActivity<IssuesActPresenter>
     @Override
     public void onPageSelected(int position) {
         super.onPageSelected(position);
-        if(IssuesFilter.Type.Repo.equals(issuesType)){
-            if(position == 0){
+        if (IssuesFilter.Type.Repo.equals(issuesType)) {
+            if (position == 0) {
                 addBn.zoomOut();
             } else {
                 addBn.zoomIn();
@@ -267,7 +273,9 @@ public class IssuesActivity extends PagerActivity<IssuesActPresenter>
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != RESULT_OK) return;
+        if (resultCode != RESULT_OK) {
+            return;
+        }
         if (requestCode == ADD_ISSUE_REQUEST_CODE) {
             Issue issue = data.getParcelableExtra("issue");
             listeners.get(0).onCreateIssue(issue);

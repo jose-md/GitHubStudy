@@ -6,6 +6,8 @@ package com.pepe.githubstudy.inject.component;
 import com.pepe.githubstudy.inject.ActivityScope;
 import com.pepe.githubstudy.inject.module.ActivityModule;
 import com.pepe.githubstudy.ui.activity.CommitDetailActivity;
+import com.pepe.githubstudy.ui.activity.EditIssueActivity;
+import com.pepe.githubstudy.ui.activity.IssueDetailActivity;
 import com.pepe.githubstudy.ui.activity.IssuesActivity;
 import com.pepe.githubstudy.ui.activity.LoginActivity;
 import com.pepe.githubstudy.ui.activity.MainActivity;
@@ -30,8 +32,8 @@ public interface ActivityComponent {
     void inject(SearchActivity activity);
 //    void inject(ReleaseInfoActivity activity);
     void inject(IssuesActivity activity);
-//    void inject(IssueDetailActivity activity);
-//    void inject(EditIssueActivity activity);
+    void inject(IssueDetailActivity activity);
+    void inject(EditIssueActivity activity);
     void inject(CommitDetailActivity activity);
     void inject(TrendingActivity activity);
 }

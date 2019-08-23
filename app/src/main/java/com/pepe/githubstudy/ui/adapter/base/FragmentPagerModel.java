@@ -16,6 +16,8 @@ import com.pepe.githubstudy.mvp.model.filter.TrendingSince;
 import com.pepe.githubstudy.ui.fragment.ActivityFragment;
 import com.pepe.githubstudy.ui.fragment.CommitsFragment;
 import com.pepe.githubstudy.ui.fragment.IssuesFragment;
+import com.pepe.githubstudy.ui.fragment.MarkdownEditorFragment;
+import com.pepe.githubstudy.ui.fragment.MarkdownPreviewFragment;
 import com.pepe.githubstudy.ui.fragment.NotificationsFragment;
 import com.pepe.githubstudy.ui.fragment.ProfileInfoFragment;
 import com.pepe.githubstudy.ui.fragment.RepoFilesFragment;
@@ -205,15 +207,25 @@ public class FragmentPagerModel {
         ));
     }
 
-//    public static List<FragmentPagerModel> createMarkdownEditorPagerList(@NonNull Context context
-//            , final String text, @NonNull ArrayList<Fragment> fragments, final ArrayList<String> mentionUsers) {
-//        return setPagerFragmentFlag(Arrays.asList(
-//                new FragmentPagerModel(context.getString(R.string.write),
-//                        getFragment(fragments, 0, () -> MarkdownEditorFragment.create(text, mentionUsers))),
-//                new FragmentPagerModel(context.getString(R.string.preview),
-//                        getFragment(fragments, 1, () -> MarkdownPreviewFragment.create()))
-//        ));
-//    }
+    public static List<FragmentPagerModel> createMarkdownEditorPagerList(@NonNull Context context
+            , final String text, @NonNull ArrayList<Fragment> fragments, final ArrayList<String> mentionUsers) {
+        return setPagerFragmentFlag(Arrays.asList(
+                new FragmentPagerModel(context.getString(R.string.write),
+                        getFragment(fragments, 0, new FragmentCreator() {
+                            @Override
+                            public Fragment createFragment() {
+                                return MarkdownEditorFragment.create(text, mentionUsers);
+                            }
+                        })),
+                new FragmentPagerModel(context.getString(R.string.preview),
+                        getFragment(fragments, 1, new FragmentCreator() {
+                            @Override
+                            public Fragment createFragment() {
+                                return MarkdownPreviewFragment.create();
+                            }
+                        }))
+        ));
+    }
 
     public static List<FragmentPagerModel> createNotificationsPagerList(
             @NonNull Context context, @NonNull ArrayList<Fragment> fragments) {

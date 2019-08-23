@@ -13,6 +13,7 @@ import com.pepe.githubstudy.mvp.contract.IIssuesContract;
 import com.pepe.githubstudy.mvp.model.Issue;
 import com.pepe.githubstudy.mvp.model.filter.IssuesFilter;
 import com.pepe.githubstudy.mvp.presenter.IssuePresenter;
+import com.pepe.githubstudy.ui.activity.IssueDetailActivity;
 import com.pepe.githubstudy.ui.activity.IssuesActivity;
 import com.pepe.githubstudy.ui.adapter.IssuesAdapter;
 import com.pepe.githubstudy.ui.fragment.base.ListFragment;
@@ -103,7 +104,7 @@ public class IssuesFragment extends ListFragment<IssuePresenter, IssuesAdapter>
         Issue issue = mAdapter.getData().get(position);
         View avatarView = view.findViewById(R.id.user_avatar);
         View titleView = view.findViewById(R.id.issue_title);
-//        IssueDetailActivity.show(getActivity(), avatarView, titleView, issue);
+        IssueDetailActivity.show(getActivity(), avatarView, titleView, issue);
     }
 
     @Override

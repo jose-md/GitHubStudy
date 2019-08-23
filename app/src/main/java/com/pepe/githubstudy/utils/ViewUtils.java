@@ -28,6 +28,7 @@ import android.widget.TextView;
 
 import com.pepe.githubstudy.R;
 import com.pepe.githubstudy.mvp.model.Label;
+import com.pepe.githubstudy.ui.widget.IssueLabelSpan;
 
 import java.util.ArrayList;
 
@@ -39,11 +40,11 @@ import java.util.ArrayList;
 
 public class ViewUtils {
 
-    public static void virtualClick(final View view){
+    public static void virtualClick(final View view) {
         virtualClick(view, 300);
     }
 
-    public static void virtualClick(final View view, int pressTime){
+    public static void virtualClick(final View view, int pressTime) {
         long downTime = System.currentTimeMillis();
         int width = view.getWidth();
         int height = view.getHeight();
@@ -116,8 +117,9 @@ public class ViewUtils {
         } else {
             for (int i = 0; i < menu.size(); i++) {
                 SubMenu subMenu = menu.getItem(i).getSubMenu();
-                if(subMenu != null)
+                if (subMenu != null) {
                     selectMenuItem(subMenu, itemId, true);
+                }
             }
         }
     }
@@ -218,10 +220,10 @@ public class ViewUtils {
         }
     }
 
-    public static String getRGBColor(int colorValue, boolean withAlpha){
+    public static String getRGBColor(int colorValue, boolean withAlpha) {
         int r = ((colorValue >> 16) & 0xff);
-        int g = ((colorValue >>  8) & 0xff);
-        int b = ((colorValue      ) & 0xff);
+        int g = ((colorValue >> 8) & 0xff);
+        int b = ((colorValue) & 0xff);
         int a = ((colorValue >> 24) & 0xff);
         String red = Integer.toHexString(r);
         String green = Integer.toHexString(g);
@@ -234,7 +236,7 @@ public class ViewUtils {
         return withAlpha ? alpha + red + green + blue : red + green + blue;
     }
 
-    private static String fixColor(@NonNull String colorStr){
+    private static String fixColor(@NonNull String colorStr) {
         return colorStr.length() == 1 ? "0" + colorStr : colorStr;
     }
 
@@ -247,13 +249,29 @@ public class ViewUtils {
         }
     }
 
-    public static int getLabelTextColor(@NonNull Context context, int bgColorValue){
-        if(ViewUtils.isLightColor(bgColorValue)){
+    public static int getLabelTextColor(@NonNull Context context, int bgColorValue) {
+        if (ViewUtils.isLightColor(bgColorValue)) {
             return context.getResources().getColor(R.color.light_text_color_primary);
         } else {
             return context.getResources().getColor(R.color.material_light_white);
         }
     }
 
+    @NonNull
+    public static SpannableStringBuilder getLabelsSpan(@NonNull Context context,
+                                                       @Nullable ArrayList<Label> labels) {
+        SpannableStringBuilder labelsText = new SpannableStringBuilder("");
+        if (labels == null) {
+            return labelsText;
+        }
+        int start;
+        for (int i = 0; i < labels.size(); i++) {
+            Label label = labels.get(i);
+            start = labelsText.length();
+            labelsText.append(label.getName());
+            labelsText.setSpan(new IssueLabelSpan(context, label), start, start + label.getName().length(), 0);
+        }
+        return labelsText;
+    }
 
 }

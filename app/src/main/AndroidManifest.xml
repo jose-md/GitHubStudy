@@ -60,6 +60,11 @@
         <activity android:name=".ui.activity.CommitDetailActivity" android:label="@string/commit"/>
         <activity android:name=".ui.activity.CommitsListActivity" android:label="@string/commits_list"/>
         <activity android:name=".ui.activity.TrendingActivity" />
+        <activity android:name=".ui.activity.ViewerActivity" />
+        <activity android:name=".ui.activity.EditIssueActivity" />
+        <activity android:name=".ui.activity.LabelManageActivity" />
+        <activity android:name=".ui.activity.MarkdownEditorActivity" />
+        <activity android:name=".ui.activity.IssueDetailActivity" />
 
     </application>
 

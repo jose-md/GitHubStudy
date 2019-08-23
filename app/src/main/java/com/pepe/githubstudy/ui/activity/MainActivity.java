@@ -246,11 +246,11 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
                 ProfileActivity.show(getActivity(), AppData.INSTANCE.getLoggedUser().getLogin(),
                         AppData.INSTANCE.getLoggedUser().getAvatarUrl());
                 break;
-            case R.id.nav_issues:
-                IssuesActivity.showForUser(getActivity());
-                break;
             case R.id.nav_notifications:
                 NotificationsActivity.show(getActivity());
+                break;
+            case R.id.nav_issues:
+                IssuesActivity.showForUser(getActivity());
                 break;
             case R.id.nav_trending:
                 TrendingActivity.show(getActivity());
